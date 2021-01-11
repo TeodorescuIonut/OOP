@@ -6,12 +6,17 @@ namespace Json
     {
         public static bool IsJsonString(string input)
         {
-            return HasContent(input) && IsDoubleQuoted(input);
+            return HasContent(input) && IsDoubleQuoted(input) && ContainsStartAndEndQuotes(input);
+        }
+
+        private static bool ContainsStartAndEndQuotes(string input)
+        {
+            const int length = 2;
+            return input.Length >= length;
         }
 
         private static bool IsDoubleQuoted(string input)
         {
-            int length = input.Length;
             return input.StartsWith('"') && input.EndsWith('"');
         }
 
