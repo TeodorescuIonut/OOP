@@ -6,7 +6,26 @@ namespace Json
     {
         public static bool IsJsonString(string input)
         {
-            return HasContent(input) && IsDoubleQuoted(input) && ContainsStartAndEndQuotes(input);
+            return HasContent(input) && IsDoubleQuoted(input) && ContainsStartAndEndQuotes(input) && ContainsCharacters(input);
+        }
+
+        private static bool ContainsCharacters(string input)
+        {
+            return ContainsControlCharacters(input);
+        }
+
+        private static bool ContainsControlCharacters(string input)
+        {
+            const int maxValue = 32;
+            foreach (char c in input)
+            {
+                if (Convert.ToInt32(c) <= maxValue)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private static bool ContainsStartAndEndQuotes(string input)
