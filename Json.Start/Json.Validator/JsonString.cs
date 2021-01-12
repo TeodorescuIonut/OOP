@@ -6,12 +6,31 @@ namespace Json
     {
         public static bool IsJsonString(string input)
         {
-            return HasContent(input) && IsDoubleQuoted(input) && ContainsStartAndEndQuotes(input) && ContainsCharacters(input);
+            return HasContent(input) && ContainsQuotes(input) && ContainsCharacters(input);
+        }
+
+        private static bool ContainsQuotes(string input)
+        {
+            return IsDoubleQuoted(input) && ContainsStartAndEndQuotes(input);
         }
 
         private static bool ContainsCharacters(string input)
         {
-            return ContainsControlCharacters(input);
+            return !ContainsControlCharacters(input) || ContainLargeUnicodeCharacters(input);
+        }
+
+        private static bool ContainLargeUnicodeCharacters(string input)
+        {
+            const int maxValue = 255;
+            foreach (char c in input)
+            {
+                if (Convert.ToInt32(c) > maxValue)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static bool ContainsControlCharacters(string input)
@@ -21,11 +40,11 @@ namespace Json
             {
                 if (Convert.ToInt32(c) <= maxValue)
                 {
-                    return false;
+                    return true;
                 }
             }
 
-            return true;
+            return false;
         }
 
         private static bool ContainsStartAndEndQuotes(string input)
