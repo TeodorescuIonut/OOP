@@ -21,7 +21,21 @@ namespace Json
 
         private static bool ContainsEscapedCharacters(string input)
         {
-            return ContainsEscapedQuotationMark(input) || ContainEscapedReversedSolidus(input);
+            return ContainsEscapedQuotationMark(input) || ContainEscapedReversedSolidus(input) || ContainEscapedSolidus(input);
+        }
+
+        private static bool ContainEscapedSolidus(string input)
+        {
+            const int value = 47;
+            foreach (char c in input)
+            {
+                if (Convert.ToInt32(c) == value)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static bool ContainEscapedReversedSolidus(string input)
