@@ -16,7 +16,22 @@ namespace Json
 
         private static bool ContainsCharacters(string input)
         {
-            return !ContainsControlCharacters(input) || ContainLargeUnicodeCharacters(input);
+            return !ContainsControlCharacters(input) || ContainLargeUnicodeCharacters(input) || ContainsEscapedQuotationMark(input);
+        }
+
+        private static bool ContainsEscapedQuotationMark(string input)
+        {
+            int count = 0;
+            const int maxCount = 2;
+            foreach (char c in input)
+            {
+                if (c == '"')
+                {
+                    count++;
+                }
+            }
+
+            return count > maxCount;
         }
 
         private static bool ContainLargeUnicodeCharacters(string input)
