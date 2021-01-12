@@ -16,7 +16,26 @@ namespace Json
 
         private static bool ContainsCharacters(string input)
         {
-            return !ContainsControlCharacters(input) || ContainLargeUnicodeCharacters(input) || ContainsEscapedQuotationMark(input);
+            return !ContainsControlCharacters(input) || ContainLargeUnicodeCharacters(input) || ContainsEscapedCharacters(input);
+        }
+
+        private static bool ContainsEscapedCharacters(string input)
+        {
+            return ContainsEscapedQuotationMark(input) || ContainEscapedReversedSolidus(input);
+        }
+
+        private static bool ContainEscapedReversedSolidus(string input)
+        {
+            const int value = 92;
+            foreach (char c in input)
+            {
+                if (Convert.ToInt32(c) == value)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static bool ContainsEscapedQuotationMark(string input)
