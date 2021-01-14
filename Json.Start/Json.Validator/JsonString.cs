@@ -6,31 +6,36 @@ namespace Json
     {
         public static bool IsJsonString(string input)
         {
-            return HasContent(input) && ContainsQuotes(input) && ContainsCharacters(input);
+            return HasContent(input) && CheckIfContainsDoubleQuotes(input) && CheckTypeOfCharactersContained(input);
         }
 
-        private static bool ContainsQuotes(string input)
+        private static bool CheckIfContainsDoubleQuotes(string input)
         {
             return IsDoubleQuoted(input) && ContainsStartAndEndQuotes(input);
         }
 
-        private static bool ContainsCharacters(string input)
+        private static bool CheckTypeOfCharactersContained(string input)
         {
             return !ContainsControlCharacters(input) || ContainLargeUnicodeCharacters(input) || ContainsEscapedCharacters(input);
         }
 
         private static bool ContainsEscapedCharacters(string input)
         {
-            return ContainsEscapedQuotationMark(input) || ContainEscapedReversedSolidus(input) || ContainEscapedSolidus(input);
+            return ContainsEscapedQuotationMark(input) || ContainsEscapedSpecialCharacters(input) || !ContainsEscapedSpecialCharacters(input);
         }
 
-        private static bool ContainEscapedSolidus(string input)
+        private static bool ContainsUnrecognizedExcapceCharacters(string input)
         {
-            const int value = 47;
-            foreach (char c in input)
+            return !input.Contains("\\x");
+        }
+
+        private static bool ContainsEscapedSpecialCharacters(string input)
+        {
+            string[] specialChar = new[] { "\\", "\\b", "\\/", "\\f", "\\r", "\\n", "\\t", "\\u" };
+            for (int i = 0; i < specialChar.Length; i++)
             {
-                if (Convert.ToInt32(c) == value)
-                {
+                if (input.Contains(specialChar[i]))
+                    {
                     return true;
                 }
             }
@@ -40,10 +45,9 @@ namespace Json
 
         private static bool ContainEscapedReversedSolidus(string input)
         {
-            const int value = 92;
             foreach (char c in input)
             {
-                if (Convert.ToInt32(c) == value)
+                if (c == '\u005c')
                 {
                     return true;
                 }
@@ -69,16 +73,7 @@ namespace Json
 
         private static bool ContainLargeUnicodeCharacters(string input)
         {
-            const int maxValue = 255;
-            foreach (char c in input)
-            {
-                if (Convert.ToInt32(c) > maxValue)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return !ContainsControlCharacters(input) && !input.Contains("\\") && !input.Contains('"');
         }
 
         private static bool ContainsControlCharacters(string input)
@@ -86,7 +81,7 @@ namespace Json
             const int maxValue = 32;
             foreach (char c in input)
             {
-                if (Convert.ToInt32(c) <= maxValue)
+                if (c <= maxValue)
                 {
                     return true;
                 }
