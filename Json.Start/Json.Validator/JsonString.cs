@@ -21,35 +21,21 @@ namespace Json
 
         private static bool ContainsEscapedCharacters(string input)
         {
-            return ContainsEscapedQuotationMark(input) || ContainsEscapedSpecialCharacters(input) || !ContainsEscapedSpecialCharacters(input);
-        }
-
-        private static bool ContainsUnrecognizedExcapceCharacters(string input)
-        {
-            return !input.Contains("\\x");
+            return ContainsEscapedQuotationMark(input) || ContainsEscapedSpecialCharacters(input);
         }
 
         private static bool ContainsEscapedSpecialCharacters(string input)
         {
-            string[] specialChar = new[] { "\\", "\\b", "\\/", "\\f", "\\r", "\\n", "\\t", "\\u" };
-            for (int i = 0; i < specialChar.Length; i++)
+            string[] specialChar = new[] { "\\", "\\b", "\\/", "\\f", "\\r", "\\n", "\\t", "\\u", "\"" };
+            for (int i = 0; i < specialChar.Length - 1; i++)
             {
                 if (input.Contains(specialChar[i]))
                     {
                     return true;
                 }
-            }
-
-            return false;
-        }
-
-        private static bool ContainEscapedReversedSolidus(string input)
-        {
-            foreach (char c in input)
-            {
-                if (c == '\u005c')
+                else if (input.Contains("\\x"))
                 {
-                    return true;
+                    return false;
                 }
             }
 
@@ -73,7 +59,7 @@ namespace Json
 
         private static bool ContainLargeUnicodeCharacters(string input)
         {
-            return !ContainsControlCharacters(input) && !input.Contains("\\") && !input.Contains('"');
+            return !ContainsControlCharacters(input) && !input.Contains("\\") && !input.Contains("\"");
         }
 
         private static bool ContainsControlCharacters(string input)
