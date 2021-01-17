@@ -16,12 +16,41 @@ namespace Json
 
         private static bool CheckTypeOfCharactersContained(string input)
         {
-            return !ContainsControlCharacters(input) || ContainLargeUnicodeCharacters(input) || ContainsEscapedCharacters(input);
+            if (ContainsControlCharacters(input) || ContainsEscapedUnrecognisedCharacters(input) || EndsWithReverseSolidus(input) || EndsWithUnfinishedHexNumber(input))
+            {
+                return false;
+            }
+
+            return CheckifContainsCharactersAllowed(input);
         }
 
-        private static bool ContainsEscapedCharacters(string input)
+        private static bool EndsWithUnfinishedHexNumber(string input)
+            {
+            if (!input.Contains("\\u"))
+            {
+                return false;
+            }
+
+            int lastPos = input.LastIndexOf('"');
+            int lastPosOfU = input.LastIndexOf("\\u");
+            const int maxHexNo = 5;
+            return lastPos - lastPosOfU <= maxHexNo;
+        }
+
+        private static bool ContainsEscapedUnrecognisedCharacters(string input)
         {
-            return ContainsEscapedQuotationMark(input) || ContainsEscapedSpecialCharacters(input);
+            return input.Contains("\\x");
+        }
+
+        private static bool CheckifContainsCharactersAllowed(string input)
+        {
+            return ContainsLargeUnicodeCharacters(input) || ContainsEscapedQuotationMark(input) || ContainsEscapedSpecialCharacters(input);
+        }
+
+        private static bool EndsWithReverseSolidus(string input)
+        {
+            const int lastPos = 2;
+            return input[^lastPos] == '\\';
         }
 
         private static bool ContainsEscapedSpecialCharacters(string input)
@@ -32,10 +61,6 @@ namespace Json
                 if (input.Contains(specialChar[i]))
                     {
                     return true;
-                }
-                else if (input.Contains("\\x"))
-                {
-                    return false;
                 }
             }
 
@@ -57,9 +82,9 @@ namespace Json
             return count > maxCount;
         }
 
-        private static bool ContainLargeUnicodeCharacters(string input)
+        private static bool ContainsLargeUnicodeCharacters(string input)
         {
-            return !ContainsControlCharacters(input) && !input.Contains("\\") && !input.Contains("\"");
+            return !ContainsControlCharacters(input) || !input.Contains("\\") || !input.Contains('"');
         }
 
         private static bool ContainsControlCharacters(string input)
@@ -67,7 +92,7 @@ namespace Json
             const int maxValue = 32;
             foreach (char c in input)
             {
-                if (c <= maxValue)
+                if (c < maxValue)
                 {
                     return true;
                 }
@@ -79,7 +104,7 @@ namespace Json
         private static bool ContainsStartAndEndQuotes(string input)
         {
             const int length = 2;
-            return input.Length >= length;
+            return input.Length >= length && IsDoubleQuoted(input);
         }
 
         private static bool IsDoubleQuoted(string input)
