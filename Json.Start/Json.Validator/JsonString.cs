@@ -16,7 +16,10 @@ namespace Json
 
         private static bool CheckTypeOfCharactersContained(string input)
         {
-            if (ContainsControlCharacters(input) || ContainsEscapedUnrecognisedCharacters(input) || EndsWithReverseSolidus(input) || EndsWithUnfinishedHexNumber(input))
+            if (ContainsControlCharacters(input)
+                || ContainsEscapedUnrecognisedCharacters(input)
+                || EndsWithReverseSolidus(input)
+                || EndsWithUnfinishedHexNumber(input))
             {
                 return false;
             }
@@ -38,13 +41,15 @@ namespace Json
         }
 
         private static bool ContainsEscapedUnrecognisedCharacters(string input)
-        {
-            return input.Contains("\\x");
+                {
+            return input.Contains('\\') && !ContainsEscapedSpecialCharacters(input);
         }
 
         private static bool CheckifContainsCharactersAllowed(string input)
         {
-            return ContainsLargeUnicodeCharacters(input) || ContainsEscapedQuotationMark(input) || ContainsEscapedSpecialCharacters(input);
+            return ContainsLargeUnicodeCharacters(input)
+                || ContainsEscapedQuotationMark(input)
+                || ContainsEscapedSpecialCharacters(input);
         }
 
         private static bool EndsWithReverseSolidus(string input)
@@ -55,8 +60,8 @@ namespace Json
 
         private static bool ContainsEscapedSpecialCharacters(string input)
         {
-            string[] specialChar = new[] { "\\", "\\b", "\\/", "\\f", "\\r", "\\n", "\\t", "\\u", "\"" };
-            for (int i = 0; i < specialChar.Length - 1; i++)
+            const string specialChar = "b/frntu";
+            for (int i = 0; i < specialChar.Length; i++)
             {
                 if (input.Contains(specialChar[i]))
                     {
@@ -84,7 +89,7 @@ namespace Json
 
         private static bool ContainsLargeUnicodeCharacters(string input)
         {
-            return !ContainsControlCharacters(input) || !input.Contains("\\") || !input.Contains('"');
+            return !ContainsControlCharacters(input) || !input.Contains('\\') || !input.Contains('"');
         }
 
         private static bool ContainsControlCharacters(string input)
