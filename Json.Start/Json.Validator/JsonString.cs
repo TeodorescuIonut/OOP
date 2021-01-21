@@ -17,14 +17,13 @@ namespace Json
         private static bool CheckTypeOfCharactersContained(string input)
         {
             if (ContainsControlCharacters(input)
-                || ContainsEscapedUnrecognisedCharacters(input)
                 || EndsWithReverseSolidus(input)
                 || EndsWithUnfinishedHexNumber(input))
             {
                 return false;
             }
 
-            return CheckifContainsCharactersAllowed(input);
+            return ContainsEscapedSpecialCharacters(input) || ContainsLargeUnicodeCharacters(input);
         }
 
         private static bool EndsWithUnfinishedHexNumber(string input)
@@ -40,18 +39,6 @@ namespace Json
             return lastPos - lastPosOfU <= maxHexNo;
         }
 
-        private static bool ContainsEscapedUnrecognisedCharacters(string input)
-                {
-            return input.Contains('\\') && !ContainsEscapedSpecialCharacters(input);
-        }
-
-        private static bool CheckifContainsCharactersAllowed(string input)
-        {
-            return ContainsLargeUnicodeCharacters(input)
-                || ContainsEscapedQuotationMark(input)
-                || ContainsEscapedSpecialCharacters(input);
-        }
-
         private static bool EndsWithReverseSolidus(string input)
         {
             const int lastPos = 2;
@@ -60,12 +47,15 @@ namespace Json
 
         private static bool ContainsEscapedSpecialCharacters(string input)
         {
-            const string specialChar = "b/frntu";
+            const string specialChar = "\\b/frntu\"";
             for (int i = 0; i < specialChar.Length; i++)
             {
-                if (input.Contains(specialChar[i]))
+               for (int j = 0; j < input.Length; j++)
+                {
+                    if (input[j] == '\\' && input[j + 1] == specialChar[i])
                     {
-                    return true;
+                        return true;
+                    }
                 }
             }
 
@@ -89,7 +79,8 @@ namespace Json
 
         private static bool ContainsLargeUnicodeCharacters(string input)
         {
-            return !ContainsControlCharacters(input) || !input.Contains('\\') || !input.Contains('"');
+            const int maxLength = 3;
+            return input.Length <= maxLength && !ContainsControlCharacters(input) || !input.Contains('\\') || !input.Contains('"');
         }
 
         private static bool ContainsControlCharacters(string input)
