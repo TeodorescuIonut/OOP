@@ -57,19 +57,19 @@ namespace Json
 
         private static bool ContainsEscapedSpecialCharacters(string input)
         {
-            const string specialChar = "\\b/frntu\"";
-            for (int i = 0; i < specialChar.Length; i++)
+            const string specialCharacters = "\\ b/frntu\"";
+            for (int i = 0; i < input.Length; i++)
             {
-               for (int j = 0; j < input.Length; j++)
+               for (int j = 0; j < specialCharacters.Length; j++)
                 {
-                    if (input[j] == '\\' && input[j + 1] == specialChar[i])
+                    if (input[i] == '\\' && !specialCharacters.Contains(input[i + 1]))
                     {
-                        return true;
+                        return false;
                     }
                 }
             }
 
-            return false;
+            return true;
         }
 
         private static bool ContainsLargeUnicodeCharacters(string input)
