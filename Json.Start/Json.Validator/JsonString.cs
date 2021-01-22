@@ -23,7 +23,17 @@ namespace Json
                 return false;
             }
 
-            return ContainsEscapedSpecialCharacters(input) || ContainsLargeUnicodeCharacters(input);
+            if (ContainsEscapedSolidus(input))
+            {
+                return ContainsEscapedSpecialCharacters(input);
+            }
+
+            return ContainsLargeUnicodeCharacters(input);
+        }
+
+        private static bool ContainsEscapedSolidus(string input)
+        {
+            return input.Contains('\\');
         }
 
         private static bool EndsWithUnfinishedHexNumber(string input)
@@ -79,8 +89,7 @@ namespace Json
 
         private static bool ContainsLargeUnicodeCharacters(string input)
         {
-            const int maxLength = 3;
-            return input.Length <= maxLength && !ContainsControlCharacters(input) || !input.Contains('\\') || !input.Contains('"');
+           return !ContainsControlCharacters(input) || !input.Contains('\\') || !input.Contains('"');
         }
 
         private static bool ContainsControlCharacters(string input)
