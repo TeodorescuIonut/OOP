@@ -57,15 +57,16 @@ namespace Json
 
         private static bool ContainsEscapedSpecialCharacters(string input)
         {
-            const string specialCharacters = "\\ b/frntu\"";
+            const string specialCharacters = "\\b/frntu\"";
             for (int i = 0; i < input.Length; i++)
             {
-               for (int j = 0; j < specialCharacters.Length; j++)
-                {
                     if (input[i] == '\\' && !specialCharacters.Contains(input[i + 1]))
                     {
                         return false;
                     }
+                    else if (input[i] == '\\' && input[i + 1] == '\\')
+                {
+                    return true;
                 }
             }
 
