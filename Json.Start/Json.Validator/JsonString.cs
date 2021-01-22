@@ -23,7 +23,7 @@ namespace Json
                 return false;
             }
 
-            if (ContainsEscapedSolidus(input))
+            if (ContainsReverseSolidus(input))
             {
                 return ContainsEscapedSpecialCharacters(input);
             }
@@ -31,7 +31,7 @@ namespace Json
             return ContainsLargeUnicodeCharacters(input);
         }
 
-        private static bool ContainsEscapedSolidus(string input)
+        private static bool ContainsReverseSolidus(string input)
         {
             return input.Contains('\\');
         }
@@ -70,21 +70,6 @@ namespace Json
             }
 
             return false;
-        }
-
-        private static bool ContainsEscapedQuotationMark(string input)
-        {
-            int count = 0;
-            const int maxCount = 2;
-            foreach (char c in input)
-            {
-                if (c == '"')
-                {
-                    count++;
-                }
-            }
-
-            return count > maxCount;
         }
 
         private static bool ContainsLargeUnicodeCharacters(string input)
