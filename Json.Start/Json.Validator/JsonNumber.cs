@@ -8,21 +8,7 @@ namespace Json
         {
             return CheckIfNullorEmpty(input)
                 && CheckIfIsADigit(input)
-                && CanBeNegativeNumber(input)
                 && !CanHaveLeadingZero(input);
-        }
-
-        private static bool CanBeNegativeNumber(string input)
-        {
-            foreach (char c in input)
-            {
-                if (c <= 0 || c > 0)
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         private static bool CanHaveLeadingZero(string input)
@@ -40,7 +26,7 @@ namespace Json
         {
             foreach (char c in input)
             {
-                if (!char.IsDigit(c) && c != '.')
+                if (!char.IsDigit(c) && c != '.' && c != '-')
                 {
                     return false;
                 }
