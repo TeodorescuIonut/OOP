@@ -93,9 +93,10 @@ namespace Json
 
         private static bool CheckAllowedFormat(string input)
         {
+            const string allowedChars = "-+.eE";
             foreach (char c in input)
             {
-                if (!char.IsDigit(c) && c != '-' && c != '.')
+                if (!char.IsDigit(c) && !allowedChars.Contains(c))
                 {
                     return false;
                 }

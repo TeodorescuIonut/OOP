@@ -85,13 +85,13 @@ namespace Json.Facts
             Assert.False(IsJsonNumber("12.34.56"));
         }
 
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void TheDecimalPartDoesNotAllowLetters()
         {
             Assert.False(IsJsonNumber("12.3x"));
         }
 
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void CanHaveAnExponent()
         {
             Assert.True(IsJsonNumber("12e3"));
