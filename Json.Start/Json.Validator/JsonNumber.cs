@@ -19,17 +19,22 @@ namespace Json
 
         private static bool CanBeAWholeNumber(string input)
         {
-            return !CanHaveLeadingZero(input) && !CanBeAFraction(input);
+            return !CanHaveLeadingZero(input) && !input.Contains('.');
         }
 
         private static bool CanBeAFraction(string input)
         {
-            if (!input.Contains('.'))
+            if (!input.Contains('.') || FractionEndsWithDot(input))
             {
                 return false;
             }
 
             return HaveLeadingZeroAsAFraction(input) || !HaveLeadingZeroAsAFraction(input);
+        }
+
+        private static bool FractionEndsWithDot(string input)
+        {
+            return input.EndsWith('.');
         }
 
         private static bool CheckIfOneOrMoreDigits(string input)
