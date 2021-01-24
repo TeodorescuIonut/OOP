@@ -24,12 +24,26 @@ namespace Json
 
         private static bool CanBeAFraction(string input)
         {
-            if (!input.Contains('.') || FractionEndsWithDot(input))
+            if (!input.Contains('.') || FractionEndsWithDot(input) || FractionsContainsTwoDots(input))
             {
                 return false;
             }
 
             return HaveLeadingZeroAsAFraction(input) || !HaveLeadingZeroAsAFraction(input);
+        }
+
+        private static bool FractionsContainsTwoDots(string input)
+        {
+            int dotsCount = 0;
+            foreach (char c in input)
+            {
+                if (c == '.')
+                {
+                    dotsCount++;
+                }
+            }
+
+            return dotsCount > 1;
         }
 
         private static bool FractionEndsWithDot(string input)
