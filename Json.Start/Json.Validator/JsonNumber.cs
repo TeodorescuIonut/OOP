@@ -8,7 +8,6 @@ namespace Json
         {
             return CheckIfNullorEmpty(input)
                 && CheckAllowedFormat(input)
-                && CheckIfOneOrMoreDigits(input)
                 && CheckTypeOfNumber(input);
         }
 
