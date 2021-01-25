@@ -59,25 +59,21 @@ namespace Json
         {
             const string specialCharacters = "\\b/frntu\"";
             bool result = true;
-            char previousChar = ' ';
-            for (int i = 0; i < input.Length; i++)
+            int increment = 1;
+            const int twoValue = 2;
+            for (int i = 0; i < input.Length; i += increment)
             {
-                 if (input[i] == '\\' && input[i + 1] == '\\' && previousChar != '\\')
+                 if (input[i] == '\\' && input[i + 1] == '\\')
                 {
-                    previousChar = input[i + 1];
-                    continue;
-                }
-
-                 if (previousChar == '\\')
-                {
-                    previousChar = ' ';
+                    increment = twoValue;
                     continue;
                 }
 
                  if (input[i] == '\\' && !specialCharacters.Contains(input[i + 1]))
                     {
                     result = false;
-                    }
+                    increment = 1;
+                }
             }
 
             return result;
