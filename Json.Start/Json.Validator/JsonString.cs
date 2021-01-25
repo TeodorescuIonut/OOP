@@ -62,13 +62,19 @@ namespace Json
             char previousChar = ' ';
             for (int i = 0; i < input.Length; i++)
             {
-                if ((input[i] == '\\' && input[i + 1] == '\\') || previousChar == '\\')
+                 if (input[i] == '\\' && input[i + 1] == '\\' && previousChar != '\\')
                 {
                     previousChar = input[i + 1];
                     continue;
                 }
 
-                if (input[i] == '\\' && !specialCharacters.Contains(input[i + 1]))
+                 if (previousChar == '\\')
+                {
+                    previousChar = ' ';
+                    continue;
+                }
+
+                 if (input[i] == '\\' && !specialCharacters.Contains(input[i + 1]))
                     {
                     result = false;
                     }
