@@ -72,8 +72,9 @@ namespace Json
                  if (input[i] == '\\' && !specialCharacters.Contains(input[i + 1]))
                     {
                     result = false;
-                    increment = 1;
                 }
+
+                increment = 1;
             }
 
             return result;
