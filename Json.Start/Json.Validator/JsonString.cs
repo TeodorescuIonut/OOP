@@ -62,7 +62,7 @@ namespace Json
             for (int i = 0; i < input.Length; i += increment)
             {
                 increment = 1;
-                if (input[i] == '\\' && (input[i + 1] == '\\' || specialCharacters.Contains(input[i + 1])))
+                if (input[i] == '\\' && specialCharacters.Contains(input[i + 1]))
                 {
                     increment++;
                 }
