@@ -24,17 +24,42 @@ namespace Json
 
         private static bool CanBeExponent(string input)
         {
-            if (ContainsTwoExponent(input) || CheckIfExponentIsComplete(input))
+            if (ContainsTwoExponent(input)
+                || CheckIfExponentIsComplete(input)
+                || CanHaveExponentAfterFraction(input))
             {
                 return false;
             }
 
-            return ContainsPositiveOrNegativeExponent(input);
+            return ContainsPositiveOrNegativeExponent(input) || ContainsExponent(input) || ContainsExponentAndFraction(input);
+        }
+
+        private static bool ContainsExponentAndFraction(string input)
+        {
+            return ContainsExponent(input) && input.Contains('.');
+        }
+
+        private static bool ContainsExponent(string input)
+        {
+            return input.Contains('e') || input.Contains('E');
+        }
+
+        private static bool CanHaveExponentAfterFraction(string input)
+        {
+            if (input.Contains('e'))
+            {
+                return input.IndexOf('e') < input.IndexOf('.');
+            }
+
+            return !input.Contains('E') || input.IndexOf('E') < input.IndexOf('.');
         }
 
         private static bool CheckIfExponentIsComplete(string input)
         {
-            return input.EndsWith('e') || input.EndsWith('-') || input.EndsWith('+') || input.EndsWith('E');
+            return input.EndsWith('e')
+                || input.EndsWith('-')
+                || input.EndsWith('+')
+                || input.EndsWith('E');
         }
 
         private static bool ContainsTwoExponent(string input)
@@ -68,8 +93,7 @@ namespace Json
         {
             if (CanHaveLeadingZero(input)
                 || input.Contains('.')
-                || input.Contains('e')
-                || input.Contains('E'))
+                || ContainsExponent(input))
             {
                 return false;
             }
@@ -84,7 +108,10 @@ namespace Json
 
         private static bool CanBeAFraction(string input)
         {
-            if (!input.Contains('.') || FractionEndsWithDot(input) || FractionsContainsTwoParts(input))
+            if (!input.Contains('.')
+                || FractionEndsWithDot(input)
+                || FractionsContainsTwoParts(input)
+                || ContainsExponent(input))
             {
                 return false;
             }
