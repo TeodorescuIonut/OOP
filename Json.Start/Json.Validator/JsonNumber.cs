@@ -7,31 +7,87 @@ namespace Json
         public static bool IsJsonNumber(string input)
         {
             return CheckIfNullorEmpty(input)
-                && CheckAllowedFormat(input)
+                && CheckAllowedChars(input)
+                && CheckIfHasOneOrMoreDigits(input)
                 && CheckTypeOfNumber(input);
+        }
+
+        private static bool CheckIfHasOneOrMoreDigits(string input)
+        {
+            return CanHaveOneDigit(input) || CanHaveMultipleDigits(input);
         }
 
         private static bool CheckTypeOfNumber(string input)
         {
-                return CanBeAFraction(input) || CanBeAWholeNumber(input);
+                return CanBeAFraction(input) || CanBeAWholeNumber(input) || CanBeExponent(input);
         }
 
-        private static bool CanBeAWholeNumber(string input)
+        private static bool CanBeExponent(string input)
         {
-            return !CanHaveLeadingZero(input) && !input.Contains('.');
-        }
-
-        private static bool CanBeAFraction(string input)
-        {
-            if (!input.Contains('.') || FractionEndsWithDot(input) || FractionsContainsTwoDots(input))
+            if (ContainsTwoExponent(input))
             {
                 return false;
             }
 
-            return HaveLeadingZeroAsAFraction(input) || !HaveLeadingZeroAsAFraction(input);
+            return ContainsPositiveOrNegativeExponent(input);
         }
 
-        private static bool FractionsContainsTwoDots(string input)
+        private static bool ContainsTwoExponent(string input)
+        {
+            int exponentCount = 0;
+            foreach (char c in input)
+            {
+                if (c == 'e' || c == 'E')
+                {
+                    exponentCount++;
+                }
+            }
+
+            return exponentCount > 1;
+        }
+
+        private static bool ContainsPositiveOrNegativeExponent(string input)
+        {
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (input[i] == 'e' || input[i] == 'E')
+                {
+                    return input[i + 1] == '+' || input[i + 1] == '-' || char.IsDigit(input[i + 1]);
+                }
+            }
+
+            return false;
+        }
+
+        private static bool CanBeAWholeNumber(string input)
+        {
+            if (CanHaveLeadingZero(input)
+                || input.Contains('.')
+                || input.Contains('e')
+                || input.Contains('E'))
+            {
+                return false;
+            }
+
+            return CanBeNegative(input) || CanHaveMultipleDigits(input) || CanHaveOneDigit(input);
+        }
+
+        private static bool CanBeNegative(string input)
+        {
+            return input.StartsWith('-');
+        }
+
+        private static bool CanBeAFraction(string input)
+        {
+            if (!input.Contains('.') || FractionEndsWithDot(input) || FractionsContainsTwoParts(input))
+            {
+                return false;
+            }
+
+            return HaveLeadingZeroAsAFraction(input) || !HaveLeadingZeroAsAFraction(input) || CanBeNegative(input);
+        }
+
+        private static bool FractionsContainsTwoParts(string input)
         {
             int dotsCount = 0;
             foreach (char c in input)
@@ -50,11 +106,6 @@ namespace Json
             return input.EndsWith('.');
         }
 
-        private static bool CheckIfOneOrMoreDigits(string input)
-        {
-            return CanHaveOneDigit(input) || CanHaveMultipleDigits(input);
-        }
-
         private static bool CanHaveMultipleDigits(string input)
         {
             return !CanHaveOneDigit(input);
@@ -63,14 +114,27 @@ namespace Json
         private static bool CanHaveOneDigit(string input)
         {
             const int twoDigit = 2;
-            return input.Length < twoDigit;
+            return input.Length < twoDigit && CheckIfHasOnlyDigits(input);
+        }
+
+        private static bool CheckIfHasOnlyDigits(string input)
+        {
+            foreach (char c in input)
+            {
+                if (!char.IsDigit(c))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private static bool HaveLeadingZeroAsAFraction(string input)
         {
             for (int i = 0; i < input.Length; i++)
             {
-                if (input.StartsWith('0') && input[i + 1] == '.')
+                if (input[i] == '0' && input[i + 1] == '.')
                 {
                     return true;
                 }
@@ -90,7 +154,7 @@ namespace Json
             return !string.IsNullOrEmpty(input);
         }
 
-        private static bool CheckAllowedFormat(string input)
+        private static bool CheckAllowedChars(string input)
         {
             const string allowedChars = "-+.eE";
             foreach (char c in input)
