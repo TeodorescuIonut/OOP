@@ -24,12 +24,17 @@ namespace Json
 
         private static bool CanBeExponent(string input)
         {
-            if (ContainsTwoExponent(input))
+            if (ContainsTwoExponent(input) || CheckIfExponentIsComplete(input))
             {
                 return false;
             }
 
             return ContainsPositiveOrNegativeExponent(input);
+        }
+
+        private static bool CheckIfExponentIsComplete(string input)
+        {
+            return input.EndsWith('e') || input.EndsWith('-') || input.EndsWith('+') || input.EndsWith('E');
         }
 
         private static bool ContainsTwoExponent(string input)
