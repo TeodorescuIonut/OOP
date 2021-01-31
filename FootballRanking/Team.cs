@@ -15,3 +15,4 @@ namespace FootballRanking
             this.points = points;
         }
     }
+}
