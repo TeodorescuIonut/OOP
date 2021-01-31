@@ -3,12 +3,11 @@ using Xunit;
 
 namespace FootballRanking
 {
-    public class UnitTest1
+    public class TeamFacts
     {
         [Fact]
         public void Test1()
         {
-
         }
     }
 }
