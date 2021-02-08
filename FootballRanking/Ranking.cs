@@ -33,7 +33,7 @@ namespace FootballRanking
             {
                 Team key = teams[i];
                 int j = i - 1;
-                while (j >= 0 && teams[j].Points() < key.Points())
+                while (j >= 0 && teams[j].CompareTo(key))
                 {
                     teams[j + 1] = teams[j];
                     j--;
@@ -47,24 +47,24 @@ namespace FootballRanking
 
         public string ReturnTeamName(Team[] teams, int position)
         {
-            string name = "";
+            string teamDetail = " ";
             for (int i = 0; i < teams.Length; i++)
             {
                 if (i + 1 == position)
                 {
-                    name = teams[i].Name();
+                    teamDetail = teams[i].ReturnDetail(teams[i]);
                 }
             }
 
-            return name;
+            return teamDetail;
         }
 
-        public int ReturnPosition(Team[] teams, string teamName)
+        public int ReturnPosition(Team[] teams, Team newTeam)
         {
             int position = 0;
             for (int i = 0; i < teams.Length; i++)
             {
-                if (teamName == teams[i].Name())
+                if (teams[i].CheckName(newTeam))
                 {
                     position = i + 1;
                 }

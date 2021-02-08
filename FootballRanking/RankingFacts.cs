@@ -30,7 +30,7 @@ namespace FootballRanking
             Team[] britishTeams = { teamArsenal, teamChelsea, teamManchester, teamLiverpool };
             Ranking britishRanking = new Ranking(britishTeams);
             britishRanking.SortTeam(britishTeams);
-            string teamName = britishRanking.ReturnTeamName(britishTeams, 4);
+            string teamName = britishRanking.ReturnTeamName(britishTeams, 5);
             Assert.Equal("Team name: Manchester Total points: 5", teamName);
         }
 
