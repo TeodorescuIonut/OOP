@@ -45,18 +45,18 @@ namespace FootballRanking
             return teams;
         }
 
-        public string ReturnTeamName(Team[] teams, int position)
+        public Team ReturnTeam(Team[] teams, int position)
         {
-            string teamDetail = " ";
+            Team newTeam = new Team(" ", 0);
             for (int i = 0; i < teams.Length; i++)
             {
                 if (i + 1 == position)
                 {
-                    teamDetail = teams[i].ReturnDetail(teams[i]);
+                    newTeam = teams[i];
                 }
             }
 
-            return teamDetail;
+            return newTeam;
         }
 
         public int ReturnPosition(Team[] teams, Team newTeam)
@@ -64,7 +64,7 @@ namespace FootballRanking
             int position = 0;
             for (int i = 0; i < teams.Length; i++)
             {
-                if (teams[i].CheckName(newTeam))
+                if (teams[i] == newTeam)
                 {
                     position = i + 1;
                 }
