@@ -25,6 +25,16 @@ namespace FootballRanking
             return this.points < otherTeam.points;
         }
 
+        public bool CheckName(Team otherTeam)
+        {
+            return this.name == otherTeam.name;
+        }
+
+        public string ReturnDetail(Team otherTeam)
+        {
+            return "Team name: " + otherTeam.name + " Total points: " + otherTeam.points;
+        }
+
         public void SetName(string teamName)
         {
             this.name = teamName;

@@ -31,7 +31,7 @@ namespace FootballRanking
             Ranking britishRanking = new Ranking(britishTeams);
             britishRanking.SortTeam(britishTeams);
             string teamName = britishRanking.ReturnTeamName(britishTeams, 4);
-            Assert.Equal("Manchester", teamName);
+            Assert.Equal("Team name: Manchester Total points: 5", teamName);
         }
 
         [Fact]
@@ -44,8 +44,8 @@ namespace FootballRanking
             Team[] britishTeams = { teamArsenal, teamChelsea, teamManchester, teamLiverpool };
             Ranking britishRanking = new Ranking(britishTeams);
             britishRanking.SortTeam(britishTeams);
-            int positionNo = britishRanking.ReturnPosition(britishTeams, "Liverpool");
-            Assert.Equal(3, positionNo);
+            int positionNo = britishRanking.ReturnPosition(britishTeams, teamManchester);
+            Assert.Equal(4, positionNo);
         }
     }
 }
