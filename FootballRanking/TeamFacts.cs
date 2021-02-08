@@ -18,7 +18,7 @@ namespace FootballRanking
         {
             Team teamArsenal = new Team("Arsenal", 45);
             Team teamChelsea = new Team("Chelsea", 45);
-            Assert.Equal(teamArsenal.Points(), teamChelsea.Points());
+            Assert.Equal(teamArsenal.GetPoints(), teamChelsea.GetPoints());
         }
     }
 }

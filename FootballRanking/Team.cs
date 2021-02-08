@@ -6,8 +6,8 @@ namespace FootballRanking
 {
     class Team
     {
-        private readonly string name;
-        private readonly int points;
+        private string name;
+        private int points;
 
         public Team(string name, int points)
         {
@@ -15,14 +15,24 @@ namespace FootballRanking
             this.points = points;
         }
 
-        public int Points()
+        public int GetPoints()
         {
             return points;
         }
 
-        public string Name()
+        public void SetPoints(int teamPoints)
         {
-            return name;
+            this.points = teamPoints;
+        }
+
+        public string GetName()
+        {
+            return this.name;
+        }
+
+        public void SetName(string teamName)
+        {
+            this.name = teamName;
         }
     }
 }
