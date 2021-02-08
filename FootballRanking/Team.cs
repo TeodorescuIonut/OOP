@@ -15,19 +15,14 @@ namespace FootballRanking
             this.points = points;
         }
 
-        public int GetPoints()
-        {
-            return points;
-        }
-
         public void SetPoints(int teamPoints)
         {
             this.points = teamPoints;
         }
 
-        public string GetName()
+        public bool CompareTo(Team otherTeam)
         {
-            return this.name;
+            return this.points < otherTeam.points;
         }
 
         public void SetName(string teamName)

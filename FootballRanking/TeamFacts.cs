@@ -17,8 +17,8 @@ namespace FootballRanking
         public void TwoDifferentTeamsButSamePoints()
         {
             Team teamArsenal = new Team("Arsenal", 45);
-            Team teamChelsea = new Team("Chelsea", 45);
-            Assert.Equal(teamArsenal.GetPoints(), teamChelsea.GetPoints());
+            Team teamChelsea = new Team("Chelsea", 49);
+            Assert.True(teamArsenal.CompareTo(teamChelsea));
         }
     }
 }
