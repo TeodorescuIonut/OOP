@@ -23,14 +23,12 @@ namespace FootballRanking
 
         public Team TeamAtPosition(int position)
         {
-            this.SortTeam();
             return this.teams[position - 1];
         }
 
         public int TeamPosition(Team newTeam)
         {
             int position = 0;
-            this.SortTeam();
             for (int i = 0; i < this.teams.Length; i++)
             {
                 if (this.teams[i] == newTeam)
@@ -49,14 +47,10 @@ namespace FootballRanking
             {
                 increment = 3;
                 awayTeam.UpdatePoints(increment);
-                increment = 0;
-                homeTeam.UpdatePoints(increment);
             }
 
             if (awayGoals < homeGoals)
             {
-                increment = 0;
-                awayTeam.UpdatePoints(increment);
                 increment = 3;
                 homeTeam.UpdatePoints(increment);
             }
