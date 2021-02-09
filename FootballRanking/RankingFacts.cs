@@ -16,9 +16,8 @@ namespace FootballRanking
             teamRanking.AddNewTeam(teamArsenal);
             teamRanking.AddNewTeam(teamChelsea);
             teamRanking.AddNewTeam(teamManchester);
-            britishTeams = teamRanking.SortTeam();
-            int rankingSize = britishTeams.Length;
-            Assert.Equal(3, rankingSize);
+            Team checkTeam = teamRanking.TeamAtPosition(3);
+            Assert.Equal(teamManchester, checkTeam);
         }
 
         [Fact]
@@ -29,9 +28,8 @@ namespace FootballRanking
             Team teamManchester = new Team("Manchester", 5);
             Team teamLiverpool = new Team("Liverpool", 15);
             Team[] britishTeams = { teamArsenal, teamChelsea, teamManchester, teamLiverpool };
-            Ranking britishRanking = new Ranking(britishTeams);
-            britishRanking.SortTeam();
-            Team checkTeam = britishRanking.ReturnTeam(4);
+            Ranking teamRanking = new Ranking(britishTeams);
+            Team checkTeam = teamRanking.TeamAtPosition(4);
             Assert.Equal(teamManchester, checkTeam);
         }
 
@@ -43,9 +41,8 @@ namespace FootballRanking
             Team teamManchester = new Team("Manchester", 5);
             Team teamLiverpool = new Team("Liverpool", 15);
             Team[] britishTeams = { teamArsenal, teamChelsea, teamManchester, teamLiverpool };
-            Ranking britishRanking = new Ranking(britishTeams);
-            britishRanking.SortTeam();
-            int positionNo = britishRanking.ReturnPosition(teamManchester);
+            Ranking teamRanking = new Ranking(britishTeams);
+            int positionNo = teamRanking.TeamPosition(teamManchester);
             Assert.Equal(4, positionNo);
         }
 
@@ -57,10 +54,9 @@ namespace FootballRanking
             Team teamManchester = new Team("Manchester", 5);
             Team teamLiverpool = new Team("Liverpool", 15);
             Team[] britishTeams = { teamArsenal, teamChelsea, teamManchester, teamLiverpool };
-            Ranking britishRanking = new Ranking(britishTeams);
-            britishRanking.TeamMatch(teamArsenal, teamChelsea, 1, 2);
-            britishRanking.SortTeam();
-            int positionNo = britishRanking.ReturnPosition(teamChelsea);
+            Ranking teamRanking = new Ranking(britishTeams);
+            teamRanking.TeamMatch(teamArsenal, teamChelsea, 1, 2);
+            int positionNo = teamRanking.TeamPosition(teamChelsea);
             Assert.Equal(1, positionNo);
         }
     }
