@@ -16,20 +16,12 @@ namespace Range
 
         public bool Match(string text)
         {
-            bool result = true;
             if (string.IsNullOrEmpty(text))
             {
                 return false;
             }
-                
-            foreach(char c in text)
-            {
-                if(c < this.start || c > this.end)
-                {
-                    result = false;
-                }
-            }
-            return result;
+
+            return text[0] >= this.start && text[0] <= this.end;
         }
     }
 }

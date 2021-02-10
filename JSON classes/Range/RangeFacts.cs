@@ -9,7 +9,7 @@ namespace Range
         public void AddCharsInRangShouldReturnTrue()
         {
             var digit = new Range('a', 'f');
-            const string text = "fab";
+            const string text = "a1b";
             Assert.True(digit.Match(text));
         }
         [Fact]
