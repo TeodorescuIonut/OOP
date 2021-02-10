@@ -16,14 +16,13 @@ namespace JSONclasses
 
         public bool Match(string text)
         {
-            bool result = false;
             foreach (var pattern in patterns)
             {
                 if (pattern.Match(text))
-                    result = true;
+                    return true;
             }
 
-            return result;
+            return false;
         }
     }
 }
