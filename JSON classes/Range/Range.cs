@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Range
+namespace JSONclasses
 {
-    class Range
+    class Range: IPattern
     {
         private readonly char start;
         private readonly char end;

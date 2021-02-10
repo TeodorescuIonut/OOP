@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace Range
+namespace JSONclasses
 {
     public class RangeFacts
     {
@@ -9,7 +9,7 @@ namespace Range
         public void AddCharsInRangShouldReturnTrue()
         {
             var digit = new Range('a', 'f');
-            const string text = "a1b";
+            const string text = "abf";
             Assert.True(digit.Match(text));
         }
         [Fact]
