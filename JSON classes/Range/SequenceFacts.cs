@@ -4,9 +4,7 @@ using System.Text;
 
 namespace JSONclasses
 {
-    interface IPattern
+    class SequenceFacts
     {
-        IMatch Match(string text);
     }
-
 }

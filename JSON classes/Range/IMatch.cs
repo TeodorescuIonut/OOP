@@ -4,9 +4,10 @@ using System.Text;
 
 namespace JSONclasses
 {
-    interface IPattern
+    interface IMatch
     {
-        IMatch Match(string text);
-    }
+            bool Success();
+            string RemainingText();
 
+    }
 }

@@ -23,5 +23,10 @@ namespace JSONclasses
 
             return text[0] >= this.start && text[0] <= this.end;
         }
+
+        IMatch IPattern.Match(string text)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

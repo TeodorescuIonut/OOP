@@ -24,5 +24,10 @@ namespace JSONclasses
 
             return false;
         }
+
+        IMatch IPattern.Match(string text)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
