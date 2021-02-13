@@ -8,5 +8,4 @@ namespace JSONclasses
     {
         IMatch Match(string text);
     }
-
 }

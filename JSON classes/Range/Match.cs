@@ -6,14 +6,24 @@ namespace JSONclasses
 {
     class Match : IMatch
     {
+        private readonly string remainingText;
+        private readonly bool success;
+
+        public Match(string remainingText, bool success)
+        {
+            this.remainingText = remainingText;
+            this.success = success;
+        }
+
+
         public string RemainingText()
         {
-            throw new NotImplementedException();
+            return this.remainingText;
         }
 
         public bool Success()
         {
-            throw new NotImplementedException();
+            return this.success;
         }
     }
 }

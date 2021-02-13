@@ -14,19 +14,24 @@ namespace JSONclasses
             this.end = end;
     }
 
-        public bool Match(string text)
-        {
-            if (string.IsNullOrEmpty(text))
-            {
-                return false;
-            }
-
-            return text[0] >= this.start && text[0] <= this.end;
-        }
-
         IMatch IPattern.Match(string text)
         {
-            throw new NotImplementedException();
+            bool success = false;
+            string remainingText = text;
+            if (string.IsNullOrEmpty(text))
+            {
+                return new Match(remainingText, success);
+            }
+            if (text[0] >= this.start && text[0] <= this.end)
+            {
+                success = true;
+            }
+            remainingText = text;
+            if (success)
+            {
+                remainingText = text.Remove(0, 1);
+            }
+            return new Match(remainingText, success);
         }
     }
 }
