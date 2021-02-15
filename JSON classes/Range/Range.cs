@@ -16,22 +16,12 @@ namespace JSONclasses
 
         IMatch IPattern.Match(string text)
         {
-            bool success = false;
-            string remainingText = text;
-            if (string.IsNullOrEmpty(text))
-            {
-                return new Match(remainingText, success);
-            }
-            if (text[0] >= this.start && text[0] <= this.end)
-            {
-                success = true;
-            }
-            remainingText = text;
-            if (success)
-            {
-                remainingText = text.Remove(0, 1);
-            }
-            return new Match(remainingText, success);
+            IMatch failedMatch = new FailedMatch(text, false);
+            return (!string.IsNullOrEmpty(text) && text[0] >= this.start && text[0] <= this.end)
+            ? new SuccessMatch(text[1..], true)
+            : failedMatch;
         }
+
+            
     }
 }

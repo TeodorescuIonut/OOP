@@ -14,19 +14,17 @@ namespace JSONclasses
         public IMatch Match(string text)
         {
             IMatch myMatch = new Match(text, false);
-            IMatch initialMatch = new Match(text, false);
-            for (int i = 0; i < patterns.Length; i++)
+            IMatch failMatch = new FailedMatch(text, false);
+            foreach (var pattern in patterns)
             {
-                myMatch = patterns[i].Match(text);
-                if (myMatch.Success())
+                myMatch = pattern.Match(text);
+                if (!pattern.Match(text).Success())
                 {
-                    text = myMatch.RemainingText();
+                    
+                    return failMatch;
                 }
-                else
-                {
 
-                    return initialMatch;
-                }
+                    text = myMatch.RemainingText();
                 
             }
             return myMatch;

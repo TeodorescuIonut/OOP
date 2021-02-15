@@ -4,25 +4,19 @@ using System.Text;
 
 namespace JSONclasses
 {
-    class Match : IMatch
+    class FailedMatch : IMatch
     {
         private readonly string remainingText;
         private readonly bool success;
 
-        public Match(string remainingText, bool success)
+        public FailedMatch(string remainingText, bool success)
         {
             this.remainingText = remainingText;
             this.success = success;
         }
+        public string RemainingText() => this.remainingText;
+       
 
-        public string RemainingText()
-        {
-            return this.remainingText;
-        }
-
-        public bool Success()
-        {
-            return this.success;
-        }
+        public bool Success() => false;
     }
 }

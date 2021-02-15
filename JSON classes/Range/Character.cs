@@ -13,27 +13,14 @@ namespace JSONclasses
             this.pattern = pattern;
         }
 
-        
+
 
         IMatch IPattern.Match(string text)
         {
-            bool success = false;
-            string remainingText;
-            if (string.IsNullOrEmpty(text))
-            {
-                return new Match(text, success);
-            }
-
-            if (text[0] == this.pattern)
-            {
-                success = true;
-            }
-            remainingText = text;
-            if (success)
-            {
-                remainingText = text.Remove(0, 1);
-            }
-            return new Match(remainingText, success);
+            IMatch failedMatch = new FailedMatch(text, false);
+            return !string.IsNullOrEmpty(text) && text[0] == this.pattern
+                   ? new SuccessMatch(text[1..], true)
+                   : failedMatch;
         }
     }
 }
