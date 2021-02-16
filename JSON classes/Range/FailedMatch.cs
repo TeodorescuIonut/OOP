@@ -11,7 +11,6 @@ namespace JSONclasses
         public FailedMatch(string remainingText)
         {
             this.remainingText = remainingText;
-            this.Success();
         }
         public string RemainingText() => this.remainingText;
        

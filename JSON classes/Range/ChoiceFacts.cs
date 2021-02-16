@@ -12,7 +12,7 @@ namespace JSONclasses
                 new Character('0'),
                 new Range('1', '9')
                     );
-            Assert.True(digit.Match("012"));
+            Assert.True(digit.Match("012").Success());
         }
 
         [Fact]
@@ -22,7 +22,7 @@ namespace JSONclasses
                 new Character('0'),
                 new Range('1', '9')
                     );
-            Assert.True(digit.Match("12"));
+            Assert.True(digit.Match("12").Success());
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace JSONclasses
                 new Character('0'),
                 new Range('1', '9')
                     );
-            Assert.False(digit.Match("a9"));
+            Assert.False(digit.Match("a9").Success());
         }
 
         [Fact]
@@ -42,7 +42,7 @@ namespace JSONclasses
                 new Character('0'),
                 new Range('1', '9')
                     );
-            Assert.False(digit.Match(" "));
+            Assert.False(digit.Match(" ").Success());
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace JSONclasses
                 new Character('0'),
                 new Range('1', '9')
                     );
-            Assert.False(digit.Match(null));
+            Assert.False(digit.Match(null).Success());
         }
 
         [Fact]
@@ -69,7 +69,7 @@ namespace JSONclasses
                 new Range('A', 'F')
             ));
 
-            Assert.True(hex.Match("012"));
+            Assert.True(hex.Match("012").Success());
         }
         [Fact]
         public void AddInRangeLetterShouldReturnTrue()
@@ -85,7 +85,7 @@ namespace JSONclasses
                 new Range('A', 'F')
             ));
 
-            Assert.True(hex.Match("A9"));
+            Assert.True(hex.Match("A9").Success());
         }
 
         [Fact]
@@ -102,7 +102,7 @@ namespace JSONclasses
                 new Range('A', 'F')
             ));
 
-            Assert.False(hex.Match("G8"));
+            Assert.False(hex.Match("G8").Success());
         }
 
         [Fact]
@@ -119,7 +119,7 @@ namespace JSONclasses
                 new Range('A', 'F')
             ));
 
-            Assert.False(hex.Match(" "));
+            Assert.False(hex.Match(" ").Success());
         }
 
         [Fact]
@@ -136,7 +136,7 @@ namespace JSONclasses
                 new Range('A', 'F')
             ));
 
-            Assert.False(hex.Match(null));
+            Assert.False(hex.Match(null).Success());
         }
     }
 }

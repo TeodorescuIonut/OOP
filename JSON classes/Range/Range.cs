@@ -14,7 +14,7 @@ namespace JSONclasses
             this.end = end;
     }
 
-        IMatch IPattern.Match(string text)
+        public IMatch Match(string text)
         {
             return (!string.IsNullOrEmpty(text) && text[0] >= this.start && text[0] <= this.end) ?
               new SuccessMatch(text[1..]) :

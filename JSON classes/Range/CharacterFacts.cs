@@ -10,7 +10,23 @@ namespace JSONclasses
         {
             var digit = new Character('0');
             const string text = "01";
-            Assert.True(digit.Match(text));
+            Assert.True(digit.Match(text).Success());
+        }
+
+        [Fact]
+        public void AddNullShouldRetunrFalse()
+        {
+            var digit = new Character('0');
+            const string text = null;
+            Assert.False(digit.Match(text).Success());
+        }
+
+        [Fact]
+        public void AddEmptyStringShouldRetunrFalse()
+        {
+            var digit = new Character('0');
+            const string text = "";
+            Assert.False(digit.Match(text).Success());
         }
 
     }
