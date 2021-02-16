@@ -7,12 +7,11 @@ namespace JSONclasses
     class FailedMatch : IMatch
     {
         private readonly string remainingText;
-        private readonly bool success;
 
-        public FailedMatch(string remainingText, bool success)
+        public FailedMatch(string remainingText)
         {
             this.remainingText = remainingText;
-            this.success = success;
+            this.Success();
         }
         public string RemainingText() => this.remainingText;
        

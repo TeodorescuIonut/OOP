@@ -17,9 +17,8 @@ namespace JSONclasses
                 ab,
             new Character('c')
             );
-            Match testMatch = new Match("d", true);
+            SuccessMatch testMatch = new SuccessMatch("d");
             Assert.Equal(testMatch.RemainingText(), abc.Match("abcd").RemainingText());
-            Assert.Equal(testMatch.Success(), abc.Match("abcd").Success());
         }
 
         [Fact]
@@ -34,9 +33,8 @@ namespace JSONclasses
             ab,
             new Character('c')
             );
-            Match testMatch = new Match("abx", false);
+            FailedMatch testMatch = new FailedMatch("abx");
             Assert.Equal(testMatch.RemainingText(), abc.Match("abx").RemainingText());
-            Assert.Equal(testMatch.Success(), abc.Match("abx").Success());
         }
 
         [Fact]
@@ -51,9 +49,8 @@ namespace JSONclasses
             ab,
             new Character('c')
             );
-            Match testMatch = new Match(null, false);
+            FailedMatch testMatch = new FailedMatch(null);
             Assert.Equal(testMatch.RemainingText(), abc.Match(null).RemainingText());
-            Assert.Equal(testMatch.Success(), abc.Match(null).Success());
         }
 
         [Fact]
@@ -68,7 +65,7 @@ namespace JSONclasses
             ab,
             new Character('c')
             );
-            Match testMatch = new Match("", false);
+            FailedMatch testMatch = new FailedMatch("");
             Assert.Equal(testMatch.RemainingText(), abc.Match("").RemainingText());
             Assert.Equal(testMatch.Success(), abc.Match("").Success());
         }
@@ -92,7 +89,7 @@ namespace JSONclasses
                     hex
                 )
             );
-            Match testMatch = new Match("", true);
+            SuccessMatch testMatch = new SuccessMatch("");
             Assert.Equal(testMatch.RemainingText(), hexSeq.Match("u1234").RemainingText());
             Assert.Equal(testMatch.Success(), hexSeq.Match("u1234").Success());
         }
@@ -116,9 +113,8 @@ namespace JSONclasses
                     hex
                 )
             );
-            Match testMatch = new Match("ef", true);
+            SuccessMatch testMatch = new SuccessMatch("ef");
             Assert.Equal(testMatch.RemainingText(), hexSeq.Match("uabcdef").RemainingText());
-            Assert.Equal(testMatch.Success(), hexSeq.Match("uabcdef").Success());
         }
 
         [Fact]
@@ -140,7 +136,7 @@ namespace JSONclasses
                     hex
                 )
             );
-            Match testMatch = new Match(" ab", true);
+            SuccessMatch testMatch = new SuccessMatch(" ab");
             Assert.Equal(testMatch.RemainingText(), hexSeq.Match("uB005 ab").RemainingText());
             Assert.Equal(testMatch.Success(), hexSeq.Match("uB005 ab").Success());
         }
@@ -164,7 +160,7 @@ namespace JSONclasses
                     hex
                 )
             );
-            Match testMatch = new Match("abc", false);
+            FailedMatch testMatch = new FailedMatch("abc");
             Assert.Equal(testMatch.RemainingText(), hexSeq.Match("abc").RemainingText());
             Assert.Equal(testMatch.Success(), hexSeq.Match("abc").Success());
         }

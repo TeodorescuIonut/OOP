@@ -15,18 +15,18 @@ namespace JSONclasses
 
         IMatch IPattern.Match(string text)
         {
+            IMatch match = new FailedMatch(text);
+
             foreach(var pattern in patterns)
             {
-                if (pattern.Match(text).Success())
+                match = pattern.Match(match.RemainingText());
+                if (match.Success())
                 {
-                    return pattern.Match(text);
+                    return match;
 
                 }
-
-                text = pattern.Match(text).RemainingText();
-
             }
-            return new FailedMatch(text, false);
+            return match;
         }
     }
 }

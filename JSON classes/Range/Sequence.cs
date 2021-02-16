@@ -13,21 +13,18 @@ namespace JSONclasses
     }
         public IMatch Match(string text)
         {
-            IMatch myMatch = new Match(text, false);
-            IMatch failMatch = new FailedMatch(text, false);
-            foreach (var pattern in patterns)
+            IMatch match = new FailedMatch(text);
+            for (int i = 0; i < patterns.Length; i++)
             {
-                myMatch = pattern.Match(text);
-                if (!pattern.Match(text).Success())
+                match = patterns[i].Match(match.RemainingText());
+                if (!match.Success())
                 {
                     
-                    return failMatch;
-                }
-
-                    text = myMatch.RemainingText();
-                
+                    return new FailedMatch(text);
+                }               
             }
-            return myMatch;
+            return new SuccessMatch(match.RemainingText());
+            
         }
     }
 }

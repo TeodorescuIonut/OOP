@@ -7,12 +7,10 @@ namespace JSONclasses
     class SuccessMatch : IMatch
     {
         private readonly string remainingText;
-        private readonly bool success;
 
-        public SuccessMatch(string remainingText, bool success)
+        public SuccessMatch(string remainingText)
         {
             this.remainingText = remainingText;
-            this.success = success;
         }
         public string RemainingText()
         {

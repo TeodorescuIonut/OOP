@@ -9,6 +9,5 @@ namespace JSONclasses
             bool Success();
             string RemainingText();
 
-
     }
 }
