@@ -13,8 +13,6 @@ namespace JSONclasses
             this.pattern = pattern;
         }
 
-
-
         IMatch IPattern.Match(string text)
         {
             return !string.IsNullOrEmpty(text) && text[0] == this.pattern
