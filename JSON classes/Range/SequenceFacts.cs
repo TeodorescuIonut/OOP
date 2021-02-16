@@ -67,7 +67,6 @@ namespace JSONclasses
             );
             FailedMatch testMatch = new FailedMatch("");
             Assert.Equal(testMatch.RemainingText(), abc.Match("").RemainingText());
-            Assert.Equal(testMatch.Success(), abc.Match("").Success());
         }
 
         [Fact]
@@ -91,7 +90,6 @@ namespace JSONclasses
             );
             SuccessMatch testMatch = new SuccessMatch("");
             Assert.Equal(testMatch.RemainingText(), hexSeq.Match("u1234").RemainingText());
-            Assert.Equal(testMatch.Success(), hexSeq.Match("u1234").Success());
         }
 
         [Fact]
@@ -138,7 +136,6 @@ namespace JSONclasses
             );
             SuccessMatch testMatch = new SuccessMatch(" ab");
             Assert.Equal(testMatch.RemainingText(), hexSeq.Match("uB005 ab").RemainingText());
-            Assert.Equal(testMatch.Success(), hexSeq.Match("uB005 ab").Success());
         }
 
         [Fact]
@@ -162,7 +159,6 @@ namespace JSONclasses
             );
             FailedMatch testMatch = new FailedMatch("abc");
             Assert.Equal(testMatch.RemainingText(), hexSeq.Match("abc").RemainingText());
-            Assert.Equal(testMatch.Success(), hexSeq.Match("abc").Success());
         }
     }
 }
