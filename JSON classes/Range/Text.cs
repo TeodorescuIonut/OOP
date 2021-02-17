@@ -13,24 +13,9 @@ namespace JSONclasses
         }
         public IMatch Match(string text)
         {
-            IMatch match = new FailedMatch(text);
-            string remainedText = text;
-            if (string.IsNullOrEmpty(text))
-            {
-                return match;
-            }
-
-            foreach (char c in text)
-            {
-                if (!prefix.Contains(c))
-                {
-                    return match;
-                }
-                remainedText = remainedText.Substring(1);
-                match = new SuccessMatch(remainedText);
-
-            }
-            return match;
+            return !string.IsNullOrEmpty(text) || text.Contains(prefix) ?
+                new SuccessMatch(text.Substring(prefix.Length)) :
+                (IMatch)new FailedMatch(text);
         }
     }
 }
