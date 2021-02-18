@@ -4,18 +4,18 @@ using System.Text;
 
 namespace JSONclasses
 {
-    class Choice : IPattern
+    class Many : IPattern
     {
-        private readonly IPattern[] patterns;
-        public Choice(params IPattern[] patterns)
+        private readonly IPattern pattern;
+        public Many(IPattern pattern)
         {
-            this.patterns = patterns;
-        }
+            this.pattern = pattern;
+    }
+
         public IMatch Match(string text)
         {
             IMatch match = new FailedMatch(text);
-
-            foreach (var pattern in patterns)
+           foreach(char c in text)
             {
                 match = pattern.Match(match.RemainingText());
                 if (!match.Success())

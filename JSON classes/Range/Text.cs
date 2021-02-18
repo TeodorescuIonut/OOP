@@ -13,7 +13,7 @@ namespace JSONclasses
         }
         public IMatch Match(string text)
         {
-            return !string.IsNullOrEmpty(text) && text.StartsWith(prefix, 0) ?
+            return !string.IsNullOrEmpty(text) && text.StartsWith(prefix,StringComparison.CurrentCulture) ?
                 new SuccessMatch(text.Substring(prefix.Length)) :
                 (IMatch)new FailedMatch(text);
         }
