@@ -15,6 +15,10 @@ namespace JSONclasses
         public IMatch Match(string text)
         {
             IMatch match = new FailedMatch(text);
+            if (string.IsNullOrEmpty(text))
+            {
+                return match;
+            }
            foreach(char c in text)
             {
                 match = pattern.Match(match.RemainingText());
