@@ -16,7 +16,7 @@ namespace JSONclasses
         {
             IMatch match = new SuccessMatch(text);
             match = pattern.Match(match.RemainingText());
-            return new SuccessMatch(pattern.Match(match.RemainingText()).RemainingText());
+            return new SuccessMatch(match.RemainingText());
         }
     }
 }

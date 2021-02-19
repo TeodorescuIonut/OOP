@@ -14,6 +14,13 @@ namespace JSONclasses
         }
 
         [Fact]
+        public void AddCharsNotContainedInStringShouldReturnRemainingText()
+        {
+            var a = new Many(new Character('a'));
+            const string text = "bc";
+            Assert.Equal("bc", a.Match(text).RemainingText());
+        }
+        [Fact]
         public void AddEmptyStringShouldReturnRemainingText()
         {
             var a = new Many(new Character('a'));

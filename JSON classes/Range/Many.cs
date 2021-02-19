@@ -14,21 +14,17 @@ namespace JSONclasses
 
         public IMatch Match(string text)
         {
-            IMatch match = new FailedMatch(text);
+            IMatch match = new SuccessMatch(text);
             if (string.IsNullOrEmpty(text))
             {
                 return match;
             }
-           foreach(char c in text)
+            while (match.Success())
             {
                 match = pattern.Match(match.RemainingText());
-                if (!match.Success())
-                {
-                    return match;
-
-                }
             }
-            return match;
+            
+            return new SuccessMatch(match.RemainingText());
         }
     }
 }
