@@ -10,9 +10,7 @@ namespace JSONclasses
 
         public OneOrMore(IPattern pattern)
         {
-            // aici folosește-te de clasele implementate deja
-            // pentru a construi un pattern care să îl folosești în Match
-            this.pattern = new Sequence(pattern, pattern, pattern);
+            this.pattern = new Sequence(pattern, new Many(pattern));
         }
 
         public IMatch Match(string text)
