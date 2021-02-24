@@ -48,7 +48,6 @@ namespace JSONclasses
             var digits = new Many(new Range('0', '9'));
             const string text = "ab";
             Assert.Equal("ab", digits.Match(text).RemainingText());
-            Assert.False(digits.Match(text).Success());
         }
     }
 }
