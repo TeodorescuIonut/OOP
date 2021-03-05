@@ -9,8 +9,8 @@ namespace JSONclasses
         public void AddCharsContainedInStringShouldReturnRemainingText()
         {
             var a = new List(new Range('0', '9'), new Character(','));
-            const string text = "1,2,3";
-            Assert.Equal("", a.Match(text).RemainingText());
+            const string text = "01234";
+            Assert.Equal("1234", a.Match(text).RemainingText());
             Assert.True(a.Match(text).Success());
         }
 
