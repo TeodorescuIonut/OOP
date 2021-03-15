@@ -12,7 +12,9 @@ namespace JSONclasses
         {
             var digit = new Range('0', '9');
             var quotationMark = new Character('"');
-            var hex = new Choice(digit, new Range('a', 'f'), new Range('A', 'F'));
+            var hex = new Choice(digit,
+                new Range('a', 'f'), 
+                new Range('A', 'F'));
             var hexSeq = new Sequence(
                 new Character('u'), 
                 new Sequence(hex, hex, hex, hex));
@@ -23,8 +25,7 @@ namespace JSONclasses
             var character = new Choice(
                 new Range(' ', '!'), 
                 new Range('#','['), 
-                new Range(']', 
-                char.MaxValue), 
+                new Range(']', char.MaxValue), 
                 escaped);
             var characters = new Optional(
                 new Many(character));        
