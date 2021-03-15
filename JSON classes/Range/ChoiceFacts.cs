@@ -138,5 +138,22 @@ namespace JSONclasses
 
             Assert.False(hex.Match(null).Success());
         }
+        [Fact]
+        public void AddnewPatternInRangeLetterShouldReturnTrue()
+        {
+            var digit = new Choice(
+                new Character('0'),
+                new Range('1', '5')
+                );
+            var hex = new Choice(
+                digit,
+                new Choice(
+                new Range('a', 'f'),
+                new Range('A', 'F')
+            ));
+            var newHex = new Range('6', '9');
+            hex.Add(newHex);
+            Assert.True(hex.Match("A9").Success());
+        }
     }
 }

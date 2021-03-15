@@ -6,7 +6,7 @@ namespace JSONclasses
 {
     class Choice : IPattern
     {
-        private readonly IPattern[] patterns;
+        private IPattern[] patterns;
         public Choice(params IPattern[] patterns)
         {
             this.patterns = patterns;
@@ -18,13 +18,19 @@ namespace JSONclasses
             foreach (var pattern in patterns)
             {
                 match = pattern.Match(match.RemainingText());
-                if (!match.Success())
+                if (match.Success())
                 {
                     return match;
 
                 }
             }
             return match;
+        }
+        public void Add(IPattern pattern)
+        {
+            int length = this.patterns.Length;
+            Array.Resize(ref patterns, patterns.Length + 1);
+            patterns[patterns.Length - 1] = pattern;
         }
     }
 }
