@@ -20,8 +20,9 @@ namespace JSONclasses
                 new Sequence(hex, hex, hex, hex));
             var escaped = new Sequence(
                 new Character('\\'),
-                new Choice((new Any("\\/bnrft")),
-                (hexSeq)));
+                new Choice(
+                new Any("\\/bnrft"),
+                hexSeq));
             var character = new Choice(
                 new Range(' ', '!'), 
                 new Range('#','['), 
