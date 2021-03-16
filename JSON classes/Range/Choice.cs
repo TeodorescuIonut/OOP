@@ -28,7 +28,6 @@ namespace JSONclasses
         }
         public void Add(IPattern pattern)
         {
-            int length = this.patterns.Length;
             Array.Resize(ref patterns, patterns.Length + 1);
             patterns[patterns.Length - 1] = pattern;
         }
