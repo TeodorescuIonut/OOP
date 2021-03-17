@@ -19,11 +19,7 @@ namespace JSONclasses
                 new Text("false"),
                 new Text("null")
             );
-            var ws = new Choice(
-                     new Character(Convert.ToChar(Convert.ToUInt32("0020", 16))),
-                     new Character(Convert.ToChar(Convert.ToUInt32("000A", 16))),
-                     new Character(Convert.ToChar(Convert.ToUInt32("000D", 16))),
-                     new Character(Convert.ToChar(Convert.ToUInt32("0009", 16))));
+            var ws = new Many(new Any(" \r\n\t"));
             var element = new Sequence(ws, value, ws);
             var elements = new List(element, new Character(','));
             var member = new Sequence(ws, stringText, ws, new Character(':'), element);
@@ -40,7 +36,7 @@ namespace JSONclasses
                 new Character(']'));
             value.Add(array);
             value.Add(objects);
-            pattern = value;
+            pattern = element;
         }
 
         public IMatch Match(string text)
