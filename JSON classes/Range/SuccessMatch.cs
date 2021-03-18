@@ -12,6 +12,7 @@ namespace JSONclasses
         {
             this.remainingText = remainingText;
         }
+
         public string RemainingText()
         {
             return this.remainingText;

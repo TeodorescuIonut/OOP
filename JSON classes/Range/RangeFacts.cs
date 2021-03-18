@@ -12,6 +12,7 @@ namespace JSONclasses
                 const string text = "abf";
                 Assert.True(digit.Match(text).Success());
             }
+
             [Fact]
             public void AddEmptyStringShoudlReturnFalse()
             {
@@ -29,5 +30,3 @@ namespace JSONclasses
             }
         }
     }
-
-

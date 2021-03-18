@@ -7,10 +7,12 @@ namespace JSONclasses
     class Choice : IPattern
     {
         private IPattern[] patterns;
+
         public Choice(params IPattern[] patterns)
         {
             this.patterns = patterns;
         }
+
         public IMatch Match(string text)
         {
             IMatch match = new FailedMatch(text);
@@ -21,11 +23,12 @@ namespace JSONclasses
                 if (match.Success())
                 {
                     return match;
-
                 }
             }
+
             return match;
         }
+
         public void Add(IPattern pattern)
         {
             Array.Resize(ref patterns, patterns.Length + 1);

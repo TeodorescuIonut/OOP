@@ -1,7 +1,6 @@
 ﻿using System;
 using Xunit;
 
-
 namespace JSONclasses
 {
     public class OptionalFacts
@@ -13,6 +12,7 @@ namespace JSONclasses
             const string text = "aabc";
             Assert.Equal("abc", a.Match(text).RemainingText());
         }
+
         [Fact]
         public void AddEmptyStringShouldReturnEmpty()
         {

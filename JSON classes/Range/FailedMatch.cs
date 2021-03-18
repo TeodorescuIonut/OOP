@@ -12,8 +12,8 @@ namespace JSONclasses
         {
             this.remainingText = remainingText;
         }
+
         public string RemainingText() => this.remainingText;
-       
 
         public bool Success() => false;
     }

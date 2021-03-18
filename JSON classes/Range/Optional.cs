@@ -7,6 +7,7 @@ namespace JSONclasses
     class Optional : IPattern
     {
         private readonly IPattern pattern;
+
         public Optional(IPattern pattern)
         {
             this.pattern = pattern;

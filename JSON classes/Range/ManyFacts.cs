@@ -20,6 +20,7 @@ namespace JSONclasses
             const string text = "bc";
             Assert.Equal("bc", a.Match(text).RemainingText());
         }
+
         [Fact]
         public void AddEmptyStringShouldReturnRemainingText()
         {
@@ -27,6 +28,7 @@ namespace JSONclasses
             const string text = "";
             Assert.Equal("", a.Match(text).RemainingText());
         }
+
         [Fact]
         public void AddNullStringShouldReturnNull()
         {
@@ -42,6 +44,7 @@ namespace JSONclasses
             const string text = "12345ab123";
             Assert.Equal("ab123", digits.Match(text).RemainingText());
         }
+
         [Fact]
         public void AddCharsNotInRangeShouldReturnFalse()
         {

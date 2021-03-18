@@ -12,6 +12,7 @@ namespace JSONclasses
             const string text = "true";
             Assert.Equal("", prefix.Match(text).RemainingText());
         }
+
         [Fact]
         public void AddCharsAcceptedInStringShouldReturnRemainingText()
         {

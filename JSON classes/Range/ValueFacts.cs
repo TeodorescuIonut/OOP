@@ -13,6 +13,7 @@ namespace JSONclasses
             Assert.Equal("", value.Match(text).RemainingText());
             Assert.True(value.Match(text).Success());
         }
+
         [Fact]
         public void CheckIfNumber()
         {
@@ -21,6 +22,7 @@ namespace JSONclasses
             Assert.Equal("", value.Match(text).RemainingText());
             Assert.True(value.Match(text).Success());
         }
+
         [Fact]
         public void CheckIfNull()
         {
@@ -29,12 +31,13 @@ namespace JSONclasses
             Assert.Null(value.Match(text).RemainingText());
             Assert.False(value.Match(text).Success());
         }
+
         [Fact]
         public void CheckIfFalse()
         {
             var value = new Value();
             const string text = "false";
-            Assert.Equal("",value.Match(text).RemainingText());
+            Assert.Equal("", value.Match(text).RemainingText());
             Assert.True(value.Match(text).Success());
         }
 
@@ -42,11 +45,12 @@ namespace JSONclasses
         public void CheckIfTrue()
         {
             var value = new Value();
-            const string text = "true";
+            string text = System.IO.File.ReadAllText(@"C:\Users\Ionut\Documents\GitHub\OOP\JSON classes\WriteText.txt");
             Assert.Equal("", value.Match(text).RemainingText());
             Assert.True(value.Match(text).Success());
         }
-        public static string Quoted(string text)
+
+        public string Quoted(string text)
         => $"\"{text}\"";
     }
 }

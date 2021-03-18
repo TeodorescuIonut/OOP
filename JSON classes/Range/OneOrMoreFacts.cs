@@ -13,6 +13,7 @@ namespace JSONclasses
             Assert.Equal("", a.Match(text).RemainingText());
             Assert.True(a.Match(text).Success());
         }
+
         [Fact]
         public void AddCharsNotContainedInStringShouldReturnRemainingText()
         {
@@ -21,6 +22,7 @@ namespace JSONclasses
             Assert.Equal("bc", a.Match(text).RemainingText());
             Assert.False(a.Match(text).Success());
         }
+
         [Fact]
         public void AddEmptyStringShouldReturnFalse()
         {
