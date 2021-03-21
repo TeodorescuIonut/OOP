@@ -7,18 +7,13 @@ namespace JSONclasses
     {
         public static void Main(string[] args)
         {
-            if (args == null)
-            {
-                throw new ArgumentNullException(nameof(args));
-            }
-
             string path = args[0];
             if (File.Exists(path))
             {
                 string fileName = Path.GetFileName(path);
                 string text = File.ReadAllText(path);
                 var value = new Value();
-                Console.WriteLine(value.Match(text).Success() && value.Match(text).RemainingText()?.Length == 0
+                Console.WriteLine(value.Match(text).Success() && value.Match(text).RemainingText() == ""
                                  ? fileName + " contains valid JSON format"
                                  : fileName + " doesnt contain valid JSON format");
                 Console.WriteLine(text);
