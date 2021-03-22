@@ -7,20 +7,26 @@ namespace JSONclasses
     {
         public static void Main(string[] args)
         {
-            string path = args[0];
-            if (File.Exists(path))
+            if (args == null || args.Length == 0)
             {
-                string fileName = Path.GetFileName(path);
-                string text = File.ReadAllText(path);
-                var value = new Value();
-                Console.WriteLine(value.Match(text).Success() && value.Match(text).RemainingText() == ""
-                                 ? fileName + " contains valid JSON format"
-                                 : fileName + " doesnt contain valid JSON format");
-                Console.WriteLine(text);
+                Console.WriteLine("Please enter a valid path.");
             }
             else
             {
-                Console.WriteLine("Path doesn't exist. Please enter a valid path.");
+                string path = args[0];
+                if (File.Exists(path))
+                {
+                    string fileName = Path.GetFileName(path);
+                    string text = File.ReadAllText(path);
+                    var value = new Value();
+                    Console.WriteLine(value.Match(text).Success() && value.Match(text).RemainingText() == ""
+                                     ? fileName + " contains valid JSON format"
+                                     : fileName + " doesnt contain valid JSON format");
+                }
+                else
+                {
+                    Console.WriteLine("Path doesn't exist. Please enter a valid path.");
+                }
             }
         }
     }
