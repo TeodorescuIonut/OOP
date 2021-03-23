@@ -1,19 +1,33 @@
-﻿using JSONclasses;
 using System;
+using System.IO;
 
-namespace JSONTest
+namespace JSONclasses
 {
-    class Program
+    public static class Program
     {
-        static void Main()
+        public static void Main(string[] args)
         {
-            string text = Console.ReadLine();
-            text = System.IO.File.ReadAllText(@text);
-            var value = new Value();
-            Console.WriteLine(value.Match(text).Success() && value.Match(text).RemainingText() == ""
-                                ? text + " is a valid JSON format"
-                                : text + " is not  a valid JSON format");       
+            if (args == null || args.Length == 0)
+            {
+                Console.WriteLine("Please enter a valid path.");
+            }
+            else
+            {
+                string path = args[0];
+                if (File.Exists(path))
+                {
+                    string fileName = Path.GetFileName(path);
+                    string text = File.ReadAllText(path);
+                    var value = new Value();
+                    Console.WriteLine(value.Match(text).Success() && value.Match(text).RemainingText() == ""
+                                     ? fileName + " contains valid JSON format"
+                                     : fileName + " doesnt contain valid JSON format");
+                }
+                else
+                {
+                    Console.WriteLine("Path doesn't exist. Please enter a valid path.");
+                }
+            }
         }
-       
     }
 }
