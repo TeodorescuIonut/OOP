@@ -4,13 +4,14 @@ using System.Text;
 
 namespace JSONclasses
 {
-    class Many : IPattern
+    public class Many : IPattern
     {
         private readonly IPattern pattern;
+
         public Many(IPattern pattern)
         {
             this.pattern = pattern;
-    }
+        }
 
         public IMatch Match(string text)
         {
@@ -19,7 +20,7 @@ namespace JSONclasses
             {
                 match = pattern.Match(match.RemainingText());
             }
-            
+
             return new SuccessMatch(match.RemainingText());
         }
     }

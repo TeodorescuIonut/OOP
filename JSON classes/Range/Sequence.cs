@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JSONclasses
 {
-    class Sequence : IPattern
+   public class Sequence : IPattern
     {
         private readonly IPattern[] patterns;
 

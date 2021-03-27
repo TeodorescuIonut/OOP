@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace JSONclasses
 {
-    class Text : IPattern
+    public class Text : IPattern
     {
         private readonly string prefix;
 
@@ -16,7 +14,7 @@ namespace JSONclasses
         public IMatch Match(string text)
         {
             return !string.IsNullOrEmpty(text) && text.StartsWith(prefix, StringComparison.CurrentCulture) ?
-                new SuccessMatch(text.Substring(prefix.Length)) :
+                new SuccessMatch(text[prefix.Length..]) :
                 (IMatch)new FailedMatch(text);
         }
     }

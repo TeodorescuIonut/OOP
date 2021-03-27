@@ -28,6 +28,5 @@ namespace JSONclasses
             const string text = "";
             Assert.False(digit.Match(text).Success());
         }
-
     }
 }

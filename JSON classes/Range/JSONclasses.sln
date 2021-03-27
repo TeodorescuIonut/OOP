@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSONclasses", "JSONclasses.csproj", "{6CAA63EC-8A10-4720-AD6D-AEC8189D1C8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSONTest", "..\JSONTest\JSONTest.csproj", "{B6F3ED07-2673-44FD-A87F-72C65BCEC5EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSONTest", "..\JSONTest\JSONTest.csproj", "{B6F3ED07-2673-44FD-A87F-72C65BCEC5EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

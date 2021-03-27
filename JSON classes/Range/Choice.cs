@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JSONclasses
 {
-    class Choice : IPattern
+   public class Choice : IPattern
     {
         private IPattern[] patterns;
 
@@ -32,7 +32,7 @@ namespace JSONclasses
         public void Add(IPattern pattern)
         {
             Array.Resize(ref patterns, patterns.Length + 1);
-            patterns[patterns.Length - 1] = pattern;
+            patterns[^1] = pattern;
         }
     }
 }

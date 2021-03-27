@@ -6,13 +6,14 @@ namespace JSONclasses
     public class NumberFacts
     {
         [Fact]
-        public void CanBeZero()
+        public void CanStartWithZero()
         {
             var number = new Number();
             const string text = "01";
             Assert.Equal("1", number.Match(text).RemainingText());
             Assert.True(number.Match(text).Success());
         }
+
         [Fact]
         public void CanHaveMultipleDigits()
         {
@@ -55,7 +56,6 @@ namespace JSONclasses
             var number = new Number();
             const string text = "12.";
             Assert.Equal(".", number.Match(text).RemainingText());
-            Assert.False(number.Match(text).Success());
         }
 
         [Fact]
@@ -64,7 +64,6 @@ namespace JSONclasses
             var number = new Number();
             const string text = "12.23.32";
             Assert.Equal(".32", number.Match(text).RemainingText());
-            Assert.False(number.Match(text).Success());
         }
 
         [Fact]
@@ -73,7 +72,6 @@ namespace JSONclasses
             var number = new Number();
             const string text = "12.3x";
             Assert.Equal("x", number.Match(text).RemainingText());
-            Assert.False(number.Match(text).Success());
         }
 
         [Fact]
@@ -91,15 +89,14 @@ namespace JSONclasses
             var number = new Number();
             const string text = "12e+3";
             Assert.Equal("", number.Match(text).RemainingText());
-            Assert.True(number.Match(text).Success());
         }
+
         [Fact]
         public void CanHaveFractionAndExponent()
         {
             var number = new Number();
             const string text = "12.34E3";
             Assert.Equal("", number.Match(text).RemainingText());
-            Assert.True(number.Match(text).Success());
         }
 
         [Fact]
@@ -108,7 +105,6 @@ namespace JSONclasses
             var number = new Number();
             const string text = "22e323e33";
             Assert.Equal("e33", number.Match(text).RemainingText());
-            Assert.False(number.Match(text).Success());
         }
     }
 }

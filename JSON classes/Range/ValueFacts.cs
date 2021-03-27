@@ -41,15 +41,6 @@ namespace JSONclasses
             Assert.True(value.Match(text).Success());
         }
 
-        [Fact]
-        public void CheckIfTrue()
-        {
-            var value = new Value();
-            string text = System.IO.File.ReadAllText(@"C:\Users\Ionut\Documents\GitHub\OOP\JSON classes\WriteText.txt");
-            Assert.Equal("", value.Match(text).RemainingText());
-            Assert.True(value.Match(text).Success());
-        }
-
         public string Quoted(string text)
         => $"\"{text}\"";
     }
