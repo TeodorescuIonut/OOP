@@ -5,16 +5,26 @@ namespace Arrays
     public class IntArray
     {
         private int[] array;
+        private int currentPos;
 
         public IntArray()
         {
-            array = new int[0];
+            const int size = 4;
+            array = new int[size];
         }
 
         public void Add(int element)
-        {
-            Array.Resize(ref array, array.Length + 1);
-            array[array.Length - 1] = element;
+            {
+            array[currentPos] = element;
+            currentPos++;
+
+            if (currentPos < array.Length)
+            {
+                return;
+            }
+
+            const int sizeDouble = 2;
+            Array.Resize(ref array, array.Length * sizeDouble);
         }
 
         public int Count()

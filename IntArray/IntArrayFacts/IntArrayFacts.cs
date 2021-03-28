@@ -108,5 +108,19 @@ namespace IntArrayFacts
             myArray.RemoveAt(1);
             Assert.Equal(0, myArray.Element(1));
         }
+
+
+        [Fact]
+        public void CheckReturnSizeOfArray()
+        {
+            var myArray = new IntArray();
+            myArray.Add(2);
+            myArray.Add(5);
+            myArray.Add(15);
+            myArray.Add(8);
+            myArray.Add(32);
+            myArray.Add(18);
+            Assert.Equal(8, myArray.Count());
+        }
     }
 }
