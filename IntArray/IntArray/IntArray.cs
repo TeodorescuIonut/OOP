@@ -15,16 +15,16 @@ namespace Arrays
 
         public void Add(int element)
             {
-            array[currentPos] = element;
-            currentPos++;
-
             if (currentPos < array.Length)
             {
-                return;
+                array[currentPos] = element;
+                currentPos++;
             }
-
-            const int sizeDouble = 2;
-            Array.Resize(ref array, array.Length * sizeDouble);
+            else
+            {
+                const int sizeDouble = 2;
+                Array.Resize(ref array, array.Length * sizeDouble);
+            }
         }
 
         public int Count()
@@ -76,7 +76,7 @@ namespace Arrays
 
         public void Clear()
         {
-            Array.Clear(array, 0, array.Length);
+            array = Array.Empty<int>();
         }
 
         public void Remove(int element)

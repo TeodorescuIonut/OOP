@@ -82,7 +82,7 @@ namespace IntArrayFacts
             myArray.Add(numberOne);
             myArray.Add(numberTwo);
             myArray.Clear();
-            Assert.Equal(0, myArray.Element(1));
+            Assert.Equal(0, myArray.Count());
         }
 
         [Fact]
