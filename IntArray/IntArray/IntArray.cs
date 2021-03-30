@@ -81,7 +81,19 @@ namespace Arrays
 
         public void Remove(int element)
         {
-            Array.Clear(array, IndexOf(element), 1);
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] == element)
+                {
+                    for (int j = i; j < array.Length - 1; j++)
+                    {
+                        array[j] = array[j + 1];
+                    }
+
+                    Array.Resize(ref array, array.Length - 1);
+                    break;
+                }
+            }
         }
 
         public void RemoveAt(int index)
