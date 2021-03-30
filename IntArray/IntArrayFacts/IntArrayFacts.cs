@@ -107,6 +107,8 @@ namespace IntArrayFacts
             int numberTwo = 7;
             myArray.Add(numberOne);
             myArray.Add(numberTwo);
+            myArray.Add(8);
+            myArray.Add(78);
             myArray.RemoveAt(1);
             Assert.Equal(0, myArray.Element(1));
         }

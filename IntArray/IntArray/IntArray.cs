@@ -98,7 +98,19 @@ namespace Arrays
 
         public void RemoveAt(int index)
         {
-            Array.Clear(array, index, 1);
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (i == index)
+                {
+                    for (int j = i; j < array.Length - 1; j++)
+                    {
+                        array[j] = array[j + 1];
+                    }
+
+                    Array.Resize(ref array, array.Length - 1);
+                    break;
+                }
+            }
         }
     }
 }
