@@ -96,7 +96,7 @@ namespace IntArrayFacts
             myArray.Add(8);
             myArray.Add(78);
             myArray.Remove(numberTwo);
-            Assert.Equal(0, myArray.Element(1));
+            Assert.Equal(78, myArray.Element(2));
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace IntArrayFacts
             myArray.Add(numberTwo);
             myArray.Add(8);
             myArray.Add(78);
-            myArray.RemoveAt(1);
+            myArray.RemoveAt(4);
             Assert.Equal(0, myArray.Element(1));
         }
 

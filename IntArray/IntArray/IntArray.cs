@@ -80,20 +80,18 @@ namespace Arrays
         }
 
         public void Remove(int element)
-        {
-            for (int i = 0; i < array.Length; i++)
             {
-                if (array[i] == element)
-                {
-                    for (int j = i; j < array.Length - 1; j++)
-                    {
-                        array[j] = array[j + 1];
-                    }
-
-                    Array.Resize(ref array, array.Length - 1);
-                    break;
-                }
+            if (!Contains(element))
+            {
+                return;
             }
+
+            for (int j = IndexOf(element); j < array.Length - 1; j++)
+            {
+                SetElement(j, Element(j + 1));
+            }
+
+            Array.Resize(ref array, array.Length - 1);
         }
 
         public void RemoveAt(int index)
