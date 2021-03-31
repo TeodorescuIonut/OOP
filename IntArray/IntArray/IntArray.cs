@@ -81,34 +81,32 @@ namespace Arrays
 
         public void Remove(int element)
             {
-            if (!Contains(element))
+            if (IndexOf(element) == -1)
             {
                 return;
             }
 
-            for (int j = IndexOf(element); j < array.Length - 1; j++)
+            for (int j = IndexOf(element); j < Count() - 1; j++)
             {
                 SetElement(j, Element(j + 1));
             }
 
-            Array.Resize(ref array, array.Length - 1);
+            Array.Resize(ref array, Count() - 1);
         }
 
         public void RemoveAt(int index)
         {
-            for (int i = 0; i < array.Length; i++)
+            if (!Contains(Element(index)))
             {
-                if (i == index)
-                {
-                    for (int j = i; j < array.Length - 1; j++)
-                    {
-                        array[j] = array[j + 1];
-                    }
+                return;
+            }
 
-                    Array.Resize(ref array, array.Length - 1);
-                    break;
-                }
+            for (int j = index; j < Count() - 1; j++)
+            {
+                SetElement(j, Element(j + 1));
+            }
+
+            Array.Resize(ref array, Count() - 1);
             }
         }
     }
-}
