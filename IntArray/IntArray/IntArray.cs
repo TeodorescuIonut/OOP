@@ -81,26 +81,17 @@ namespace Arrays
 
         public void Remove(int element)
             {
-            if (IndexOf(element) == -1)
+            int index = IndexOf(element);
+            if (index == -1)
             {
                 return;
             }
 
-            for (int j = IndexOf(element); j < Count() - 1; j++)
-            {
-                SetElement(j, Element(j + 1));
-            }
-
-            Array.Resize(ref array, Count() - 1);
+            RemoveAt(index);
         }
 
         public void RemoveAt(int index)
         {
-            if (!Contains(Element(index)))
-            {
-                return;
-            }
-
             for (int j = index; j < Count() - 1; j++)
             {
                 SetElement(j, Element(j + 1));
