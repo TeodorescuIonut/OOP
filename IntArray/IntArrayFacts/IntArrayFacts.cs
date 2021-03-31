@@ -110,7 +110,7 @@ namespace IntArrayFacts
             myArray.Add(8);
             myArray.Add(78);
             myArray.RemoveAt(4);
-            Assert.Equal(0, myArray.Element(1));
+            Assert.Equal(7, myArray.Element(1));
         }
 
 

@@ -14,17 +14,8 @@ namespace Arrays
         }
 
         public void Add(int element)
-            {
-            if (currentPos < array.Length)
-            {
-                array[currentPos] = element;
-                currentPos++;
-            }
-            else
-            {
-                const int sizeDouble = 2;
-                Array.Resize(ref array, array.Length * sizeDouble);
-            }
+        {
+            ReziseArray(element);
         }
 
         public int Count()
@@ -54,8 +45,44 @@ namespace Arrays
 
         public void Insert(int index, int element)
         {
-            int[] newarr = new int[array.Length + 1];
-            for (int i = 0; i < array.Length + 1; i++)
+            ReziseArray(element);
+            ShiftLeft(index, element);
+        }
+
+        public void Clear()
+        {
+            array = Array.Empty<int>();
+        }
+
+        public void Remove(int element)
+        {
+            int index = IndexOf(element);
+            if (index == -1)
+            {
+                return;
+            }
+
+            RemoveAt(index);
+        }
+
+        public void RemoveAt(int index)
+        {
+            ShiftRight(index);
+            Array.Resize(ref array, Count() - 1);
+        }
+
+        public void ShiftRight(int index)
+        {
+            for (int j = index; j < Count() - 1; j++)
+            {
+                SetElement(j, Element(j + 1));
+            }
+        }
+
+        public void ShiftLeft(int index, int element)
+        {
+            int[] newarr = new int[Count() + 1];
+            for (int i = 0; i < Count() + 1; i++)
             {
                 if (i < index - 1)
                 {
@@ -74,30 +101,18 @@ namespace Arrays
             array = newarr;
         }
 
-        public void Clear()
+        public void ReziseArray(int element)
         {
-            array = Array.Empty<int>();
-        }
-
-        public void Remove(int element)
+            if (currentPos < array.Length)
             {
-            int index = IndexOf(element);
-            if (index == -1)
-            {
-                return;
+                array[currentPos] = element;
+                currentPos++;
             }
-
-            RemoveAt(index);
-        }
-
-        public void RemoveAt(int index)
-        {
-            for (int j = index; j < Count() - 1; j++)
+            else
             {
-                SetElement(j, Element(j + 1));
-            }
-
-            Array.Resize(ref array, Count() - 1);
+                const int sizeDouble = 2;
+                Array.Resize(ref array, array.Length * sizeDouble);
             }
         }
     }
+}
