@@ -70,7 +70,7 @@ namespace IntArrayFacts
             myArray.Add(numberOne);
             myArray.Add(numberTwo);
             myArray.Insert(1, numberThree);
-            Assert.Equal(0, myArray.IndexOf(numberThree));
+            Assert.Equal(1, myArray.IndexOf(numberThree));
         }
 
         [Fact]

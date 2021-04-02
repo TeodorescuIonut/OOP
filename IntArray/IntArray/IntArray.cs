@@ -15,7 +15,16 @@ namespace Arrays
 
         public void Add(int element)
         {
-            ReziseArray(element);
+            if (currentPos < array.Length)
+            {
+                array[currentPos] = element;
+                currentPos++;
+            }
+            else
+            {
+                const int sizeDouble = 2;
+                Array.Resize(ref array, array.Length * sizeDouble);
+            }
         }
 
         public int Count()
@@ -45,8 +54,8 @@ namespace Arrays
 
         public void Insert(int index, int element)
         {
-            ReziseArray(element);
-            ShiftLeft(index, element);
+            Array.Resize(ref array, array.Length + 1);
+            ShiftRight(index, element);
         }
 
         public void Clear()
@@ -67,11 +76,11 @@ namespace Arrays
 
         public void RemoveAt(int index)
         {
-            ShiftRight(index);
+            ShiftLeft(index);
             Array.Resize(ref array, Count() - 1);
         }
 
-        public void ShiftRight(int index)
+        public void ShiftLeft(int index)
         {
             for (int j = index; j < Count() - 1; j++)
             {
@@ -79,31 +88,19 @@ namespace Arrays
             }
         }
 
-        public void ShiftLeft(int index, int element)
+        public void ShiftRight(int index, int element)
         {
-            int[] newarr = new int[Count() + 1];
-            for (int i = 0; i < Count() + 1; i++)
+            for (int j = Count() - 1; j > index; j--)
             {
-                if (i < index - 1)
-                {
-                    newarr[i] = array[i];
-                }
-                else if (i == index - 1)
-                {
-                    newarr[i] = element;
-                }
-                else
-                {
-                    newarr[i] = array[i - 1];
-                }
+                SetElement(j, Element(j - 1));
             }
 
-            array = newarr;
+            SetElement(index, element);
         }
 
         public void ReziseArray(int element)
         {
-            if (currentPos < array.Length)
+             if (currentPos < array.Length)
             {
                 array[currentPos] = element;
                 currentPos++;
