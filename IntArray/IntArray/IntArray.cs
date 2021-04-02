@@ -15,7 +15,9 @@ namespace Arrays
 
         public void Add(int element)
         {
-            ReziseArray(element);
+            EnsureCapacity();
+            SetElement(count, element);
+            count++;
         }
 
         public int Count()
@@ -45,9 +47,10 @@ namespace Arrays
 
         public void Insert(int index, int element)
         {
-            ReziseArray(element);
+            EnsureCapacity();
             ShiftRight(index);
             SetElement(index, element);
+            count++;
         }
 
         public void Clear()
@@ -88,18 +91,15 @@ namespace Arrays
             }
         }
 
-        public void ReziseArray(int element)
-        {
-             if (count < array.Length)
+        public void EnsureCapacity()
             {
-                array[count] = element;
-                count++;
-            }
-            else
+            if (count < array.Length)
             {
-                const int sizeDouble = 2;
-                Array.Resize(ref array, array.Length * sizeDouble);
+                return;
             }
+
+            const int sizeDouble = 2;
+            Array.Resize(ref array, array.Length * sizeDouble);
         }
     }
 }
