@@ -37,12 +37,12 @@ namespace Arrays
 
         public bool Contains(int element)
         {
-            return Array.Exists(array, x => x.Equals(element));
+            return Array.Exists(array, x => x.Equals(IndexOf(element)));
         }
 
         public int IndexOf(int element)
         {
-            return Array.IndexOf(array, element);
+            return Array.IndexOf(array, element, 0, count);
         }
 
         public void Insert(int index, int element)
@@ -56,6 +56,7 @@ namespace Arrays
         public void Clear()
         {
             array = Array.Empty<int>();
+            count = 0;
         }
 
         public void Remove(int element)
@@ -73,6 +74,7 @@ namespace Arrays
         {
             ShiftLeft(index);
             Array.Resize(ref array, Count() - 1);
+            count--;
         }
 
         public void ShiftLeft(int index)
