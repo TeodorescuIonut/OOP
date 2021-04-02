@@ -55,7 +55,8 @@ namespace Arrays
         public void Insert(int index, int element)
         {
             Array.Resize(ref array, array.Length + 1);
-            ShiftRight(index, element);
+            ShiftRight(index);
+            SetElement(index, element);
         }
 
         public void Clear()
@@ -88,14 +89,12 @@ namespace Arrays
             }
         }
 
-        public void ShiftRight(int index, int element)
+        public void ShiftRight(int index)
         {
             for (int j = Count() - 1; j > index; j--)
             {
                 SetElement(j, Element(j - 1));
             }
-
-            SetElement(index, element);
         }
 
         public void ReziseArray(int element)
