@@ -5,7 +5,7 @@ namespace Arrays
     public class IntArray
     {
         private int[] array;
-        private int currentPos;
+        private int count;
 
         public IntArray()
         {
@@ -15,16 +15,7 @@ namespace Arrays
 
         public void Add(int element)
         {
-            if (currentPos < array.Length)
-            {
-                array[currentPos] = element;
-                currentPos++;
-            }
-            else
-            {
-                const int sizeDouble = 2;
-                Array.Resize(ref array, array.Length * sizeDouble);
-            }
+            ReziseArray(element);
         }
 
         public int Count()
@@ -54,7 +45,7 @@ namespace Arrays
 
         public void Insert(int index, int element)
         {
-            Array.Resize(ref array, array.Length + 1);
+            ReziseArray(element);
             ShiftRight(index);
             SetElement(index, element);
         }
@@ -99,10 +90,10 @@ namespace Arrays
 
         public void ReziseArray(int element)
         {
-             if (currentPos < array.Length)
+             if (count < array.Length)
             {
-                array[currentPos] = element;
-                currentPos++;
+                array[count] = element;
+                count++;
             }
             else
             {
