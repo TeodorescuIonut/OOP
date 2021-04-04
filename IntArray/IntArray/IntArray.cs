@@ -5,7 +5,6 @@ namespace Arrays
     public class IntArray
     {
         private int[] array;
-        private int count;
 
         public IntArray()
         {
@@ -13,16 +12,13 @@ namespace Arrays
             array = new int[size];
         }
 
+        public int Count { get; private set; }
+
         public void Add(int element)
         {
             EnsureCapacity();
-            SetElement(count, element);
-            count++;
-        }
-
-        public int Count()
-        {
-            return count;
+            SetElement(Count, element);
+            Count++;
         }
 
         public int Element(int index)
@@ -42,7 +38,7 @@ namespace Arrays
 
         public int IndexOf(int element)
         {
-            return Array.IndexOf(array, element, 0, count);
+            return Array.IndexOf(array, element, 0, Count);
         }
 
         public void Insert(int index, int element)
@@ -50,13 +46,13 @@ namespace Arrays
             EnsureCapacity();
             ShiftRight(index);
             SetElement(index, element);
-            count++;
+            Count++;
         }
 
         public void Clear()
         {
             array = Array.Empty<int>();
-            count = 0;
+            Count = 0;
         }
 
         public void Remove(int element)
@@ -73,13 +69,13 @@ namespace Arrays
         public void RemoveAt(int index)
         {
             ShiftLeft(index);
-            count--;
-            Array.Resize(ref array, count);
+            Count--;
+            Array.Resize(ref array, Count);
         }
 
         public void ShiftLeft(int index)
         {
-            for (int j = index; j < Count() - 1; j++)
+            for (int j = index; j < Count - 1; j++)
             {
                 SetElement(j, Element(j + 1));
             }
@@ -87,7 +83,7 @@ namespace Arrays
 
         public void ShiftRight(int index)
         {
-            for (int j = Count() - 1; j > index; j--)
+            for (int j = Count - 1; j > index; j--)
             {
                 SetElement(j, Element(j - 1));
             }
@@ -95,7 +91,7 @@ namespace Arrays
 
         public void EnsureCapacity()
             {
-            if (count < array.Length)
+            if (Count < array.Length)
             {
                 return;
             }
