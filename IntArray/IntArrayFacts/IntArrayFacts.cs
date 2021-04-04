@@ -12,7 +12,7 @@ namespace IntArrayFacts
             var myArray = new IntArray();
             int number = 4;
             myArray.Add(number);
-            Assert.Equal(4, myArray.Count());
+            Assert.Equal(1, myArray.Count());
         }
 
         [Fact]
@@ -124,7 +124,7 @@ namespace IntArrayFacts
             myArray.Add(8);
             myArray.Add(32);
             myArray.Add(18);
-            Assert.Equal(8, myArray.Count());
+            Assert.Equal(6, myArray.Count());
         }
     }
 }

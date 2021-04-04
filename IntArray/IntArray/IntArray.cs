@@ -22,7 +22,7 @@ namespace Arrays
 
         public int Count()
         {
-            return array.Length;
+            return count;
         }
 
         public int Element(int index)
@@ -37,7 +37,7 @@ namespace Arrays
 
         public bool Contains(int element)
         {
-            return Array.Exists(array, x => x.Equals(IndexOf(element)));
+            return IndexOf(element) != -1;
         }
 
         public int IndexOf(int element)
@@ -73,8 +73,8 @@ namespace Arrays
         public void RemoveAt(int index)
         {
             ShiftLeft(index);
-            Array.Resize(ref array, Count() - 1);
             count--;
+            Array.Resize(ref array, count);
         }
 
         public void ShiftLeft(int index)
