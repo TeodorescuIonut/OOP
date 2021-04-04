@@ -23,7 +23,7 @@ namespace IntArrayFacts
             int numberTwo = 7;
             myArray.Add(numberOne);
             myArray.Add(numberTwo);
-            Assert.Equal(7, myArray.Element(1));
+            Assert.Equal(7, myArray[1]);
         }
 
         [Fact]
@@ -35,8 +35,8 @@ namespace IntArrayFacts
             myArray.Add(numberOne);
             myArray.Add(numberTwo);
             int numberThree = 6;
-            myArray.SetElement(1, numberThree);
-            Assert.Equal(6, myArray.Element(1));
+            myArray[1] = numberThree;
+            Assert.Equal(6, myArray[1]);
         }
         [Fact]
         public void CheckIfContainsElement()
@@ -96,7 +96,7 @@ namespace IntArrayFacts
             myArray.Add(8);
             myArray.Add(78);
             myArray.Remove(numberTwo);
-            Assert.Equal(78, myArray.Element(2));
+            Assert.Equal(78, myArray[2]);
         }
 
         [Fact]
@@ -110,7 +110,7 @@ namespace IntArrayFacts
             myArray.Add(8);
             myArray.Add(78);
             myArray.RemoveAt(4);
-            Assert.Equal(7, myArray.Element(1));
+            Assert.Equal(7, myArray[1]);
         }
 
 

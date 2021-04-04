@@ -14,21 +14,17 @@ namespace Arrays
 
         public int Count { get; private set; }
 
+        public int this[int index]
+        {
+            get => array[index];
+            set => array[index] = value;
+        }
+
         public void Add(int element)
         {
             EnsureCapacity();
-            SetElement(Count, element);
+            array[Count] = element;
             Count++;
-        }
-
-        public int Element(int index)
-        {
-            return (int)array.GetValue(index);
-        }
-
-        public void SetElement(int index, int element)
-        {
-            array.SetValue(element, index);
         }
 
         public bool Contains(int element)
@@ -45,7 +41,7 @@ namespace Arrays
         {
             EnsureCapacity();
             ShiftRight(index);
-            SetElement(index, element);
+            array[index] = element;
             Count++;
         }
 
@@ -77,7 +73,7 @@ namespace Arrays
         {
             for (int j = index; j < Count - 1; j++)
             {
-                SetElement(j, Element(j + 1));
+                array[j] = array[j + 1];
             }
         }
 
@@ -85,7 +81,7 @@ namespace Arrays
         {
             for (int j = Count - 1; j > index; j--)
             {
-                SetElement(j, Element(j - 1));
+                array[j] = array[j - 1];
             }
         }
 
