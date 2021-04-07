@@ -9,15 +9,14 @@ namespace Arrays
         [Fact]
         public void CheckIfElementCanBeAdded()
         {
-            var newArray = new SortedIntArray();
-            newArray.Add(2);
-            newArray.Add(5);
-            newArray.Add(15);
-            newArray.Add(8);
-            newArray.Add(32);
-            newArray.Add(18);
-            newArray.Sort();
-            Assert.Equal(8, newArray[2]);
+            var sortedArray = new SortedIntArray();
+            sortedArray.AddInOrder(2);
+            sortedArray.AddInOrder(5);
+            sortedArray.AddInOrder(15);
+            sortedArray.AddInOrder(2);
+            sortedArray.AddInOrder(32);
+            sortedArray.AddInOrder(18);          
+            Assert.Equal(5, sortedArray[2]);
         }
     }
 }
