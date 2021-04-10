@@ -8,14 +8,8 @@ namespace Arrays
         {
             for (int i = Count; i >= 0; i--)
             {
-                if (Count == 0)
+                if (Count == 0 || element <= this[0])
                 {
-                    Insert(0, element);
-                    break;
-                }
-                else if (element <= this[0])
-                {
-                    this[i] = this[i - 1];
                     Insert(0, element);
                     break;
                 }
@@ -24,9 +18,7 @@ namespace Arrays
                     Insert(i, element);
                     break;
                 }
-
-                this[i] = this[i - 1];
+            }
             }
         }
         }
-    }
