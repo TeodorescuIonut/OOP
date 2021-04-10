@@ -20,7 +20,7 @@ namespace Arrays
             set => array[index] = value;
         }
 
-        public void Add(int element)
+        public virtual void Add(int element)
         {
             EnsureCapacity();
             array[Count] = element;

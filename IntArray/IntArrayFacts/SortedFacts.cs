@@ -10,13 +10,14 @@ namespace Arrays
         public void CheckIfElementCanBeAdded()
         {
             var sortedArray = new SortedIntArray();
-            sortedArray.AddInOrder(2);
-            sortedArray.AddInOrder(5);
-            sortedArray.AddInOrder(15);
-            sortedArray.AddInOrder(2);
-            sortedArray.AddInOrder(32);
-            sortedArray.AddInOrder(18);          
-            Assert.Equal(5, sortedArray[2]);
+            sortedArray.Add(5);
+            sortedArray.Add(4);
+            sortedArray.Add(1);
+            sortedArray.Add(4);
+            sortedArray.Add(32);
+            sortedArray.Add(18);
+            sortedArray.Add(0);
+            Assert.Equal(4, sortedArray[2]);
         }
     }
 }

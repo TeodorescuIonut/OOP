@@ -4,31 +4,29 @@ namespace Arrays
 {
     public class SortedIntArray : IntArray
     {
-        public void AddInOrder(int element)
+        public override void Add(int element)
         {
-            if (Count == 0)
+            for (int i = Count; i >= 0; i--)
             {
-                Add(element);
-            }
-
-            EnsureCapacity();
-            int i = Count;
-            while (i > 0 && i <= Count)
+                if (Count == 0)
+                {
+                    Insert(0, element);
+                    break;
+                }
+                else if (element <= this[0])
                 {
                     this[i] = this[i - 1];
-                    if (element > this[i - 1])
-                    {
-                        Insert(i, element);
-                        break;
-                    }
-                    else if (element == this[i])
-                    {
-                        this[i] = this[i - 1];
-                        break;
-                    }
+                    Insert(0, element);
+                    break;
+                }
+                else if (element >= this[i - 1])
+                {
+                    Insert(i, element);
+                    break;
+                }
 
-                    i--;
+                this[i] = this[i - 1];
             }
         }
+        }
     }
-}
