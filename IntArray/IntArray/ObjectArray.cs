@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 
 namespace Arrays
 {
-    public class ObjectArray
+    public class ObjectArrayCollection : IEnumerable
     {
         private object[] objects;
 
-        public ObjectArray()
+        public ObjectArrayCollection()
         {
             const int size = 4;
             objects = new object[size];
@@ -97,5 +97,15 @@ namespace Arrays
             const int sizeDouble = 2;
             Array.Resize(ref objects, objects.Length * sizeDouble);
         }
-}
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public ObjectArrayEn GetEnumerator()
+        {
+            return new ObjectArrayEn(objects);
+        }
+    }
 }
