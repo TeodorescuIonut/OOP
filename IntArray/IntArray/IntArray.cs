@@ -79,7 +79,7 @@ namespace Arrays
 
         public void ShiftRight(int index)
         {
-            for (int j = Count; j > index; j--)
+            for (int j = Count - 1; j > index; j--)
             {
                 array[j] = array[j - 1];
             }

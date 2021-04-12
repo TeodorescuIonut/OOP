@@ -6,19 +6,20 @@ namespace Arrays
     {
         public override void Add(int element)
         {
-            for (int i = Count; i >= 0; i--)
+            if (Count == 0 || element <= this[0])
             {
-                if (Count == 0 || element <= this[0])
-                {
-                    Insert(0, element);
-                    break;
-                }
-                else if (element >= this[i - 1])
-                {
-                    Insert(i, element);
-                    break;
-                }
+                Insert(0, element);
+                return;
             }
-            }
+
+            for (int i = Count - 1; i >= 0; i--)
+                {
+                    if (element >= this[i - 1])
+                    {
+                        Insert(i, element);
+                        break;
+                    }
+                }
         }
-        }
+    }
+}
