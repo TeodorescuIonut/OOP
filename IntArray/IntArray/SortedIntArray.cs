@@ -14,7 +14,7 @@ namespace Arrays
 
             for (int i = Count - 1; i >= 0; i--)
                 {
-                    if (element >= this[i - 1])
+                    if (element > this[i])
                     {
                         Insert(i, element);
                         break;
