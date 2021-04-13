@@ -13,13 +13,11 @@ namespace Arrays
             Objects = objects;
         }
 
-        object IEnumerator.Current => Current;
-
-        public ObjectArrayEn Current
+        object IEnumerator.Current
         {
             get
             {
-                return (ObjectArrayEn)Objects[position];
+                return Objects[position];
             }
         }
 
