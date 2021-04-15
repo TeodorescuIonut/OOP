@@ -12,9 +12,9 @@ namespace Arrays
             array = new int[size];
         }
 
-        public int Count { get; private set; }
+        public virtual int Count { get; protected set; }
 
-        public int this[int index]
+        public virtual int this[int index]
         {
             get => array[index];
             set => array[index] = value;
@@ -37,7 +37,7 @@ namespace Arrays
             return Array.IndexOf(array, element, 0, Count);
         }
 
-        public void Insert(int index, int element)
+        public virtual void Insert(int index, int element)
         {
             EnsureCapacity();
             ShiftRight(index);

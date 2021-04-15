@@ -5,26 +5,23 @@ namespace Arrays
 {
     public class ObjectArrayEn : IEnumerator
     {
-        public object[] Objects;
+        private readonly object[] objects;
         int position = -1;
 
         public ObjectArrayEn(object[] objects)
         {
-            Objects = objects;
+            this.objects = objects;
         }
 
-        object IEnumerator.Current
+        public object Current
         {
-            get
-            {
-                return Objects[position];
-            }
+            get { return objects[position]; }
         }
 
         public bool MoveNext()
         {
             position++;
-            return position < Objects.Length;
+            return position < objects.Length;
         }
 
         public void Reset()
