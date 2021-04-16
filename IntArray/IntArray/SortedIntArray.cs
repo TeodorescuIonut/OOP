@@ -9,7 +9,7 @@ namespace Arrays
             get => base[index];
             set
             {
-                if ((index == 0 && value < base[index + 1]) || (index == Count && value < base[index]))
+                if ((index == 0 && value < base[index + 1]) || (index == Count && value > base[index]))
                 {
                     base[index] = value;
                     return;
