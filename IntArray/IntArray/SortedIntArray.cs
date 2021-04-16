@@ -9,7 +9,12 @@ namespace Arrays
             get => base[index];
             set
             {
-                if (value < base[index - 1] || value > base[index + 1])
+                if ((index == 0 && value < base[index + 1]) || (index == Count && value < base[index]))
+                {
+                    base[index] = value;
+                    return;
+                }
+                else if (index != 0 || index != Count || value < base[index - 1] || value > base[index + 1])
                 {
                     return;
                 }
@@ -38,12 +43,17 @@ namespace Arrays
 
         public override void Insert(int index, int element)
                 {
-            if (element < this[index - 1] || element > this[index + 1])
+            if ((index == 0 && element < this[index + 1]) || (index == Count && element > this[index]))
+            {
+                base.Insert(index, element);
+                return;
+            }
+            else if (index != 0 || index != Count || element < this[index - 1] || element > this[index + 1])
             {
                 return;
             }
 
             base.Insert(index, element);
-        }
+                    }
     }
 }
