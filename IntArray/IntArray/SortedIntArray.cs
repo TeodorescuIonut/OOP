@@ -9,12 +9,12 @@ namespace Arrays
             get => base[index];
             set
             {
-                if ((index == 0 && value < base[index + 1]) || (index == Count && value > base[index]))
+                if (Valid(index, value))
                 {
                     base[index] = value;
                     return;
                 }
-                else if (index != 0 || index != Count || value < base[index - 1] || value > base[index + 1])
+                else if (!Valid(index, value))
                 {
                     return;
                 }
@@ -43,17 +43,31 @@ namespace Arrays
 
         public override void Insert(int index, int element)
                 {
-            if ((index == 0 && element < this[index + 1]) || (index == Count && element > this[index]))
+            if (Valid(index, element))
             {
                 base.Insert(index, element);
                 return;
             }
-            else if (index != 0 || index != Count || element < this[index - 1] || element > this[index + 1])
+            else if (!Valid(index, element))
             {
                 return;
             }
 
             base.Insert(index, element);
-                    }
+        }
+
+        public bool Valid(int index, int insertedValue)
+        {
+            if ((index == 0 && insertedValue < this[index + 1]) || (index == Count && insertedValue > this[index]))
+            {
+                return true;
+            }
+            else if (index != 0 || index != Count || insertedValue < this[index - 1] || insertedValue > this[index + 1])
+            {
+                return false;
+            }
+
+            return false;
+        }
     }
 }
