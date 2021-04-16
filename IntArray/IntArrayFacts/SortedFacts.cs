@@ -17,7 +17,7 @@ namespace Arrays
             sortedArray.Add(32);
             sortedArray.Add(18);
             sortedArray.Add(0);
-            sortedArray.Insert(7, 40);
+            sortedArray.Insert(1, 5);
             sortedArray[0] = 2;
             Assert.Equal(1, sortedArray[3]);
         }
