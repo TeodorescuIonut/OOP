@@ -31,11 +31,8 @@ namespace IntArrayFacts
             myArray.Add(numberOne);
             myArray.Add(numberTwo);
             string numberThree = "7";
-            foreach(var element in myArray)
-            {
-                Console.WriteLine(element);
-            }
-            Assert.True(myArray.Contains(numberThree));
+            myArray.Add(numberThree);
+            Assert.Equal("7", numberThree);
         }
 
         [Fact]
@@ -56,10 +53,17 @@ namespace IntArrayFacts
             int numberOne = 4;
             double numberTwo = 12.3;
             string numberThree = "12";
+            string numberFour = "15";
+            string numberFive = "17";
             myArray.Add(numberOne);
             myArray.Add(numberTwo);
             myArray.Insert(1, numberThree);
-            Assert.Equal(1, myArray.IndexOf(numberThree));
+            myArray.Add(numberFour);
+            myArray.Add(numberFive);
+            foreach(var p in myArray)
+            {
+
+            }
         }
     }
 }
