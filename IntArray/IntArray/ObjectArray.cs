@@ -106,12 +106,9 @@ namespace Arrays
         public ObjectArrayEn GetEnumerator()
         {
             object[] newObjArray = new object[Count];
-            for (int i = 0; i < objects.Length; i++)
+            for (int i = 0; i < Count; i++)
             {
-                if (objects[i] != null)
-                {
                     newObjArray[i] = objects[i];
-                }
             }
 
             return new ObjectArrayEn(newObjArray);
