@@ -98,14 +98,12 @@ namespace Arrays
             Array.Resize(ref objects, objects.Length * sizeDouble);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public IEnumerator GetEnumerator()
         {
-            return GetEnumerator();
-        }
-
-        public ObjectArrayEn GetEnumerator()
-        {
-                return new ObjectArrayEn(this);
+            for (int i = 0; i < Count; i++)
+            {
+                yield return objects[i];
+            }
         }
     }
 }
