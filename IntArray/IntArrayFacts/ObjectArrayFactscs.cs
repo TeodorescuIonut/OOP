@@ -60,10 +60,12 @@ namespace IntArrayFacts
             myArray.Insert(1, numberThree);
             myArray.Add(numberFour);
             myArray.Add(numberFive);
-            foreach(var p in myArray)
+            var enumerator = myArray.GetEnumerator();
+            while (enumerator.MoveNext())
             {
-
+                Console.WriteLine(enumerator.Current);
             }
+                
         }
     }
 }

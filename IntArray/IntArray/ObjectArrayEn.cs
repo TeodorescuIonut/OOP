@@ -5,10 +5,10 @@ namespace Arrays
 {
     public class ObjectArrayEn : IEnumerator
     {
-        private readonly object[] objects;
+        private readonly ObjectArrayCollection objects;
         int position = -1;
 
-        public ObjectArrayEn(object[] objects)
+        public ObjectArrayEn(ObjectArrayCollection objects)
         {
             this.objects = objects;
         }
@@ -21,7 +21,7 @@ namespace Arrays
         public bool MoveNext()
         {
             position++;
-            return position < objects.Length;
+            return position < objects.Count;
         }
 
         public void Reset()

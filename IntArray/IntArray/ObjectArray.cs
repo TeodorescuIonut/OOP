@@ -105,13 +105,7 @@ namespace Arrays
 
         public ObjectArrayEn GetEnumerator()
         {
-            object[] newObjArray = new object[Count];
-            for (int i = 0; i < Count; i++)
-            {
-                    newObjArray[i] = objects[i];
-            }
-
-            return new ObjectArrayEn(newObjArray);
+                return new ObjectArrayEn(this);
         }
     }
 }
