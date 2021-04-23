@@ -10,7 +10,7 @@ namespace IntArrayFacts
         [Fact]
         public void CheckIfIntegerCanBeAdded()
         {
-            var integerArr = new ObjectArrayCollection
+            var integerArr = new List<int>()
             {
                 5,
                 4,
@@ -25,20 +25,20 @@ namespace IntArrayFacts
         [Fact]
         public void CheckIfContainsSpecificNumber()
         {
-            var myArray = new ObjectArrayCollection();
+            var myArray = new List<int>();
             int numberOne = 4;
-            string numberTwo = "7";
+            int numberTwo = 7;
             myArray.Add(numberOne);
             myArray.Add(numberTwo);
-            string numberThree = "7";
+            int numberThree = 7;
             myArray.Add(numberThree);
-            Assert.Equal("7", numberThree);
+            Assert.Equal(7, numberThree);
         }
 
         [Fact]
         public void CheckIfStringtCanBeAdded()
         {
-            var stringArr = new ObjectArrayCollection
+            var stringArr = new List<string>()
             {
                 "Jhon",
                 "Mike"
@@ -49,15 +49,11 @@ namespace IntArrayFacts
         [Fact]
         public void InsertElementAtIndexGiven()
         {
-            var myArray = new ObjectArrayCollection();
-            int numberOne = 4;
-            double numberTwo = 12.3;
+            var myArray = new List<string>();
             string numberThree = "12";
             string numberFour = "15";
             string numberFive = "17";
-            myArray.Add(numberOne);
-            myArray.Add(numberTwo);
-            myArray.Insert(1, numberThree);
+            myArray.Add(numberThree);
             myArray.Add(numberFour);
             myArray.Add(numberFive);
             var enumerator = myArray.GetEnumerator();
