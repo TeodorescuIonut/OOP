@@ -17,7 +17,7 @@ namespace Arrays
 
         public int Count { get; private set; }
 
-        public T this[int index]
+        public virtual T this[int index]
         {
             get => elements[index];
             set => elements[index] = value;
@@ -40,7 +40,7 @@ namespace Arrays
             return Array.IndexOf(elements, element, 0, Count);
         }
 
-        public void Insert(int index, T element)
+        public virtual void Insert(int index, T element)
         {
             EnsureCapacity();
             ShiftRight(index);
