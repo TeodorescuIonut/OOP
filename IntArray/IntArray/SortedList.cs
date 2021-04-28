@@ -22,32 +22,32 @@ namespace Arrays
             }
         }
 
-        public override void Add(T element)
+        public override void Add(T item)
         {
-            if (Count == 0 || element.CompareTo(this[0]) <= 0)
+            if (Count == 0 || item.CompareTo(this[0]) <= 0)
             {
-                base.Insert(0, element);
+                base.Insert(0, item);
                 return;
             }
 
             for (int i = Count; i >= 0; i--)
             {
-                if (element.CompareTo(this[i - 1]) > 0)
+                if (item.CompareTo(this[i - 1]) > 0)
                 {
-                    base.Insert(i, element);
+                    base.Insert(i, item);
                     break;
                 }
             }
         }
 
-        public override void Insert(int index, T element)
+        public override void Insert(int index, T item)
         {
-            if (element.CompareTo(ElementAt(index - 1, element)) < 0 || element.CompareTo(ElementAt(index, element)) > 0)
+            if (item.CompareTo(ElementAt(index - 1, item)) < 0 || item.CompareTo(ElementAt(index, item)) > 0)
             {
                 return;
             }
 
-            base.Insert(index, element);
+            base.Insert(index, item);
         }
 
         public T ElementAt(int index, T defaultValue)

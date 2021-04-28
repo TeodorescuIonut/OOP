@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Arrays
 {
-    public class List<T> : IEnumerable<T>
+    public class List<T> : IList<T>
     {
         private T[] elements;
 
@@ -17,34 +17,42 @@ namespace Arrays
 
         public int Count { get; private set; }
 
+        public bool IsReadOnly
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public virtual T this[int index]
         {
             get => elements[index];
             set => elements[index] = value;
         }
 
-        public virtual void Add(T element)
+        public virtual void Add(T item)
         {
             EnsureCapacity();
-            elements[Count] = element;
+            elements[Count] = item;
             Count++;
         }
 
-        public bool Contains(T element)
+        public bool Contains(T item)
         {
-            return IndexOf(element) != -1;
+            return IndexOf(item) != -1;
         }
 
-        public int IndexOf(T element)
+        public int IndexOf(T item)
         {
-            return Array.IndexOf(elements, element, 0, Count);
+            return Array.IndexOf(elements, item, 0, Count);
         }
 
-        public virtual void Insert(int index, T element)
+        public virtual void Insert(int index, T item)
         {
             EnsureCapacity();
             ShiftRight(index);
-            elements[index] = element;
+            elements[index] = item;
             Count++;
         }
 
@@ -82,7 +90,7 @@ namespace Arrays
 
         public void ShiftRight(int index)
         {
-            for (int j = Count; j > index; j--)
+            for (int j = Count - 1; j > index; j--)
             {
                 elements[j] = elements[j - 1];
             }
@@ -110,6 +118,30 @@ namespace Arrays
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException(nameof(array));
+            }
+
+            for (int i = 0; i < Count; i++)
+            {
+                array.SetValue(elements[i], arrayIndex++);
+            }
+        }
+
+        bool ICollection<T>.Remove(T item)
+        {
+            if (IndexOf(item) == -1)
+            {
+                return false;
+            }
+
+            Remove(item);
+            return true;
         }
     }
 }
