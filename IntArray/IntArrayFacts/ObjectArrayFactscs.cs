@@ -33,6 +33,7 @@ namespace IntArrayFacts
             int numberThree = 7;
             myArray.Add(numberThree);
             Assert.Equal(7, numberThree);
+            myArray.Swap(ref numberOne, ref numberThree);
         }
 
         [Fact]
@@ -63,5 +64,23 @@ namespace IntArrayFacts
             }
                 
         }
+
+        [Fact]
+        public void ErrorIfReadingBeforeInitialized_CaptureExDemo()
+        {
+            var myArray = new List<string>();
+            string numberThree = "12";
+            string numberFour = "15";
+            string numberFive = "17";
+            myArray.Add(numberThree);
+            myArray.Add(numberFour);
+            myArray.Add(numberFive);
+            string[] otherArray = null;
+
+            var ex = Assert.Throws<ArgumentException>(() => myArray.CopyTo(otherArray, -1));
+
+            Assert.Equal($"{nameof(myArray.CopyTo)} received a null argument!", ex.Message);
+        }
+
     }
 }

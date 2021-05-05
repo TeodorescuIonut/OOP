@@ -33,6 +33,11 @@ namespace Arrays
 
         public virtual void Add(T item)
         {
+            if (IsReadOnly)
+            {
+                throw new NotSupportedException();
+            }
+
             EnsureCapacity();
             elements[Count] = item;
             Count++;
@@ -40,6 +45,11 @@ namespace Arrays
 
         public bool Contains(T item)
         {
+            if (IsReadOnly)
+            {
+                throw new NotSupportedException();
+            }
+
             return IndexOf(item) != -1;
         }
 
@@ -50,6 +60,16 @@ namespace Arrays
 
         public virtual void Insert(int index, T item)
         {
+            if (IsReadOnly)
+            {
+                throw new NotSupportedException();
+            }
+
+            if (index < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(index)}The index cannot be negative.");
+            }
+
             EnsureCapacity();
             ShiftRight(index);
             elements[index] = item;
@@ -58,12 +78,22 @@ namespace Arrays
 
         public void Clear()
         {
+            if (IsReadOnly)
+            {
+                throw new NotSupportedException();
+            }
+
             elements = Array.Empty<T>();
             Count = 0;
         }
 
         public void Remove(T element)
         {
+            if (IsReadOnly)
+            {
+                throw new NotSupportedException();
+            }
+
             int index = IndexOf(element);
             if (index == -1)
             {
@@ -75,6 +105,16 @@ namespace Arrays
 
         public void RemoveAt(int index)
         {
+            if (IsReadOnly)
+            {
+                throw new NotSupportedException();
+            }
+
+            if (index < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(index)}The index cannot be negative.");
+            }
+
             ShiftLeft(index);
             Count--;
             Array.Resize(ref elements, Count);
@@ -124,7 +164,17 @@ namespace Arrays
         {
             if (array == null)
             {
-                throw new ArgumentNullException(nameof(array));
+                throw new ArgumentException($"{nameof(array)} received a null argument!");
+            }
+
+            if (arrayIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(array)}The starting array index cannot be negative.");
+            }
+
+            if (Count > array.Length - arrayIndex + 1)
+            {
+                throw new ArgumentException($"{nameof(array)}The destination array has fewer elements than the collection.");
             }
 
             for (int i = 0; i < Count; i++)
@@ -142,6 +192,13 @@ namespace Arrays
 
             Remove(item);
             return true;
+        }
+
+        public void Swap(ref T a, ref T b)
+        {
+            T temp = a;
+            a = b;
+            b = temp;
         }
     }
 }
