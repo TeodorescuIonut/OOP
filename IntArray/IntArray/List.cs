@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Arrays
 {
-    public class List<T> : IList<T>
+    public class List<T> : ReadOnlyList<T>, IList<T>
     {
         private T[] elements;
 
@@ -16,14 +16,6 @@ namespace Arrays
         }
 
         public int Count { get; private set; }
-
-        public bool IsReadOnly
-        {
-            get
-            {
-                return false;
-            }
-        }
 
         public virtual T this[int index]
         {
@@ -65,7 +57,7 @@ namespace Arrays
                 throw new NotSupportedException();
             }
 
-            ValidateIndex(index);
+            ValidateIndex(index, Count);
 
             EnsureCapacity();
             ShiftRight(index);
@@ -92,7 +84,7 @@ namespace Arrays
             }
 
             int index = IndexOf(element);
-            ValidateIndex(index);
+            ValidateIndex(index, Count - 1);
 
             RemoveAt(index);
         }
@@ -104,7 +96,7 @@ namespace Arrays
                 throw new NotSupportedException();
             }
 
-            ValidateIndex(index);
+            ValidateIndex(index, Count - 1);
             ShiftLeft(index);
             Count--;
             Array.Resize(ref elements, Count);
@@ -152,7 +144,7 @@ namespace Arrays
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            ValidateIndex(arrayIndex);
+            ValidateIndex(arrayIndex, Count - 1);
             if (array == null)
             {
                 throw new ArgumentException("Received a null argument!", nameof(array));
@@ -187,9 +179,9 @@ namespace Arrays
             b = temp;
         }
 
-        public void ValidateIndex(int index)
+        public void ValidateIndex(int index, int itemsCount)
             {
-            if (index >= 0 && index <= Count - 1)
+            if (index >= 0 && index <= itemsCount)
             {
                 return;
             }

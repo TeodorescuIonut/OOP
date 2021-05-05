@@ -56,7 +56,7 @@ namespace IntArrayFacts
             string numberFive = "17";
             myArray.Add(numberThree);
             myArray.Add(numberFour);
-            myArray.Add(numberFive);
+            myArray.Insert(myArray.Count, numberFive);
             var enumerator = myArray.GetEnumerator();
             while (enumerator.MoveNext())
             {
@@ -78,7 +78,6 @@ namespace IntArrayFacts
             string[] otherArray = null;
 
             var ex = Assert.Throws<ArgumentException>(() => myArray.CopyTo(otherArray, 4));
-
             Assert.Equal($"{nameof(myArray.CopyTo)} received a null argument!", ex.Message);
         }
 
