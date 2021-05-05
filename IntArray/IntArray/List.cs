@@ -65,10 +65,7 @@ namespace Arrays
                 throw new NotSupportedException();
             }
 
-            if (index < 0)
-            {
-                throw new ArgumentOutOfRangeException($"{nameof(index)}The index cannot be negative.");
-            }
+            ValidateIndex(index);
 
             EnsureCapacity();
             ShiftRight(index);
@@ -95,10 +92,7 @@ namespace Arrays
             }
 
             int index = IndexOf(element);
-            if (index == -1)
-            {
-                return;
-            }
+            ValidateIndex(index);
 
             RemoveAt(index);
         }
@@ -110,11 +104,7 @@ namespace Arrays
                 throw new NotSupportedException();
             }
 
-            if (index < 0)
-            {
-                throw new ArgumentOutOfRangeException($"{nameof(index)}The index cannot be negative.");
-            }
-
+            ValidateIndex(index);
             ShiftLeft(index);
             Count--;
             Array.Resize(ref elements, Count);
@@ -162,19 +152,15 @@ namespace Arrays
 
         public void CopyTo(T[] array, int arrayIndex)
         {
+            ValidateIndex(arrayIndex);
             if (array == null)
             {
-                throw new ArgumentException($"{nameof(array)} received a null argument!");
-            }
-
-            if (arrayIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException($"{nameof(array)}The starting array index cannot be negative.");
+                throw new ArgumentException("Received a null argument!", nameof(array));
             }
 
             if (Count > array.Length - arrayIndex + 1)
             {
-                throw new ArgumentException($"{nameof(array)}The destination array has fewer elements than the collection.");
+                throw new ArgumentException("The destination array has fewer elements than the collection.", nameof(array));
             }
 
             for (int i = 0; i < Count; i++)
@@ -199,6 +185,16 @@ namespace Arrays
             T temp = a;
             a = b;
             b = temp;
+        }
+
+        public void ValidateIndex(int index)
+            {
+            if (index >= 0 && index <= Count - 1)
+            {
+                return;
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(index), "Index was out of range");
         }
     }
 }

@@ -77,7 +77,7 @@ namespace IntArrayFacts
             myArray.Add(numberFive);
             string[] otherArray = null;
 
-            var ex = Assert.Throws<ArgumentException>(() => myArray.CopyTo(otherArray, -1));
+            var ex = Assert.Throws<ArgumentException>(() => myArray.CopyTo(otherArray, 4));
 
             Assert.Equal($"{nameof(myArray.CopyTo)} received a null argument!", ex.Message);
         }
