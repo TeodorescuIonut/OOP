@@ -15,9 +15,9 @@ namespace Arrays
             elements = new T[size];
         }
 
-        public int Count { get; private set; }
+        public new int Count { get; private set; }
 
-        public virtual T this[int index]
+        public new virtual T this[int index]
         {
             get => elements[index];
             set => elements[index] = value;
