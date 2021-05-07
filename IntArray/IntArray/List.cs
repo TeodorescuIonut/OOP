@@ -17,7 +17,7 @@ namespace Arrays
 
         public new int Count { get; private set; }
 
-        public new virtual T this[int index]
+        public override T this[int index]
         {
             get => elements[index];
             set => elements[index] = value;
