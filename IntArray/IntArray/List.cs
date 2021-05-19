@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Arrays
 {
-    public class List<T> : ReadOnlyList<T>, IList<T>
+    public class List<T> : IList<T>
     {
-        private T[] elements;
+        protected T[] elements;
 
         public List()
         {
@@ -15,11 +15,14 @@ namespace Arrays
             elements = new T[size];
         }
 
-        public new int Count { get; private set; }
+        public int Count { get; private set; }
 
-        public override T this[int index]
+        public virtual bool IsReadOnly { get; set; }
+
+        public virtual T this[int index]
         {
             get => elements[index];
+
             set => elements[index] = value;
         }
 
@@ -52,12 +55,11 @@ namespace Arrays
 
         public virtual void Insert(int index, T item)
         {
+            ValidateIndex(index, Count);
             if (IsReadOnly)
             {
                 throw new NotSupportedException();
             }
-
-            ValidateIndex(index, Count);
 
             EnsureCapacity();
             ShiftRight(index);
@@ -78,25 +80,24 @@ namespace Arrays
 
         public void Remove(T element)
         {
+            int index = IndexOf(element);
+            ValidateIndex(index, Count - 1);
             if (IsReadOnly)
             {
                 throw new NotSupportedException();
             }
-
-            int index = IndexOf(element);
-            ValidateIndex(index, Count - 1);
 
             RemoveAt(index);
         }
 
         public void RemoveAt(int index)
         {
+            ValidateIndex(index, Count - 1);
             if (IsReadOnly)
             {
                 throw new NotSupportedException();
             }
 
-            ValidateIndex(index, Count - 1);
             ShiftLeft(index);
             Count--;
             Array.Resize(ref elements, Count);
@@ -180,7 +181,7 @@ namespace Arrays
         }
 
         public void ValidateIndex(int index, int itemsCount)
-            {
+        {
             if (index >= 0 && index <= itemsCount)
             {
                 return;

@@ -7,28 +7,21 @@ namespace Arrays
 {
     public class ReadOnlyList<T> : List<T>
     {
-        private readonly List<T> list;
-
-        public ReadOnlyList(List<T> mylist) : base()
+        public ReadOnlyList(List<T> list) : base()
         {
-            list = mylist;
-        }
-
-        public override bool IsReadOnly { get; set; } = true;
-
-        public override T this[int index]
-        {
-            get => base[index];
-        }
-
-        public override void Add(T item)
-            {
-            if (!IsReadOnly)
+            if (list == null)
             {
                 return;
             }
 
-            throw new ArgumentException("Readonly");
+            list.CopyTo(elements, 0);
+        }
+
+        public override bool IsReadOnly { get; set; } = true;
+
+        public new T this[int index]
+        {
+            get => this[index];
         }
     }
 }
