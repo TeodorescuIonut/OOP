@@ -5,24 +5,30 @@ using System.Text;
 
 namespace Arrays
 {
-    public class ReadOnlyList<T>
+    public class ReadOnlyList<T> : List<T>
     {
-        private readonly T[] elements;
+        private readonly List<T> list;
 
-        public ReadOnlyList()
+        public ReadOnlyList(List<T> mylist) : base()
         {
-            const int size = 4;
-            elements = new T[size];
+            list = mylist;
         }
 
-        public bool IsReadOnly { get; }
+        public override bool IsReadOnly { get; set; } = true;
 
-        public int Count { get; }
-
-        public T this[int index]
+        public override T this[int index]
         {
-            get => elements[index];
-            set => elements[index] = value;
+            get => base[index];
+        }
+
+        public override void Add(T item)
+            {
+            if (!IsReadOnly)
+            {
+                return;
+            }
+
+            throw new ArgumentException("Readonly");
         }
     }
 }
