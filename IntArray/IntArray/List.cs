@@ -15,7 +15,7 @@ namespace Arrays
             elements = new T[size];
         }
 
-        public int Count { get; private set; }
+        public virtual int Count { get; protected set; }
 
         public virtual bool IsReadOnly { get; set; }
 

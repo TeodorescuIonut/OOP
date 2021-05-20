@@ -7,14 +7,14 @@ namespace Arrays
 {
     public class ReadOnlyList<T> : List<T>
     {
-        public ReadOnlyList(List<T> list) : base()
+        public ReadOnlyList(ref List<T> list)
         {
             if (list == null)
             {
                 return;
             }
 
-            list.CopyTo(elements, 0);
+            list.IsReadOnly = true;
         }
 
         public override bool IsReadOnly { get; set; } = true;
