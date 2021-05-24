@@ -7,12 +7,12 @@ namespace Arrays
 {
     public class List<T> : IList<T>
     {
-        protected T[] elements;
+        public T[] Elements;
 
         public List()
         {
             const int size = 4;
-            elements = new T[size];
+            Elements = new T[size];
         }
 
         public virtual int Count { get; protected set; }
@@ -21,9 +21,9 @@ namespace Arrays
 
         public virtual T this[int index]
         {
-            get => elements[index];
+            get => Elements[index];
 
-            set => elements[index] = value;
+            set => Elements[index] = value;
         }
 
         public virtual void Add(T item)
@@ -34,7 +34,7 @@ namespace Arrays
             }
 
             EnsureCapacity();
-            elements[Count] = item;
+            Elements[Count] = item;
             Count++;
         }
 
@@ -50,7 +50,7 @@ namespace Arrays
 
         public int IndexOf(T item)
         {
-            return Array.IndexOf(elements, item, 0, Count);
+            return Array.IndexOf(Elements, item, 0, Count);
         }
 
         public virtual void Insert(int index, T item)
@@ -63,7 +63,7 @@ namespace Arrays
 
             EnsureCapacity();
             ShiftRight(index);
-            elements[index] = item;
+            Elements[index] = item;
             Count++;
         }
 
@@ -74,7 +74,7 @@ namespace Arrays
                 throw new NotSupportedException();
             }
 
-            elements = Array.Empty<T>();
+            Elements = Array.Empty<T>();
             Count = 0;
         }
 
@@ -100,14 +100,14 @@ namespace Arrays
 
             ShiftLeft(index);
             Count--;
-            Array.Resize(ref elements, Count);
+            Array.Resize(ref Elements, Count);
         }
 
         public void ShiftLeft(int index)
         {
             for (int j = index; j < Count - 1; j++)
             {
-                elements[j] = elements[j + 1];
+                Elements[j] = Elements[j + 1];
             }
         }
 
@@ -115,26 +115,26 @@ namespace Arrays
         {
             for (int j = Count - 1; j > index; j--)
             {
-                elements[j] = elements[j - 1];
+                Elements[j] = Elements[j - 1];
             }
         }
 
         public void EnsureCapacity()
         {
-            if (Count < elements.Length)
+            if (Count < Elements.Length)
             {
                 return;
             }
 
             const int sizeDouble = 2;
-            Array.Resize(ref elements, elements.Length * sizeDouble);
+            Array.Resize(ref Elements, Elements.Length * sizeDouble);
         }
 
         public IEnumerator<T> GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
             {
-                yield return elements[i];
+                yield return Elements[i];
             }
         }
 
@@ -158,7 +158,7 @@ namespace Arrays
 
             for (int i = 0; i < Count; i++)
             {
-                array.SetValue(elements[i], arrayIndex++);
+                array.SetValue(Elements[i], arrayIndex++);
             }
         }
 
