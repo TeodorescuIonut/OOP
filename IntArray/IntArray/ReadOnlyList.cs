@@ -10,28 +10,23 @@ namespace Arrays
     {
         private const string Error = "Collection is read-only.";
 
-        private readonly List<T> mylist;
+        private readonly IList<T> readonlylist;
 
         public ReadOnlyList(List<T> list)
         {
-            if (list == null)
-            {
-                return;
-            }
-
-            mylist = list;
+            readonlylist = list;
         }
 
         public bool IsReadOnly { get; set; } = true;
 
         public virtual int Count
         {
-            get { return mylist.Count; }
+            get { return readonlylist.Count; }
         }
 
         public T this[int index]
         {
-            get { return mylist[index]; }
+            get { return readonlylist[index]; }
             set => throw new NotSupportedException(Error);
         }
 
@@ -47,38 +42,22 @@ namespace Arrays
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            return IndexOf(item) != -1;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            if (array == null)
-            {
-                throw new ArgumentException("Received a null argument!", nameof(array));
-            }
-
-            if (Count > array.Length - arrayIndex + 1)
-            {
-                throw new ArgumentException("The destination array has fewer elements than the collection.", nameof(array));
-            }
-
-            for (int i = 0; i < Count; i++)
-            {
-                array.SetValue(this[i], arrayIndex++);
-            }
+            readonlylist.CopyTo(array, arrayIndex);
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            for (int i = 0; i < Count; i++)
-            {
-                yield return this[i];
-            }
+            return readonlylist.GetEnumerator();
         }
 
         public int IndexOf(T item)
         {
-            return Array.IndexOf(this.mylist.Elements, item, 0, Count);
+            return readonlylist.IndexOf(item);
         }
 
         public void Insert(int index, T item)
