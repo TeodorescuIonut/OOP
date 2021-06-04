@@ -7,23 +7,18 @@ namespace LinkedList
 {
     public class CircularDoublyLinkedListCollection<T> : ICollection<T>
     {
-        private Node<T> first;
-        private Node<T> last;
+        private Node<T> sentinel;
 
         public CircularDoublyLinkedListCollection()
         {
+            sentinel = new Node<T>();
         }
 
         public int Count { get; protected set; }
 
         public Node<T> First
         {
-            get { return first; }
-        }
-
-        public Node<T> Last
-        {
-            get { return last; }
+            get { return sentinel; }
         }
 
         public bool IsReadOnly => throw new NotImplementedException();
@@ -37,17 +32,19 @@ namespace LinkedList
         {
             Node<T> newNode = new Node<T>();
             newNode.Data = item;
-            if (first == null)
+            if (sentinel.Next == null)
             {
-                AddFirstItem(item);
+                sentinel = newNode;
+                newNode.Next = sentinel;
+                newNode.Prev = sentinel;
             }
             else
             {
-                last.Next = newNode;
-                newNode.Next = first;
+                Node<T> last = sentinel.Prev;
+                newNode.Next = sentinel;
+                sentinel.Prev = newNode;
                 newNode.Prev = last;
-                last = newNode;
-                first.Prev = last;
+                last.Next = newNode;
             }
 
             Count++;
@@ -57,27 +54,27 @@ namespace LinkedList
         {
             Node<T> newNode = new Node<T>();
             newNode.Data = item;
-            first = newNode;
-            last = first;
-            first.Next = last;
-            first.Prev = last;
+            sentinel = newNode;
+            sentinel.Next = sentinel;
+            sentinel.Prev = sentinel;
         }
 
         public void AddFirst(T item)
         {
             Node<T> newNode = new Node<T>();
             newNode.Data = item;
-            if (first == null)
+            if (sentinel.Next == null)
             {
                 AddFirstItem(item);
             }
             else
             {
-                first.Prev = newNode;
-                newNode.Next = first;
+                Node<T> last = sentinel.Prev;
+                newNode.Next = sentinel;
                 newNode.Prev = last;
-                first = newNode;
-                last.Next = first;
+                last.Next = newNode;
+                sentinel.Prev = newNode;
+                sentinel = newNode;
             }
 
             Count++;
@@ -90,22 +87,15 @@ namespace LinkedList
                 throw new ArgumentNullException(nameof(current));
             }
 
-            Node<T> temp = Find(current.Data);
-
-            if (temp != current)
-                {
-                throw new InvalidOperationException("Node doesnt exist in the list");
-                }
-
             Node<T> newNode = new Node<T>();
             newNode.Data = item;
             newNode.Next = current.Next;
             current.Next.Prev = newNode;
             newNode.Prev = current;
             current.Next = newNode;
-            if (current == last)
+            if (sentinel.Next == null)
             {
-                last = newNode;
+                AddFirstItem(item);
             }
 
             Count++;
@@ -125,24 +115,26 @@ namespace LinkedList
                 throw new InvalidOperationException("Node doesnt exist in the list");
             }
 
-            Node<T> newNode = new Node<T>();
-            newNode.Data = item;
-            newNode.Prev = current.Prev;
-            newNode.Next = current;
-            current.Prev.Next = newNode;
-            current.Prev = newNode;
-            if (current == first)
+            if (sentinel.Next == null)
             {
-                first = newNode;
+                AddFirst(item);
             }
-
-            Count++;
+            else
+            {
+                Node<T> newNode = new Node<T>();
+                newNode.Data = item;
+                newNode.Prev = current.Prev;
+                newNode.Next = current;
+                current.Prev.Next = newNode;
+                current.Prev = newNode;
+                Count++;
+            }
         }
 
         public void Clear()
         {
-            first = null;
-            first = null;
+            sentinel = null;
+            sentinel = null;
             Count = 0;
         }
 
@@ -153,7 +145,7 @@ namespace LinkedList
 
         public Node<T> Find(T value)
         {
-            Node<T> temp = first;
+            Node<T> temp = sentinel;
             do
             {
                 if (temp.Data.Equals(value))
@@ -163,13 +155,13 @@ namespace LinkedList
 
                 temp = temp.Next;
             }
-            while (temp != first);
+            while (temp != sentinel);
             return null;
         }
 
         public Node<T> FindLast(T value)
         {
-            Node<T> temp = last;
+            Node<T> temp = sentinel;
             do
             {
                 if (temp.Data.Equals(value))
@@ -179,7 +171,7 @@ namespace LinkedList
 
                 temp = temp.Prev;
             }
-            while (temp != last);
+            while (temp != sentinel);
             return null;
         }
 
@@ -190,25 +182,25 @@ namespace LinkedList
                 throw new ArgumentException("Received a null argument!", nameof(array));
             }
 
-            Node<T> temp = first;
+            Node<T> temp = sentinel;
             do
             {
                 array[arrayIndex] = temp.Data;
                 arrayIndex++;
                 temp = temp.Next;
             }
-            while (temp != first);
+            while (temp != sentinel);
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            Node<T> temp = first;
+            Node<T> temp = sentinel;
             do
             {
                 yield return temp.Data;
                 temp = temp.Next;
             }
-            while (temp != first);
+            while (temp != sentinel);
         }
 
         public bool Remove(T item)
@@ -227,15 +219,10 @@ namespace LinkedList
 
             previousNode = nodeToRemove.Prev;
             previousNode.Next = nodeToRemove.Next;
-            nodeToRemove.Next.Prev = previousNode.Prev;
-            if (first == nodeToRemove)
+            nodeToRemove.Next.Prev = previousNode;
+            if (sentinel == nodeToRemove)
             {
-                first = nodeToRemove.Next;
-            }
-
-            if (last == nodeToRemove)
-            {
-                last = nodeToRemove.Prev;
+                sentinel = nodeToRemove.Next;
             }
 
             Count--;
@@ -249,28 +236,28 @@ namespace LinkedList
 
         public void RemoveFirst()
             {
-            if (first == null)
+            if (sentinel == null)
             {
                 return;
             }
 
-            RemoveNode(first);
+            RemoveNode(sentinel);
         }
 
         public void RemoveLast()
         {
-            if (last == null)
+            if (sentinel == null)
             {
                 return;
             }
 
-            RemoveNode(last);
+            RemoveNode(sentinel.Prev);
         }
 
         public void PrintList()
         {
             Node<T> temp;
-            temp = this.first;
+            temp = this.sentinel.Next;
             if (temp != null)
             {
                 Console.Write("The list contains: ");
@@ -279,7 +266,7 @@ namespace LinkedList
                     Console.Write(temp.Data + " ");
                     temp = temp.Next;
                 }
-                while (temp != this.first);
+                while (temp != this.sentinel.Next);
 
                 Console.WriteLine();
             }
