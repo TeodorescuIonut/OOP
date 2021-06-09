@@ -59,6 +59,38 @@ namespace CircularDoublyLinkedListFacts
         }
 
         [Fact]
+        public void AddNodeShouldReturnAddedItemAfterNode()
+        {
+            CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();
+            const string numberFour = "the";
+            mylist.AddFirst(numberFour);
+            mylist.Add("Blue");
+            mylist.Add("Eyes");
+            Node<string> currentNode;
+            currentNode = mylist.Find("Eyes");
+            Node<string> newNode = new Node<string>();
+            newNode.Data = "Red";
+            mylist.AddAfterNode(currentNode, newNode);
+            Assert.Equal("Red", currentNode.Next.Data);
+        }
+
+        [Fact]
+        public void AddNodeShouldReturnAddedItemBeforeNode()
+        {
+            CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();
+            const string numberFour = "the";
+            mylist.AddFirst(numberFour);
+            mylist.Add("Blue");
+            mylist.Add("Eyes");
+            Node<string> currentNode;
+            currentNode = mylist.Find("Eyes");
+            Node<string> newNode = new Node<string>();
+            newNode.Data = "Red";
+            mylist.AddBeforeNode(currentNode, newNode);
+            Assert.Equal("Red", currentNode.Prev.Data);
+        }
+
+        [Fact]
         public void ClearListShouldRetunrEmpty()
         {
             CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();

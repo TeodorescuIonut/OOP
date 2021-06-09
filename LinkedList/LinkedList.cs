@@ -11,7 +11,7 @@ namespace LinkedList
 
         public CircularDoublyLinkedListCollection()
         {
-            sentinel = new Node<T>();
+            sentinel = null;
         }
 
         public int Count { get; protected set; }
@@ -25,14 +25,9 @@ namespace LinkedList
 
         public void Add(T item)
         {
-            AddLast(item);
-        }
-
-        public void AddLast(T item)
-        {
             Node<T> newNode = new Node<T>();
             newNode.Data = item;
-            if (sentinel.Next == null)
+            if (sentinel == null)
             {
                 sentinel = newNode;
                 newNode.Next = sentinel;
@@ -50,34 +45,28 @@ namespace LinkedList
             Count++;
         }
 
-        public void AddFirstItem(T item)
+        public void AddLast(T item)
         {
-            Node<T> newNode = new Node<T>();
-            newNode.Data = item;
-            sentinel = newNode;
-            sentinel.Next = sentinel;
-            sentinel.Prev = sentinel;
+            if (sentinel == null)
+            {
+                Add(item);
+            }
+
+            Node<T> lastItem = sentinel.Prev;
+            AddAfter(lastItem, item);
         }
 
         public void AddFirst(T item)
         {
-            Node<T> newNode = new Node<T>();
-            newNode.Data = item;
-            if (sentinel.Next == null)
+            if (sentinel == null)
             {
-                AddFirstItem(item);
+                Add(item);
             }
             else
             {
-                Node<T> last = sentinel.Prev;
-                newNode.Next = sentinel;
-                newNode.Prev = last;
-                last.Next = newNode;
-                sentinel.Prev = newNode;
-                sentinel = newNode;
+                Node<T> firstNode = sentinel;
+                AddBefore(firstNode, item);
             }
-
-            Count++;
         }
 
         public void AddAfter(Node<T> current, T item)
@@ -93,11 +82,6 @@ namespace LinkedList
             current.Next.Prev = newNode;
             newNode.Prev = current;
             current.Next = newNode;
-            if (sentinel.Next == null)
-            {
-                AddFirstItem(item);
-            }
-
             Count++;
         }
 
@@ -108,27 +92,45 @@ namespace LinkedList
                 throw new ArgumentNullException(nameof(current));
             }
 
-            Node<T> temp = Find(current.Data);
-
-            if (temp != current)
+            if (sentinel == null)
             {
-                throw new InvalidOperationException("Node doesnt exist in the list");
-            }
-
-            if (sentinel.Next == null)
-            {
-                AddFirst(item);
+                Add(item);
             }
             else
             {
                 Node<T> newNode = new Node<T>();
                 newNode.Data = item;
                 newNode.Prev = current.Prev;
-                newNode.Next = current;
                 current.Prev.Next = newNode;
+                newNode.Next = current;
                 current.Prev = newNode;
+                if (sentinel == current)
+                {
+                    sentinel = newNode;
+                }
+
                 Count++;
             }
+        }
+
+        public void AddAfterNode(Node<T> node, Node<T> newNode)
+        {
+            if (newNode == null)
+            {
+                throw new ArgumentNullException(nameof(newNode));
+            }
+
+            AddAfter(node, newNode.Data);
+        }
+
+        public void AddBeforeNode(Node<T> node, Node<T> newNode)
+        {
+            if (newNode == null)
+            {
+                throw new ArgumentNullException(nameof(newNode));
+            }
+
+            AddBefore(node, newNode.Data);
         }
 
         public void Clear()
@@ -252,28 +254,6 @@ namespace LinkedList
             }
 
             RemoveNode(sentinel.Prev);
-        }
-
-        public void PrintList()
-        {
-            Node<T> temp;
-            temp = this.sentinel.Next;
-            if (temp != null)
-            {
-                Console.Write("The list contains: ");
-                do
-                {
-                    Console.Write(temp.Data + " ");
-                    temp = temp.Next;
-                }
-                while (temp != this.sentinel.Next);
-
-                Console.WriteLine();
-            }
-            else
-            {
-                Console.WriteLine("The list is empty.");
-            }
         }
     }
     }
