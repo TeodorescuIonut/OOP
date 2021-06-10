@@ -11,11 +11,11 @@ namespace CircularDoublyLinkedListFacts
         {
             CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();
             const string numberFour = "the";
-            mylist.Add(numberFour);
-            mylist.Add("Blue");
-            mylist.Add("Eyes");
-            mylist.Add("Eyes");
-            Assert.Equal("the", mylist.First.Data);
+            mylist.AddLast(numberFour);
+            mylist.AddLast("Blue");
+            mylist.AddLast("Eyes");
+            mylist.AddLast("Eyes");
+            Assert.Equal("Eyes", mylist.Prev.Data);
         }
 
         [Fact]
@@ -23,10 +23,10 @@ namespace CircularDoublyLinkedListFacts
         {
             CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();
             const string numberFour = "the";
-            mylist.AddFirst(numberFour);
-            mylist.AddFirst("Blue");
-            mylist.AddFirst("Eyes");
-            Assert.Equal("Eyes", mylist.First.Data);
+            mylist.AddLast(numberFour);
+            mylist.AddLast("Blue");
+            mylist.AddLast("Eyes");
+            Assert.Equal("Eyes", mylist.Prev.Data);
         }
 
         [Fact]
@@ -50,8 +50,8 @@ namespace CircularDoublyLinkedListFacts
             CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();
             const string numberFour = "the";
             mylist.AddFirst(numberFour);
-            mylist.Add("Blue");
-            mylist.Add("Eyes");
+            mylist.AddFirst("Blue");
+            mylist.AddFirst("Eyes");
             Node<string> currentNode;
             currentNode = mylist.Find("Eyes");
             mylist.AddAfter(currentNode, "the");
@@ -99,7 +99,7 @@ namespace CircularDoublyLinkedListFacts
             mylist.Add("Blue");
             mylist.Add("Eyes");
             mylist.Clear();
-            Assert.Null(mylist.First);
+            Assert.Null(mylist.Next);
         }
 
         [Fact]
@@ -107,9 +107,9 @@ namespace CircularDoublyLinkedListFacts
         {
             CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();
             const string numberFour = "the";
-            mylist.AddFirst(numberFour);
-            mylist.Add("Blue");
-            mylist.Add("Eyes");
+            mylist.AddLast(numberFour);
+            mylist.AddLast("Blue");
+            mylist.AddLast("Eyes");
             bool result = mylist.Contains("Blue");
             Assert.True(result);
         }
@@ -120,8 +120,8 @@ namespace CircularDoublyLinkedListFacts
             CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();
             const string numberFour = "the";
             mylist.AddFirst(numberFour);
-            mylist.Add("Blue");
-            mylist.Add("Eyes");
+            mylist.AddFirst("Blue");
+            mylist.AddFirst("Eyes");
             Node<string> foundNode = mylist.Find(numberFour);
             Assert.Equal("the", foundNode.Data);
         }
@@ -131,11 +131,11 @@ namespace CircularDoublyLinkedListFacts
         {
             CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();
             const string numberFour = "Five";
-            mylist.Add(numberFour);
-            mylist.Add("the");
-            mylist.Add("Blue");
-            mylist.Add("the");
-            mylist.Add("Eyes");
+            mylist.AddLast(numberFour);
+            mylist.AddLast("the");
+            mylist.AddLast("Blue");
+            mylist.AddLast("the");
+            mylist.AddLast("Eyes");
             Node<string> foundNode = mylist.FindLast("the");
             Assert.Equal("the", foundNode.Data);
         }
@@ -145,11 +145,11 @@ namespace CircularDoublyLinkedListFacts
         {
             CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();  
             const string numberFour = "Five";
-            mylist.Add(numberFour);
-            mylist.Add("the");
-            mylist.Add("Blue");
-            mylist.Add("the");
-            mylist.Add("Eyes");
+            mylist.AddLast(numberFour);
+            mylist.AddLast("the");
+            mylist.AddLast("Blue");
+            mylist.AddLast("the");
+            mylist.AddLast("Eyes");
             string[] myarray = new string[mylist.Count];
             mylist.CopyTo(myarray, 0);
             Assert.Equal(myarray[0], numberFour);
@@ -160,11 +160,11 @@ namespace CircularDoublyLinkedListFacts
         {
             CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();
             const string numberFour = "Five";
-            mylist.Add(numberFour);
-            mylist.Add("the");
-            mylist.Add("Blue");
-            mylist.Add("the");
-            mylist.Add("Eyes");
+            mylist.AddFirst(numberFour);
+            mylist.AddFirst("the");
+            mylist.AddFirst("Blue");
+            mylist.AddFirst("the");
+            mylist.AddFirst("Eyes");
             bool result = mylist.Remove("the");
             Assert.True(result);
         }
@@ -174,13 +174,13 @@ namespace CircularDoublyLinkedListFacts
         {
             CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();
             const string numberFour = "Five";
-            mylist.Add(numberFour);
-            mylist.Add("the");
-            mylist.Add("Blue");
-            mylist.Add("the");
-            mylist.Add("Eyes");
+            mylist.AddLast(numberFour);
+            mylist.AddLast("the");
+            mylist.AddLast("Blue");
+            mylist.AddLast("the");
+            mylist.AddLast("Eyes");
             mylist.RemoveFirst();
-            Assert.Equal("the", mylist.First.Data);
+            Assert.Equal("Blue", mylist.Next.Data);
         }
 
         [Fact]
@@ -188,13 +188,13 @@ namespace CircularDoublyLinkedListFacts
         {
             CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();
             const string numberFour = "Five";
-            mylist.Add(numberFour);
-            mylist.Add("the");
-            mylist.Add("Blue");
-            mylist.Add("the");
-            mylist.Add("Eyes");
+            mylist.AddFirst(numberFour);
+            mylist.AddFirst("the");
+            mylist.AddFirst("Blue");
+            mylist.AddFirst("the");
+            mylist.AddFirst("Eyes");
             mylist.RemoveLast();
-            Assert.Equal("the", mylist.First.Prev.Data);
+            Assert.Equal("the", mylist.Prev.Data);
         }
 
     }

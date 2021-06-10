@@ -11,14 +11,21 @@ namespace LinkedList
 
         public CircularDoublyLinkedListCollection()
         {
-            sentinel = null;
+            sentinel = new Node<T>();
+            sentinel.Next = sentinel;
+            sentinel.Prev = sentinel;
         }
 
         public int Count { get; protected set; }
 
-        public Node<T> First
+        public Node<T> Next
         {
-            get { return sentinel; }
+            get { return sentinel.Next; }
+        }
+
+        public Node<T> Prev
+        {
+            get { return sentinel.Prev; }
         }
 
         public bool IsReadOnly => throw new NotImplementedException();
@@ -27,38 +34,28 @@ namespace LinkedList
         {
             Node<T> newNode = new Node<T>();
             newNode.Data = item;
-            if (sentinel == null)
-            {
-                sentinel = newNode;
-                newNode.Next = sentinel;
-                newNode.Prev = sentinel;
-            }
-            else
-            {
-                Node<T> last = sentinel.Prev;
-                newNode.Next = sentinel;
-                sentinel.Prev = newNode;
-                newNode.Prev = last;
-                last.Next = newNode;
-            }
-
+            sentinel = newNode;
+            newNode.Next = sentinel;
+            newNode.Prev = sentinel;
             Count++;
         }
 
         public void AddLast(T item)
         {
-            if (sentinel == null)
+            if (Count == 0)
             {
                 Add(item);
             }
-
-            Node<T> lastItem = sentinel.Prev;
-            AddAfter(lastItem, item);
+            else
+            {
+                Node<T> lastItem = sentinel.Prev;
+                AddAfter(lastItem, item);
+            }
         }
 
         public void AddFirst(T item)
         {
-            if (sentinel == null)
+            if (Count == 0)
             {
                 Add(item);
             }
@@ -76,13 +73,20 @@ namespace LinkedList
                 throw new ArgumentNullException(nameof(current));
             }
 
-            Node<T> newNode = new Node<T>();
-            newNode.Data = item;
-            newNode.Next = current.Next;
-            current.Next.Prev = newNode;
-            newNode.Prev = current;
-            current.Next = newNode;
-            Count++;
+            if (Count == 0)
+            {
+                Add(item);
+            }
+            else
+            {
+                Node<T> newNode = new Node<T>();
+                newNode.Data = item;
+                newNode.Next = current.Next;
+                current.Next.Prev = newNode;
+                newNode.Prev = current;
+                current.Next = newNode;
+                Count++;
+            }
         }
 
         public void AddBefore(Node<T> current, T item)
@@ -92,7 +96,7 @@ namespace LinkedList
                 throw new ArgumentNullException(nameof(current));
             }
 
-            if (sentinel == null)
+            if (Count == 0)
             {
                 Add(item);
             }
@@ -135,8 +139,8 @@ namespace LinkedList
 
         public void Clear()
         {
-            sentinel = null;
-            sentinel = null;
+            sentinel.Next = null;
+            sentinel.Prev = null;
             Count = 0;
         }
 
