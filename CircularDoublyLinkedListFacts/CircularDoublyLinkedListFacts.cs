@@ -15,7 +15,7 @@ namespace CircularDoublyLinkedListFacts
             mylist.AddLast("Blue");
             mylist.AddLast("Eyes");
             mylist.AddLast("Eyes");
-            Assert.Equal("Eyes", mylist.Prev.Data);
+            Assert.Equal("Eyes", mylist.Last.Data);
         }
 
         [Fact]
@@ -26,7 +26,7 @@ namespace CircularDoublyLinkedListFacts
             mylist.AddLast(numberFour);
             mylist.AddLast("Blue");
             mylist.AddLast("Eyes");
-            Assert.Equal("Eyes", mylist.Prev.Data);
+            Assert.Equal("Eyes", mylist.Last.Data);
         }
 
         [Fact]
@@ -68,8 +68,7 @@ namespace CircularDoublyLinkedListFacts
             mylist.AddFirst("Eyes");
             Node<string> currentNode;
             currentNode = mylist.Find("Eyes");
-            Node<string> newNode = new Node<string>();
-            newNode.Data = "Red";
+            Node<string> newNode = new Node<string>("Red");
             mylist.AddAfter(currentNode, newNode);
             Assert.Equal("Red", currentNode.Next.Data);
         }
@@ -84,8 +83,7 @@ namespace CircularDoublyLinkedListFacts
             mylist.AddFirst("Eyes");
             Node<string> currentNode;
             currentNode = mylist.Find("Eyes");
-            Node<string> newNode = new Node<string>();
-            newNode.Data = "Red";
+            Node<string> newNode = new Node<string>("Red");
             mylist.AddBefore(currentNode, newNode);
             Assert.Equal("Red", currentNode.Prev.Data);
         }
@@ -99,7 +97,7 @@ namespace CircularDoublyLinkedListFacts
             mylist.Add("Blue");
             mylist.Add("Eyes");
             mylist.Clear();
-            Assert.Null(mylist.Next);
+            Assert.Null(mylist.First);
         }
 
         [Fact]
@@ -180,7 +178,7 @@ namespace CircularDoublyLinkedListFacts
             mylist.Add("the");
             mylist.Add("Eyes");
             mylist.RemoveFirst();
-            Assert.Equal("the", mylist.Next.Data);
+            Assert.Equal("the", mylist.First.Data);
         }
 
         [Fact]
@@ -194,7 +192,7 @@ namespace CircularDoublyLinkedListFacts
             mylist.AddFirst("the");
             mylist.AddFirst("Eyes");
             mylist.RemoveLast();
-            Assert.Equal("the", mylist.Prev.Data);
+            Assert.Equal("the", mylist.Last.Data);
         }
 
     }

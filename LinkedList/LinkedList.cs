@@ -7,37 +7,51 @@ namespace LinkedList
 {
     public class CircularDoublyLinkedListCollection<T> : ICollection<T>
     {
-        private Node<T> sentinel;
+        private readonly Node<T> sentinel;
 
         public CircularDoublyLinkedListCollection()
         {
-            sentinel = new Node<T>();
+            sentinel = new Node<T>(default);
             sentinel.Next = sentinel;
             sentinel.Prev = sentinel;
         }
 
         public int Count { get; protected set; }
 
-        public Node<T> Next
+        public Node<T> First
         {
-            get { return sentinel.Next; }
+            get
+            {
+                if (Count == 0)
+                {
+                    return null;
+                }
+
+                return sentinel.Next;
+            }
         }
 
-        public Node<T> Prev
+        public Node<T> Last
         {
-            get { return sentinel.Prev; }
+            get
+            {
+                if (Count == 0)
+                {
+                    return null;
+                }
+
+                return sentinel.Prev;
+            }
         }
 
         public bool IsReadOnly => throw new NotImplementedException();
 
         public void Add(T item)
         {
-            Node<T> newNode = new Node<T>();
-            newNode.Data = item;
-            Add(sentinel.Prev, newNode);
+            AddAfter(sentinel.Prev, new Node<T>(item));
         }
 
-        public void Add(Node<T> current, Node<T> newNode)
+        public void AddAfter(Node<T> current, Node<T> newNode)
         {
             CheckForNull(current, nameof(current));
             CheckForNull(newNode, nameof(newNode));
@@ -48,52 +62,37 @@ namespace LinkedList
             Count++;
         }
 
+        public void AddAfter(Node<T> current, T item)
+        {
+            AddAfter(current, new Node<T>(item));
+        }
+
         public void AddLast(T item)
         {
-            Node<T> newNode = new Node<T>();
-            newNode.Data = item;
-            AddLast(newNode);
+            AddLast(new Node<T>(item));
         }
 
         public void AddLast(Node<T> newNode)
         {
             CheckForNull(newNode, nameof(newNode));
-            Add(sentinel.Prev, newNode);
+            AddBefore(sentinel, newNode);
         }
 
         public void AddFirst(T item)
         {
-                Node<T> newNode = new Node<T>();
-                newNode.Data = item;
-                AddFirst(newNode);
+                AddFirst(new Node<T>(item));
         }
 
         public void AddFirst(Node<T> newNode)
         {
             CheckForNull(newNode, nameof(newNode));
-            Add(sentinel, newNode);
-        }
-
-        public void AddAfter(Node<T> current, T item)
-        {
-            CheckForNull(current, nameof(current));
-            Node<T> newNode = new Node<T>();
-            newNode.Data = item;
-            Add(current, newNode);
-        }
-
-        public void AddAfter(Node<T> current, Node<T> newNode)
-        {
-            CheckForNull(newNode, nameof(newNode));
-            AddAfter(current, newNode.Data);
+            AddAfter(sentinel, newNode);
         }
 
         public void AddBefore(Node<T> current, T item)
         {
             CheckForNull(current, nameof(current));
-            Node<T> beforeNode = new Node<T>();
-            beforeNode.Data = item;
-            Add(current.Prev, beforeNode);
+            AddAfter(current.Prev, new Node<T>(item));
         }
 
         public void AddBefore(Node<T> node, Node<T> newNode)
@@ -126,33 +125,27 @@ namespace LinkedList
 
         public Node<T> Find(T value)
         {
-            Node<T> temp = sentinel.Next;
-            do
+            for (Node<T> temp = sentinel.Next; temp != sentinel; temp = temp.Next)
             {
                 if (temp.Data.Equals(value))
                 {
                     return temp;
                 }
-
-                temp = temp.Next;
             }
-            while (temp != sentinel);
+
             return null;
         }
 
         public Node<T> FindLast(T value)
         {
-            Node<T> temp = sentinel.Prev;
-            do
+            for (Node<T> temp = sentinel.Prev; temp != sentinel; temp = temp.Prev)
             {
                 if (temp.Data.Equals(value))
                 {
                     return temp;
                 }
-
-                temp = temp.Prev;
             }
-            while (temp != sentinel);
+
             return null;
         }
 
@@ -163,25 +156,19 @@ namespace LinkedList
                 throw new ArgumentException("Received a null argument!", nameof(array));
             }
 
-            Node<T> temp = sentinel.Next;
-            do
+            for (Node<T> temp = sentinel.Next; temp != sentinel; temp = temp.Next)
             {
                 array[arrayIndex] = temp.Data;
                 arrayIndex++;
-                temp = temp.Next;
             }
-            while (temp != sentinel);
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            Node<T> temp = sentinel;
-            do
+            for (Node<T> temp = sentinel.Next; temp != sentinel; temp = temp.Next)
             {
                 yield return temp.Data;
-                temp = temp.Next;
             }
-            while (temp != sentinel);
         }
 
         public bool Remove(T item)
@@ -201,11 +188,6 @@ namespace LinkedList
             previousNode = nodeToRemove.Prev;
             previousNode.Next = nodeToRemove.Next;
             nodeToRemove.Next.Prev = previousNode;
-            if (sentinel == nodeToRemove)
-            {
-                sentinel = nodeToRemove.Next;
-            }
-
             Count--;
             return true;
         }
