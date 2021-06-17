@@ -34,107 +34,82 @@ namespace LinkedList
         {
             Node<T> newNode = new Node<T>();
             newNode.Data = item;
-            sentinel = newNode;
-            newNode.Next = sentinel;
-            newNode.Prev = sentinel;
+            Add(sentinel.Prev, newNode);
+        }
+
+        public void Add(Node<T> current, Node<T> newNode)
+        {
+            CheckForNull(current, nameof(current));
+            CheckForNull(newNode, nameof(newNode));
+            newNode.Next = current.Next;
+            newNode.Prev = current;
+            current.Next.Prev = newNode;
+            current.Next = newNode;
             Count++;
         }
 
         public void AddLast(T item)
         {
-            if (Count == 0)
-            {
-                Add(item);
-            }
-            else
-            {
-                Node<T> lastItem = sentinel.Prev;
-                AddAfter(lastItem, item);
-            }
+            Node<T> newNode = new Node<T>();
+            newNode.Data = item;
+            AddLast(newNode);
+        }
+
+        public void AddLast(Node<T> newNode)
+        {
+            CheckForNull(newNode, nameof(newNode));
+            Add(sentinel.Prev, newNode);
         }
 
         public void AddFirst(T item)
         {
-            if (Count == 0)
-            {
-                Add(item);
-            }
-            else
-            {
-                Node<T> firstNode = sentinel;
-                AddBefore(firstNode, item);
-            }
+                Node<T> newNode = new Node<T>();
+                newNode.Data = item;
+                AddFirst(newNode);
+        }
+
+        public void AddFirst(Node<T> newNode)
+        {
+            CheckForNull(newNode, nameof(newNode));
+            Add(sentinel, newNode);
         }
 
         public void AddAfter(Node<T> current, T item)
         {
-            if (current == null)
-            {
-                throw new ArgumentNullException(nameof(current));
-            }
+            CheckForNull(current, nameof(current));
+            Node<T> newNode = new Node<T>();
+            newNode.Data = item;
+            Add(current, newNode);
+        }
 
-            if (Count == 0)
-            {
-                Add(item);
-            }
-            else
-            {
-                Node<T> newNode = new Node<T>();
-                newNode.Data = item;
-                newNode.Next = current.Next;
-                current.Next.Prev = newNode;
-                newNode.Prev = current;
-                current.Next = newNode;
-                Count++;
-            }
+        public void AddAfter(Node<T> current, Node<T> newNode)
+        {
+            CheckForNull(newNode, nameof(newNode));
+            AddAfter(current, newNode.Data);
         }
 
         public void AddBefore(Node<T> current, T item)
         {
-            if (current == null)
-            {
-                throw new ArgumentNullException(nameof(current));
-            }
-
-            if (Count == 0)
-            {
-                Add(item);
-            }
-            else
-            {
-                Node<T> newNode = new Node<T>();
-                newNode.Data = item;
-                newNode.Prev = current.Prev;
-                current.Prev.Next = newNode;
-                newNode.Next = current;
-                current.Prev = newNode;
-                if (sentinel == current)
-                {
-                    sentinel = newNode;
-                }
-
-                Count++;
-            }
+            CheckForNull(current, nameof(current));
+            Node<T> beforeNode = new Node<T>();
+            beforeNode.Data = item;
+            Add(current.Prev, beforeNode);
         }
 
-        public void AddAfterNode(Node<T> node, Node<T> newNode)
+        public void AddBefore(Node<T> node, Node<T> newNode)
         {
-            if (newNode == null)
-            {
-                throw new ArgumentNullException(nameof(newNode));
-            }
-
-            AddAfter(node, newNode.Data);
-        }
-
-        public void AddBeforeNode(Node<T> node, Node<T> newNode)
-        {
-            if (newNode == null)
-            {
-                throw new ArgumentNullException(nameof(newNode));
-            }
-
+            CheckForNull(newNode, nameof(newNode));
             AddBefore(node, newNode.Data);
+        }
+
+        public void CheckForNull(Node<T> current, string name)
+            {
+            if (current != null)
+            {
+                return;
+            }
+
+            throw new ArgumentNullException(name);
         }
 
         public void Clear()
@@ -151,7 +126,7 @@ namespace LinkedList
 
         public Node<T> Find(T value)
         {
-            Node<T> temp = sentinel;
+            Node<T> temp = sentinel.Next;
             do
             {
                 if (temp.Data.Equals(value))
@@ -167,7 +142,7 @@ namespace LinkedList
 
         public Node<T> FindLast(T value)
         {
-            Node<T> temp = sentinel;
+            Node<T> temp = sentinel.Prev;
             do
             {
                 if (temp.Data.Equals(value))
@@ -188,7 +163,7 @@ namespace LinkedList
                 throw new ArgumentException("Received a null argument!", nameof(array));
             }
 
-            Node<T> temp = sentinel;
+            Node<T> temp = sentinel.Next;
             do
             {
                 array[arrayIndex] = temp.Data;
@@ -242,12 +217,7 @@ namespace LinkedList
 
         public void RemoveFirst()
             {
-            if (sentinel == null)
-            {
-                return;
-            }
-
-            RemoveNode(sentinel);
+            RemoveNode(sentinel.Next);
         }
 
         public void RemoveLast()

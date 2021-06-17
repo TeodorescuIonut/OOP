@@ -64,13 +64,13 @@ namespace CircularDoublyLinkedListFacts
             CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();
             const string numberFour = "the";
             mylist.AddFirst(numberFour);
-            mylist.Add("Blue");
-            mylist.Add("Eyes");
+            mylist.AddFirst("Blue");
+            mylist.AddFirst("Eyes");
             Node<string> currentNode;
             currentNode = mylist.Find("Eyes");
             Node<string> newNode = new Node<string>();
             newNode.Data = "Red";
-            mylist.AddAfterNode(currentNode, newNode);
+            mylist.AddAfter(currentNode, newNode);
             Assert.Equal("Red", currentNode.Next.Data);
         }
 
@@ -80,13 +80,13 @@ namespace CircularDoublyLinkedListFacts
             CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();
             const string numberFour = "the";
             mylist.AddFirst(numberFour);
-            mylist.Add("Blue");
-            mylist.Add("Eyes");
+            mylist.AddFirst("Blue");
+            mylist.AddFirst("Eyes");
             Node<string> currentNode;
             currentNode = mylist.Find("Eyes");
             Node<string> newNode = new Node<string>();
             newNode.Data = "Red";
-            mylist.AddBeforeNode(currentNode, newNode);
+            mylist.AddBefore(currentNode, newNode);
             Assert.Equal("Red", currentNode.Prev.Data);
         }
 
@@ -174,13 +174,13 @@ namespace CircularDoublyLinkedListFacts
         {
             CircularDoublyLinkedListCollection<string> mylist = new CircularDoublyLinkedListCollection<string>();
             const string numberFour = "Five";
-            mylist.AddLast(numberFour);
-            mylist.AddLast("the");
-            mylist.AddLast("Blue");
-            mylist.AddLast("the");
-            mylist.AddLast("Eyes");
+            mylist.Add(numberFour);
+            mylist.Add("the");
+            mylist.Add("Blue");
+            mylist.Add("the");
+            mylist.Add("Eyes");
             mylist.RemoveFirst();
-            Assert.Equal("Blue", mylist.Next.Data);
+            Assert.Equal("the", mylist.Next.Data);
         }
 
         [Fact]
