@@ -67,7 +67,7 @@ namespace CircularDoublyLinkedListFacts
             mylist.AddFirst("Blue");
             mylist.AddFirst("Eyes");
             Node<string> currentNode;
-            currentNode = mylist.Find("Eyes");
+            currentNode = mylist.Find("Not");
             Node<string> newNode = new Node<string>("Red");
             mylist.AddAfter(currentNode, newNode);
             Assert.Equal("Red", currentNode.Next.Data);
