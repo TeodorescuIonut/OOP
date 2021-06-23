@@ -13,10 +13,10 @@ namespace LinkedList
             this.Data = data;
         }
 
-        internal Node<T> Next { get; set; }
+        public Node<T> Next { get; internal set; }
 
-        internal Node<T> Prev { get; set; }
+        public Node<T> Prev { get; internal set; }
 
-        internal CircularDoublyLinkedListCollection<T> List { get; set; }
+        public CircularDoublyLinkedListCollection<T> List { get; internal set; }
     }
 }
