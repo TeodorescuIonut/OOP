@@ -13,9 +13,9 @@ namespace LinkedList
             this.Data = data;
         }
 
-        public Node<T> Next { get; set; }
+        internal Node<T> Next { get; set; }
 
-        public Node<T> Prev { get; set; }
+        internal Node<T> Prev { get; set; }
 
         internal CircularDoublyLinkedListCollection<T> List { get; set; }
     }

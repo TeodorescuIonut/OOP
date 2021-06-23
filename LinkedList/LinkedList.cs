@@ -189,6 +189,7 @@ namespace LinkedList
             previousNode = nodeToRemove.Prev;
             previousNode.Next = nodeToRemove.Next;
             nodeToRemove.Next.Prev = previousNode;
+            nodeToRemove.List = null;
             Count--;
             return true;
         }
