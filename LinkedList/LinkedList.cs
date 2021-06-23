@@ -44,7 +44,10 @@ namespace LinkedList
             }
         }
 
-        public bool IsReadOnly => throw new NotImplementedException();
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
 
         public void Add(T item)
         {
@@ -55,15 +58,19 @@ namespace LinkedList
         {
             CheckForNull(current, nameof(current));
             CheckForNull(newNode, nameof(newNode));
+            ValidateNewNode(newNode);
             newNode.Next = current.Next;
             newNode.Prev = current;
             current.Next.Prev = newNode;
             current.Next = newNode;
+            newNode.List = this;
             Count++;
         }
 
         public void AddAfter(Node<T> current, T item)
         {
+            CheckForNull(current, nameof(current));
+            ValidateNode(current);
             AddAfter(current, new Node<T>(item));
         }
 
@@ -75,6 +82,7 @@ namespace LinkedList
         public void AddLast(Node<T> newNode)
         {
             CheckForNull(newNode, nameof(newNode));
+            ValidateNewNode(newNode);
             AddBefore(sentinel, newNode);
         }
 
@@ -86,6 +94,7 @@ namespace LinkedList
         public void AddFirst(Node<T> newNode)
         {
             CheckForNull(newNode, nameof(newNode));
+            ValidateNewNode(newNode);
             AddAfter(sentinel, newNode);
         }
 
@@ -98,17 +107,9 @@ namespace LinkedList
         public void AddBefore(Node<T> node, Node<T> newNode)
         {
             CheckForNull(newNode, nameof(newNode));
+            CheckForNull(node, nameof(node));
+            ValidateNewNode(newNode);
             AddBefore(node, newNode.Data);
-        }
-
-        public void CheckForNull(Node<T> current, string name)
-            {
-            if (current != null)
-            {
-                return;
-            }
-
-            throw new ArgumentNullException(name);
         }
 
         public void Clear()
@@ -204,12 +205,42 @@ namespace LinkedList
 
         public void RemoveLast()
         {
-            if (sentinel == null)
+            if (sentinel.Prev == null)
             {
                 return;
             }
 
             RemoveNode(sentinel.Prev);
         }
+
+        private void CheckForNull(Node<T> current, string name)
+        {
+            if (current != null)
+            {
+                return;
+            }
+
+            throw new ArgumentNullException(name);
+        }
+
+        private void ValidateNode(Node<T> node)
+            {
+            if (node.List == this)
+            {
+                return;
+            }
+
+            throw new InvalidOperationException();
+        }
+
+        private void ValidateNewNode(Node<T> node)
+        {
+            if (node.List == null)
+            {
+                return;
+            }
+
+            throw new InvalidOperationException();
+        }
     }
-    }
+}

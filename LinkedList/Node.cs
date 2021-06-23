@@ -16,5 +16,7 @@ namespace LinkedList
         public Node<T> Next { get; set; }
 
         public Node<T> Prev { get; set; }
+
+        internal CircularDoublyLinkedListCollection<T> List { get; set; }
     }
 }
