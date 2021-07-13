@@ -54,18 +54,18 @@
             var myDictionary = new MyDictionary<int, string>(5);
             myDictionary[1] = "a";
             myDictionary.Add(2, "b");
-            myDictionary.Add(11, null);
+            myDictionary.Add(10, null);
             myDictionary.Add(7, "c");
             myDictionary.Add(12, "c");
-            myDictionary.ContainsKey(1);
-            myDictionary.Clear();
-            var count = myDictionary.Count;
+            myDictionary.ContainsKey(2);
+            myDictionary.Remove(7);
+            myDictionary.Remove(1);
             foreach (KeyValuePair<int, string> entryValue in myDictionary)
             {
                 Console.WriteLine(entryValue);
             }
 
-            Assert.Equal(0, count);
+            Assert.Empty(myDictionary);
         }
 
         [Fact]
