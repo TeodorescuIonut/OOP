@@ -8,7 +8,7 @@ namespace Dictionary
 {
     public class MyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
-        private int freeIndex = -1;
+        private int freeIndex;
         private int[] buckets;
         private Entry[] entries;
 
@@ -61,7 +61,7 @@ namespace Dictionary
         {
             get
             {
-                int i = FindEntry(key);
+                int i = FindEntry(key, out int previndex);
                 if (i >= 0)
                 {
                     return entries[i].Value;
@@ -72,7 +72,7 @@ namespace Dictionary
 
             set
             {
-                int i = FindEntry(key);
+                int i = FindEntry(key, out int previndex);
                 if (i >= 0)
                 {
                     entries[i].Value = value;
@@ -88,6 +88,7 @@ namespace Dictionary
             buckets = new int[capacity];
             Array.Fill(buckets, -1);
             entries = new Entry[capacity];
+            freeIndex = -1;
         }
 
         public void Add(TKey key, TValue value)
@@ -100,14 +101,25 @@ namespace Dictionary
                 throw new ArgumentException("Key already exist in this dictionary", nameof(key));
             }
 
-            int entriesIndex = freeIndex != -1 ? freeIndex : Count;
-            lastFree = freeIndex > -1 ? entries[freeIndex].Next : -1;
-            entries[entriesIndex].Value = value;
-            entries[entriesIndex].Key = key;
-            entries[entriesIndex].Next = buckets[bucketIndex];
-            buckets[bucketIndex] = entriesIndex;
+            if (freeIndex != -1)
+            {
+                entries[freeIndex].Value = value;
+                entries[freeIndex].Key = key;
+                lastFree = entries[freeIndex].Next;
+                entries[freeIndex].Next = buckets[bucketIndex];
+                buckets[bucketIndex] = freeIndex;
+                freeIndex = lastFree;
+            }
+            else
+            {
+                int entriesIndex = Count;
+                entries[entriesIndex].Value = value;
+                entries[entriesIndex].Key = key;
+                entries[entriesIndex].Next = buckets[bucketIndex];
+                buckets[bucketIndex] = entriesIndex;
+            }
+
             Count++;
-            freeIndex = lastFree;
         }
 
         public void Add(KeyValuePair<TKey, TValue> item)
@@ -130,7 +142,7 @@ namespace Dictionary
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            int i = FindEntry(item.Key);
+            int i = FindEntry(item.Key, out _);
             TValue checkValue = entries[i].Value;
             return i >= 0 && checkValue.Equals(item.Value);
         }
@@ -138,7 +150,7 @@ namespace Dictionary
         public bool ContainsKey(TKey key)
         {
             CheckForNull(key);
-            int i = FindEntry(key);
+            int i = FindEntry(key, out int previndex);
             return i >= 0;
         }
 
@@ -195,45 +207,32 @@ namespace Dictionary
         {
             CheckForNull(key);
             int bucketIndex = GetBucket(key);
-            int deletedElementIndex = buckets[bucketIndex];
             if (!ContainsKey(key))
             {
                 return false;
             }
 
-            while (deletedElementIndex < buckets.Length && deletedElementIndex != -1)
+            int deletedElementIndex = FindEntry(key, out int prevIndex);
+            if (prevIndex == deletedElementIndex)
             {
-                if (entries[deletedElementIndex].Key.Equals(key))
-                {
-                    if (entries[deletedElementIndex].Next != -1)
-                    {
-                        entries[deletedElementIndex + 1].Next = entries[deletedElementIndex].Next;
-                        entries[deletedElementIndex].Next = freeIndex;
-                        freeIndex = deletedElementIndex;
-                        Count--;
-                        return true;
-                    }
-
-                    if (freeIndex != -1)
-                    {
-                        entries[deletedElementIndex].Next = freeIndex;
-                    }
-
-                    buckets[bucketIndex] = -1;
-                    freeIndex = deletedElementIndex;
-                    Count--;
-                    return true;
-                }
-
-                deletedElementIndex = entries[deletedElementIndex].Next;
+                buckets[bucketIndex] = entries[deletedElementIndex].Next;
+                entries[deletedElementIndex].Next = freeIndex;
+                freeIndex = deletedElementIndex;
+                Count--;
+                return true;
             }
 
-            return false;
+            buckets[bucketIndex] = prevIndex;
+            entries[prevIndex].Next = entries[deletedElementIndex].Next;
+            entries[deletedElementIndex].Next = freeIndex;
+            freeIndex = deletedElementIndex;
+            Count--;
+            return true;
         }
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            int i = FindEntry(item.Key);
+            int i = FindEntry(item.Key, out int previndex);
             TValue checkValue = entries[i].Value;
             return i >= 0 && checkValue.Equals(item.Value) && Remove(item.Key);
         }
@@ -241,7 +240,7 @@ namespace Dictionary
         public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
             {
             CheckForNull(key);
-            int i = FindEntry(key);
+            int i = FindEntry(key, out int previndex);
             if (i < 0)
             {
                 value = default;
@@ -273,19 +272,24 @@ namespace Dictionary
             throw new ArgumentNullException(nameof(key));
         }
 
-        private int FindEntry(TKey key)
+        private int FindEntry(TKey key, out int prevIndex)
         {
             CheckForNull(key);
+
             int bucketIndex = GetBucket(key);
             int position = buckets[bucketIndex];
+            prevIndex = position;
             for (int i = position; i >= 0; i = entries[i].Next)
             {
                 if (entries[i].Key.Equals(key))
                 {
                     return i;
                 }
+
+                prevIndex = i;
             }
 
+            prevIndex = -1;
             return -1;
         }
 
