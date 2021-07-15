@@ -101,24 +101,18 @@ namespace Dictionary
                 throw new ArgumentException("Key already exist in this dictionary", nameof(key));
             }
 
+            int entriesIndex = Count;
             if (freeIndex != -1)
             {
-                entries[freeIndex].Value = value;
-                entries[freeIndex].Key = key;
                 lastFree = entries[freeIndex].Next;
-                entries[freeIndex].Next = buckets[bucketIndex];
-                buckets[bucketIndex] = freeIndex;
+                entriesIndex = freeIndex;
                 freeIndex = lastFree;
             }
-            else
-            {
-                int entriesIndex = Count;
-                entries[entriesIndex].Value = value;
-                entries[entriesIndex].Key = key;
-                entries[entriesIndex].Next = buckets[bucketIndex];
-                buckets[bucketIndex] = entriesIndex;
-            }
 
+            entries[entriesIndex].Value = value;
+            entries[entriesIndex].Key = key;
+            entries[entriesIndex].Next = buckets[bucketIndex];
+            buckets[bucketIndex] = entriesIndex;
             Count++;
         }
 
