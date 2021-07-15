@@ -42,8 +42,8 @@
             myDictionary.Add(10, null);
             myDictionary.Add(7, "c");
             myDictionary.Add(12, "c");
-            myDictionary.Remove(7);
-            myDictionary.Remove(1);
+            myDictionary.Remove(12);
+            myDictionary.Remove(2);
             myDictionary.Add(17, "a");
             Assert.Equal("a", myDictionary[17]);
         }

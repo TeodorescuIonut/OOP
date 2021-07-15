@@ -95,7 +95,6 @@ namespace Dictionary
         {
             CheckForNull(key);
             int bucketIndex = GetBucket(key);
-            int lastFree;
             if (ContainsKey(key))
             {
                 throw new ArgumentException("Key already exist in this dictionary", nameof(key));
@@ -104,9 +103,8 @@ namespace Dictionary
             int entriesIndex = Count;
             if (freeIndex != -1)
             {
-                lastFree = entries[freeIndex].Next;
                 entriesIndex = freeIndex;
-                freeIndex = lastFree;
+                freeIndex = entries[freeIndex].Next;
             }
 
             entries[entriesIndex].Value = value;
@@ -182,18 +180,15 @@ namespace Dictionary
             int lastfree;
             for (int i = 0; i < entries.Length; i++)
             {
-                if (buckets[i] == -1)
+                if (buckets[i] == -1 || freeIndex == i)
                 {
                     continue;
                 }
 
-                while (freeIndex != -1)
+                if (entries[i].Next == -1)
                 {
-                    lastfree = entries[freeIndex].Next;
-                    freeIndex = lastfree;
+                    yield return new KeyValuePair<TKey, TValue>(entries[i].Key, entries[i].Value);
                 }
-
-                yield return new KeyValuePair<TKey, TValue>(entries[i].Key, entries[i].Value);
             }
         }
 
@@ -201,22 +196,26 @@ namespace Dictionary
         {
             CheckForNull(key);
             int bucketIndex = GetBucket(key);
-            if (!ContainsKey(key))
+            int firstBucketIndex = buckets[bucketIndex];
+            int deletedElementIndex = FindEntry(key, out int prevIndex);
+            if (deletedElementIndex < 0)
             {
                 return false;
             }
 
-            int deletedElementIndex = FindEntry(key, out int prevIndex);
             if (prevIndex == deletedElementIndex)
             {
                 buckets[bucketIndex] = entries[deletedElementIndex].Next;
-                entries[deletedElementIndex].Next = freeIndex;
-                freeIndex = deletedElementIndex;
-                Count--;
-                return true;
+            }
+            else if (firstBucketIndex >= deletedElementIndex)
+            {
+                buckets[bucketIndex] = firstBucketIndex;
+            }
+            else
+            {
+                buckets[bucketIndex] = entries[deletedElementIndex].Next;
             }
 
-            buckets[bucketIndex] = prevIndex;
             entries[prevIndex].Next = entries[deletedElementIndex].Next;
             entries[deletedElementIndex].Next = freeIndex;
             freeIndex = deletedElementIndex;
