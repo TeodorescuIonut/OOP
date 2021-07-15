@@ -37,14 +37,10 @@
         public void RemoveItemShouldReturCorrectPosition()
         {
             var myDictionary = new MyDictionary<int, string>(5);
-            myDictionary[1] = "a";
             myDictionary.Add(2, "b");
-            myDictionary.Add(10, null);
             myDictionary.Add(7, "c");
             myDictionary.Add(12, "c");
-            myDictionary.Remove(12);
-            myDictionary.Remove(2);
-            myDictionary.Add(17, "a");
+            myDictionary.Remove(7);
             Assert.Equal("a", myDictionary[17]);
         }
 

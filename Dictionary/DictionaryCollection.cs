@@ -177,7 +177,6 @@ namespace Dictionary
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            int lastfree;
             for (int i = 0; i < entries.Length; i++)
             {
                 if (buckets[i] == -1 || freeIndex == i)
@@ -196,7 +195,6 @@ namespace Dictionary
         {
             CheckForNull(key);
             int bucketIndex = GetBucket(key);
-            int firstBucketIndex = buckets[bucketIndex];
             int deletedElementIndex = FindEntry(key, out int prevIndex);
             if (deletedElementIndex < 0)
             {
@@ -204,14 +202,6 @@ namespace Dictionary
             }
 
             if (prevIndex == deletedElementIndex)
-            {
-                buckets[bucketIndex] = entries[deletedElementIndex].Next;
-            }
-            else if (firstBucketIndex >= deletedElementIndex)
-            {
-                buckets[bucketIndex] = firstBucketIndex;
-            }
-            else
             {
                 buckets[bucketIndex] = entries[deletedElementIndex].Next;
             }
