@@ -177,16 +177,27 @@ namespace Dictionary
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            for (int i = 0; i < entries.Length; i++)
+            for (int i = 0; i < buckets.Length; i++)
             {
-                if (buckets[i] == -1 || freeIndex == i)
+                int bucketPos = buckets[i];
+                if (bucketPos == -1)
                 {
                     continue;
                 }
 
-                if (entries[i].Next == -1)
+                if (entries[bucketPos].Next == -1)
                 {
-                    yield return new KeyValuePair<TKey, TValue>(entries[i].Key, entries[i].Value);
+                    yield return new KeyValuePair<TKey, TValue>(entries[bucketPos].Key, entries[bucketPos].Value);
+                }
+                else
+                {
+                    while (entries[bucketPos].Next != -1)
+                    {
+                        yield return new KeyValuePair<TKey, TValue>(entries[bucketPos].Key, entries[bucketPos].Value);
+                        bucketPos = entries[bucketPos].Next;
+                    }
+
+                    yield return new KeyValuePair<TKey, TValue>(entries[bucketPos].Key, entries[bucketPos].Value);
                 }
             }
         }
@@ -205,8 +216,11 @@ namespace Dictionary
             {
                 buckets[bucketIndex] = entries[deletedElementIndex].Next;
             }
+            else
+            {
+                entries[prevIndex].Next = entries[deletedElementIndex].Next;
+            }
 
-            entries[prevIndex].Next = entries[deletedElementIndex].Next;
             entries[deletedElementIndex].Next = freeIndex;
             freeIndex = deletedElementIndex;
             Count--;

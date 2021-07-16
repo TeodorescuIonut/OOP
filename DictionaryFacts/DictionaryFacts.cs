@@ -40,7 +40,7 @@
             myDictionary.Add(2, "b");
             myDictionary.Add(7, "c");
             myDictionary.Add(12, "c");
-            myDictionary.Remove(7);
+            myDictionary.Remove(12);
             Assert.Equal("a", myDictionary[17]);
         }
 
