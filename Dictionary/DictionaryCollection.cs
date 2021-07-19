@@ -185,18 +185,8 @@ namespace Dictionary
                     continue;
                 }
 
-                if (entries[bucketPos].Next == -1)
+                for (bucketPos = buckets[i]; bucketPos > -1; bucketPos = entries[bucketPos].Next)
                 {
-                    yield return new KeyValuePair<TKey, TValue>(entries[bucketPos].Key, entries[bucketPos].Value);
-                }
-                else
-                {
-                    while (entries[bucketPos].Next != -1)
-                    {
-                        yield return new KeyValuePair<TKey, TValue>(entries[bucketPos].Key, entries[bucketPos].Value);
-                        bucketPos = entries[bucketPos].Next;
-                    }
-
                     yield return new KeyValuePair<TKey, TValue>(entries[bucketPos].Key, entries[bucketPos].Value);
                 }
             }
