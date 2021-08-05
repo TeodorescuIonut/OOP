@@ -1,9 +1,10 @@
 using System;
 using Xunit;
-using DelegateLinQ;
+using ExtensionMethods;
 using System.Collections.Generic;
 
 namespace ExtensionMethods
+
 {
     public class ExtensionMethodsFacts
     {
@@ -12,7 +13,7 @@ namespace ExtensionMethods
         public void ReturnTrueIfAllElementsAreRespectingCriteria()
         {
             int[] elements = { 1, 2, 3, 4, 5, 6 };
-            bool result = ExtensionMethods.All(elements, e => e > -1);
+            bool result = LinqMethods.All(elements, e => e > -1);
             Assert.True(result);
         }
 
@@ -20,7 +21,7 @@ namespace ExtensionMethods
         public void ReturnTrueIfAnyElementIsRespectingCriteria()
         {
             int[] elements = { 1, 2, 3, 4, 5, 6 };
-            bool result = ExtensionMethods.Any(elements, e => e > -1);
+            bool result = LinqMethods.Any(elements, e => e > -1);
             Assert.True(result);
         }
 
@@ -28,7 +29,7 @@ namespace ExtensionMethods
         public void ReturnFirstElementThatIsRespectingCriteria()
         {
             int[] elements = { 1, 2, 3, 4, 5, 6 };
-            int result = ExtensionMethods.First(elements, e => e > 5);
+            int result = LinqMethods.First(elements, e => e > 5);
             Assert.Equal(6,result);
         }
 

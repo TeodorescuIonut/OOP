@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Delegate\DelegateFunc.csproj" />
+    <ProjectReference Include="..\Delegate\ExtensionMethods.csproj" />
   </ItemGroup>
 
 </Project>

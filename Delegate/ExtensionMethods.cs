@@ -5,16 +5,12 @@ using System.Text;
 
 namespace ExtensionMethods
 {
-    public static class ExtensionMethods
+    public static class LinqMethods
     {
         public static bool All<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            CheckForNull(source);
-
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+            CheckForNull(source, nameof(source));
+            CheckForNull(predicate, nameof(predicate));
 
             foreach (TSource element in source)
             {
@@ -29,12 +25,9 @@ namespace ExtensionMethods
 
         public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            CheckForNull(source);
+            CheckForNull(source, nameof(source));
 
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+            CheckForNull(predicate, nameof(predicate));
 
             foreach (TSource element in source)
             {
@@ -49,12 +42,9 @@ namespace ExtensionMethods
 
         public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            CheckForNull(source);
+            CheckForNull(source, nameof(source));
 
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+            CheckForNull(predicate, nameof(predicate));
 
             foreach (TSource element in source)
             {
@@ -69,12 +59,9 @@ namespace ExtensionMethods
 
         public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            CheckForNull(source);
+            CheckForNull(source, nameof(source));
 
-            if (selector == null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
+            CheckForNull(selector, nameof(selector));
 
             foreach (TSource element in source)
             {
@@ -84,7 +71,7 @@ namespace ExtensionMethods
 
         public static IEnumerable<TResult> SelectMany<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TResult>> selector)
         {
-            CheckForNull(source);
+            CheckForNull(source, nameof(source));
             if (selector == null)
             {
                 throw new ArgumentNullException(nameof(selector));
@@ -101,12 +88,9 @@ namespace ExtensionMethods
 
         public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            CheckForNull(source);
+            CheckForNull(source, nameof(source));
 
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+            CheckForNull(predicate, nameof(predicate));
 
             foreach (TSource element in source)
             {
@@ -119,7 +103,7 @@ namespace ExtensionMethods
 
         public static Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
         {
-            CheckForNull(source);
+            CheckForNull(source, nameof(source));
 
             if (keySelector == null)
             {
@@ -142,9 +126,9 @@ namespace ExtensionMethods
 
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> resultSelector)
         {
-            CheckForNull(first);
+            CheckForNull(first, nameof(first));
 
-            CheckForNull(second);
+            CheckForNull(second, nameof(second));
 
             if (resultSelector == null)
             {
@@ -161,7 +145,7 @@ namespace ExtensionMethods
 
         public static TAccumulate Aggregate<TSource, TAccumulate>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, TAccumulate> func)
         {
-            CheckForNull(source);
+            CheckForNull(source, nameof(source));
 
             if (func == null)
             {
@@ -184,9 +168,9 @@ namespace ExtensionMethods
             Func<TInner, TKey> innerKeySelector,
             Func<TOuter, TInner, TResult> resultSelector)
         {
-            CheckForNull(outer);
+            CheckForNull(outer, nameof(outer));
 
-            CheckForNull(inner);
+            CheckForNull(inner, nameof(inner));
 
             if (outerKeySelector == null)
             {
@@ -219,7 +203,7 @@ namespace ExtensionMethods
 
         public static IEnumerable<TSource> Distinct<TSource>(this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer)
         {
-            CheckForNull(source);
+            CheckForNull(source, nameof(source));
 
             HashSet<TSource> set = new HashSet<TSource>(comparer);
             foreach (var element in source)
@@ -233,9 +217,9 @@ namespace ExtensionMethods
 
         public static IEnumerable<TSource> Union<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
         {
-            CheckForNull(first);
+            CheckForNull(first, nameof(first));
 
-            CheckForNull(second);
+            CheckForNull(second, nameof(second));
 
             HashSet<TSource> set = new HashSet<TSource>(comparer);
             foreach (var element in first)
@@ -257,9 +241,9 @@ namespace ExtensionMethods
 
         public static IEnumerable<TSource> Intersect<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
         {
-            CheckForNull(first);
+            CheckForNull(first, nameof(first));
 
-            CheckForNull(second);
+            CheckForNull(second, nameof(second));
 
             HashSet<TSource> set = new HashSet<TSource>(comparer);
             foreach (var element in second)
@@ -278,9 +262,9 @@ namespace ExtensionMethods
 
         public static IEnumerable<TSource> Except<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
         {
-            CheckForNull(first);
+            CheckForNull(first, nameof(first));
 
-            CheckForNull(second);
+            CheckForNull(second, nameof(second));
 
             HashSet<TSource> set = new HashSet<TSource>(comparer);
             foreach (var element in second)
@@ -319,30 +303,37 @@ namespace ExtensionMethods
                 throw new ArgumentNullException(nameof(resultSelector));
             }
 
-            CheckForNull(source);
+            CheckForNull(source, nameof(source));
 
-            Dictionary<TKey, TElement> d = new Dictionary<TKey, TElement>(comparer);
+            Dictionary<TKey, List<TElement>> d = new Dictionary<TKey, List<TElement>>(comparer);
             foreach (var element in source)
             {
-                var value = elementSelector(element);
-                var key = keySelector(element);
-                d.Add(key, value);
+                TKey key = keySelector(element);
+
+                List<TElement> tmpList;
+                if (!d.TryGetValue(key, out tmpList))
+                {
+                    tmpList = new List<TElement>();
+                    d.Add(key, tmpList);
+                }
+
+                tmpList.Add(elementSelector(element));
             }
 
             foreach (var kvp in d)
             {
-                yield return resultSelector(kvp.Key, d.Values);
+                yield return resultSelector(kvp.Key, kvp.Value);
             }
         }
 
-        public static void CheckForNull(IEnumerable elementToCheck)
-            {
+        private static void CheckForNull<TSource>(TSource elementToCheck, string v)
+        {
             if (elementToCheck != null)
             {
                 return;
             }
 
-            throw new ArgumentNullException(nameof(elementToCheck));
+            throw new ArgumentNullException(nameof(v));
         }
     }
 }
