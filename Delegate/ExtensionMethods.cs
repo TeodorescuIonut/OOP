@@ -11,7 +11,6 @@ namespace ExtensionMethods
         {
             CheckForNull(source, nameof(source));
             CheckForNull(predicate, nameof(predicate));
-
             foreach (TSource element in source)
             {
                 if (!predicate(element))
@@ -26,9 +25,7 @@ namespace ExtensionMethods
         public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
             CheckForNull(source, nameof(source));
-
             CheckForNull(predicate, nameof(predicate));
-
             foreach (TSource element in source)
             {
                 if (predicate(element))
@@ -43,9 +40,7 @@ namespace ExtensionMethods
         public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
             CheckForNull(source, nameof(source));
-
             CheckForNull(predicate, nameof(predicate));
-
             foreach (TSource element in source)
             {
                 if (predicate(element))
@@ -60,9 +55,7 @@ namespace ExtensionMethods
         public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
             CheckForNull(source, nameof(source));
-
             CheckForNull(selector, nameof(selector));
-
             foreach (TSource element in source)
             {
                 yield return selector(element);
@@ -72,11 +65,7 @@ namespace ExtensionMethods
         public static IEnumerable<TResult> SelectMany<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TResult>> selector)
         {
             CheckForNull(source, nameof(source));
-            if (selector == null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
-
+            CheckForNull(selector, nameof(selector));
             foreach (TSource element in source)
             {
                 foreach (TResult subElement in selector(element))
@@ -89,9 +78,7 @@ namespace ExtensionMethods
         public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
             CheckForNull(source, nameof(source));
-
             CheckForNull(predicate, nameof(predicate));
-
             foreach (TSource element in source)
             {
                 if (predicate(element))
@@ -104,17 +91,8 @@ namespace ExtensionMethods
         public static Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
         {
             CheckForNull(source, nameof(source));
-
-            if (keySelector == null)
-            {
-                throw new ArgumentNullException(nameof(keySelector));
-            }
-
-            if (elementSelector == null)
-            {
-                throw new ArgumentNullException(nameof(keySelector));
-            }
-
+            CheckForNull(keySelector, nameof(keySelector));
+            CheckForNull(elementSelector, nameof(elementSelector));
             Dictionary<TKey, TElement> d = new Dictionary<TKey, TElement>();
             foreach (TSource element in source)
             {
@@ -127,13 +105,8 @@ namespace ExtensionMethods
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> resultSelector)
         {
             CheckForNull(first, nameof(first));
-
             CheckForNull(second, nameof(second));
-
-            if (resultSelector == null)
-            {
-                throw new ArgumentNullException(nameof(resultSelector));
-            }
+            CheckForNull(resultSelector, nameof(resultSelector));
 
             var firstEnum = first.GetEnumerator();
             var secondEnum = second.GetEnumerator();
@@ -146,12 +119,7 @@ namespace ExtensionMethods
         public static TAccumulate Aggregate<TSource, TAccumulate>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, TAccumulate> func)
         {
             CheckForNull(source, nameof(source));
-
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
-
+            CheckForNull(func, nameof(func));
             TAccumulate result = seed;
             foreach (var element in source)
             {
@@ -169,24 +137,10 @@ namespace ExtensionMethods
             Func<TOuter, TInner, TResult> resultSelector)
         {
             CheckForNull(outer, nameof(outer));
-
             CheckForNull(inner, nameof(inner));
-
-            if (outerKeySelector == null)
-            {
-                throw new ArgumentNullException(nameof(outerKeySelector));
-            }
-
-            if (innerKeySelector == null)
-            {
-                throw new ArgumentNullException(nameof(outerKeySelector));
-            }
-
-            if (resultSelector == null)
-            {
-                throw new ArgumentNullException(nameof(resultSelector));
-            }
-
+            CheckForNull(outerKeySelector, nameof(outerKeySelector));
+            CheckForNull(innerKeySelector, nameof(innerKeySelector));
+            CheckForNull(resultSelector, nameof(resultSelector));
             foreach (TOuter outerElement in outer)
             {
                 TKey outerKey = outerKeySelector(outerElement);
@@ -204,7 +158,6 @@ namespace ExtensionMethods
         public static IEnumerable<TSource> Distinct<TSource>(this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer)
         {
             CheckForNull(source, nameof(source));
-
             HashSet<TSource> set = new HashSet<TSource>(comparer);
             foreach (var element in source)
             {
@@ -218,9 +171,7 @@ namespace ExtensionMethods
         public static IEnumerable<TSource> Union<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
         {
             CheckForNull(first, nameof(first));
-
             CheckForNull(second, nameof(second));
-
             HashSet<TSource> set = new HashSet<TSource>(comparer);
             foreach (var element in first)
             {
@@ -242,9 +193,7 @@ namespace ExtensionMethods
         public static IEnumerable<TSource> Intersect<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
         {
             CheckForNull(first, nameof(first));
-
             CheckForNull(second, nameof(second));
-
             HashSet<TSource> set = new HashSet<TSource>(comparer);
             foreach (var element in second)
             {
@@ -263,9 +212,7 @@ namespace ExtensionMethods
         public static IEnumerable<TSource> Except<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
         {
             CheckForNull(first, nameof(first));
-
             CheckForNull(second, nameof(second));
-
             HashSet<TSource> set = new HashSet<TSource>(comparer);
             foreach (var element in second)
             {
@@ -288,36 +235,22 @@ namespace ExtensionMethods
     Func<TKey, IEnumerable<TElement>, TResult> resultSelector,
     IEqualityComparer<TKey> comparer)
         {
-            if (keySelector == null)
-            {
-                throw new ArgumentNullException(nameof(keySelector));
-            }
-
-            if (elementSelector == null)
-            {
-                throw new ArgumentNullException(nameof(elementSelector));
-            }
-
-            if (resultSelector == null)
-            {
-                throw new ArgumentNullException(nameof(resultSelector));
-            }
-
+            CheckForNull(keySelector, nameof(keySelector));
+            CheckForNull(elementSelector, nameof(elementSelector));
+            CheckForNull(resultSelector, nameof(resultSelector));
             CheckForNull(source, nameof(source));
-
             Dictionary<TKey, List<TElement>> d = new Dictionary<TKey, List<TElement>>(comparer);
             foreach (var element in source)
             {
                 TKey key = keySelector(element);
 
-                List<TElement> tmpList;
-                if (!d.TryGetValue(key, out tmpList))
+                if (d.TryGetValue(key, out List<TElement> tmpList))
                 {
-                    tmpList = new List<TElement>();
-                    d.Add(key, tmpList);
+                    tmpList.Add(elementSelector(element));
                 }
 
-                tmpList.Add(elementSelector(element));
+                tmpList = new List<TElement>();
+                d.Add(key, tmpList);
             }
 
             foreach (var kvp in d)
@@ -326,7 +259,23 @@ namespace ExtensionMethods
             }
         }
 
-        private static void CheckForNull<TSource>(TSource elementToCheck, string v)
+        public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+        {
+            CheckForNull(source, nameof(source));
+            CheckForNull(keySelector, nameof(keySelector));
+            return new OrderedEnumerable<TSource, TKey>(source, keySelector, comparer, false);
+        }
+
+        internal static TSource[] ToArray<TSource>(this IEnumerable<TSource> source, out int count)
+        {
+            ICollection<TSource> collection = source as ICollection<TSource>;
+            count = collection.Count;
+            TSource[] tmp = new TSource[count];
+            collection.CopyTo(tmp, 0);
+            return tmp;
+        }
+
+        private static void CheckForNull<T>(T elementToCheck, string v)
         {
             if (elementToCheck != null)
             {
