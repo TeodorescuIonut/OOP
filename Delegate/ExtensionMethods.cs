@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ExtensionMethods
@@ -229,11 +230,11 @@ namespace ExtensionMethods
         }
 
         public static IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(
-    this IEnumerable<TSource> source,
-    Func<TSource, TKey> keySelector,
-    Func<TSource, TElement> elementSelector,
-    Func<TKey, IEnumerable<TElement>, TResult> resultSelector,
-    IEqualityComparer<TKey> comparer)
+        this IEnumerable<TSource> source,
+        Func<TSource, TKey> keySelector,
+        Func<TSource, TElement> elementSelector,
+        Func<TKey, IEnumerable<TElement>, TResult> resultSelector,
+        IEqualityComparer<TKey> comparer)
         {
             CheckForNull(keySelector, nameof(keySelector));
             CheckForNull(elementSelector, nameof(elementSelector));
@@ -263,7 +264,17 @@ namespace ExtensionMethods
         {
             CheckForNull(source, nameof(source));
             CheckForNull(keySelector, nameof(keySelector));
-            return new OrderedEnumerable<TSource, TKey>(source, keySelector, comparer, false);
+            return new OrderedEnumerable<TSource>(source, new FirstComparer<TSource, TKey>(keySelector, comparer));
+        }
+
+        public static IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(
+        this IOrderedEnumerable<TSource> source,
+        Func<TSource, TKey> keySelector,
+        IComparer<TKey> comparer)
+        {
+            CheckForNull(source, nameof(source));
+            CheckForNull(keySelector, nameof(keySelector));
+            return source.CreateOrderedEnumerable(keySelector, comparer, false);
         }
 
         internal static TSource[] ToArray<TSource>(this IEnumerable<TSource> source, out int count)

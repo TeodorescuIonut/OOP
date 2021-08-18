@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ExtensionMethods
 {
-    internal class OrderedEnumerable<TElement, TKey> : IOrderedEnumerable<TElement>
+    internal class OrderedEnumerable<TElement> : IOrderedEnumerable<TElement>
     {
-        private readonly Func<TElement, TKey> keySelector;
-        private readonly IComparer<TKey> comparer;
         private readonly IEnumerable<TElement> source;
-        private readonly bool v;
+        private readonly IComparer<TElement> currentComparer;
 
-        public OrderedEnumerable(IEnumerable<TElement> source, Func<TElement, TKey> keySelector, IComparer<TKey> comparer, bool v)
+        internal OrderedEnumerable(IEnumerable<TElement> source, IComparer<TElement> comparer)
         {
             this.source = source;
-            this.keySelector = keySelector;
-            this.comparer = comparer;
-            this.v = v;
+            this.currentComparer = comparer;
         }
 
-        public IOrderedEnumerable<TElement> CreateOrderedEnumerable<TKey>(Func<TElement, TKey> keySelector, IComparer<TKey> comparer, bool ascending)
+        public IOrderedEnumerable<TElement> CreateOrderedEnumerable<TKey>(Func<TElement, TKey> keySelector, IComparer<TKey> comparer, bool descending)
         {
-            throw new NotImplementedException();
+            IComparer<TElement> secondaryComparer = new FirstComparer<TElement, TKey>(keySelector, comparer);
+
+            return new OrderedEnumerable<TElement>(source, new SecondComparer<TElement>(currentComparer, secondaryComparer));
         }
 
         public IEnumerator<TElement> GetEnumerator()
@@ -56,12 +55,12 @@ namespace ExtensionMethods
             int pivot = (low + high) / 2;
             while (i <= j)
             {
-                while (comparer.Compare(keySelector(elements[i]), keySelector(elements[pivot])) < 0)
+                while (currentComparer.Compare(elements[i], elements[pivot]) < 0)
                 {
                     i++;
                 }
 
-                while (comparer.Compare(keySelector(elements[j]), keySelector(elements[pivot])) > 0)
+                while (currentComparer.Compare(elements[j], elements[pivot]) > 0)
                 {
                     j--;
                 }
