@@ -7,9 +7,11 @@ namespace Inventory
     public class Stock
     {
         private List<Product> myList;
+        Action<int, Product> stockLevel;
         public Stock()
         {
             myList = new List<Product>();
+
         }
         public int Count { get; set; }
         public void Add(Product item)
@@ -30,15 +32,16 @@ namespace Inventory
             {
                 myList.Remove(item);
                 Count--;
-                CheckStockLevel((quantity, product) => Console.WriteLine(quantity + ":" + product));
+                CheckStockLevel();
                 return true;
             }
             return false;
 
         }
 
-        public void CheckStockLevel(Action<int, Product> stockLevel)
+        public void CheckStockLevel()
         {
+
             int[] limits = new int[] { 2, 5, 10 };
             foreach(int limit in limits)
             {
@@ -49,6 +52,9 @@ namespace Inventory
                 }
             }
         }
-        
+        public void StockLevel(Action<int, Product> stock)
+        {
+            stockLevel = stock;
+        }
     }
 }

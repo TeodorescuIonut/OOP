@@ -32,7 +32,7 @@ namespace Inventory
             myStock.Remove(myproduct2);
             myStock.Remove(myproduct2);
             myStock.Remove(myproduct);
-            myStock.Remove(myproduct);
+            myStock.CheckStockLevel((quantity, product) => Console.WriteLine(quantity + ":" + product));
         }
     }
 }
