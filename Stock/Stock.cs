@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Inventory
 {
-    public class Stock<Product>
+    public class Stock
     {
         private List<Product> myList;
         public Stock()
@@ -24,28 +24,30 @@ namespace Inventory
             return myList.Contains(item);
         }
 
-        public bool Remove(Product item, Action<int, Product> stockLevel)
-        {   
+        public bool Remove(Product item)
+        {           
             if (myList.Contains(item))
             {
                 myList.Remove(item);
                 Count--;
-                if (myList.Count < 2)
-                {
-                    stockLevel(Count, item);
-                }
-                else if (myList.Count < 5)
-                {
-                    stockLevel(Count, item);
-                }
-                else if (myList.Count < 10)
-                {
-                    stockLevel(Count, item);
-                }
+                CheckStockLevel((quantity, product) => Console.WriteLine(quantity + ":" + product));
                 return true;
             }
             return false;
 
+        }
+
+        public void CheckStockLevel(Action<int, Product> stockLevel)
+        {
+            int[] limits = new int[] { 2, 5, 10 };
+            foreach(int limit in limits)
+            {
+                if(myList.Count < limit && limit == Count + 1)
+                {
+                    stockLevel(Count, myList[Count - 1]);
+                    break;
+                }
+            }
         }
         
     }

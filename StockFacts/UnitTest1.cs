@@ -11,7 +11,7 @@ namespace Inventory
         [Fact]
         public void RemoveItemFromStockShouldReturnNotification()
         {
-            Stock<Product> myStock = new Stock<Product>();
+            Stock myStock = new Stock();
             Product myproduct = new Product
             {
                 Name = "jellyFish"
@@ -22,7 +22,17 @@ namespace Inventory
             };
             myStock.Add(myproduct);
             myStock.Add(myproduct2);
-            myStock.Remove(myproduct2, (quantity,item) => Console.WriteLine(quantity + ":" + item));
+            myStock.Add(myproduct2);
+            myStock.Add(myproduct);
+            myStock.Add(myproduct2);
+            myStock.Add(myproduct2);
+            myStock.Remove(myproduct2);
+            myStock.Remove(myproduct2);
+            myStock.Remove(myproduct2);
+            myStock.Remove(myproduct2);
+            myStock.Remove(myproduct2);
+            myStock.Remove(myproduct);
+            myStock.Remove(myproduct);
         }
     }
 }
