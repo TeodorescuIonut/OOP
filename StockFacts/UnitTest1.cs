@@ -7,8 +7,9 @@ namespace Inventory
 {
     public class InventoryTest
     {
+
         [Fact]
-        public void RemoveItemFromStockShourReturnNotification()
+        public void RemoveItemFromStockShouldReturnNotification()
         {
             Stock<Product> myStock = new Stock<Product>();
             Product myproduct = new Product
@@ -19,10 +20,9 @@ namespace Inventory
             {
                 Name = "swordfish"
             };
-            myproduct.Name = "new";
             myStock.Add(myproduct);
             myStock.Add(myproduct2);
-            myStock.Remove(myproduct2);
+            myStock.Remove(myproduct2, (quantity,item) => Console.WriteLine(quantity + ":" + item));
         }
     }
 }
