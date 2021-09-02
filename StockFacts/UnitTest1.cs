@@ -21,19 +21,13 @@ namespace Inventory
                 Name = "swordfish"
             };
             bool test = false;
-            myStock.Add(myproduct);
-            myStock.Add(myproduct2);
-            myStock.Add(myproduct2);
-            myStock.Add(myproduct);
-            myStock.Add(myproduct2);
-            myStock.Add(myproduct2);
+            myStock.Add(myproduct, 2);
+            myStock.Add(myproduct2, 9);
             myStock.StockAlert((quantity, product) => test = true);
-            myStock.Remove(myproduct2);
-            myStock.Remove(myproduct2);
-            myStock.Remove(myproduct2);
-            myStock.Remove(myproduct2);
-            myStock.Remove(myproduct2);
-            myStock.Remove(myproduct);
+            myStock.Remove(myproduct2, 2);
+            myStock.Remove(myproduct2, 2);
+            myStock.Remove(myproduct2, 3);
+            myStock.Remove(myproduct, 1);
             Assert.True(test);
         }
     }

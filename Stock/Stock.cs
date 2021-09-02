@@ -8,7 +8,6 @@ namespace Inventory
     {
         private List<Product> myList;
         Action<int, Product> stockLevel;
-        public bool result = false;
         public Stock()
         {
             myList = new List<Product>();
@@ -19,16 +18,20 @@ namespace Inventory
                 return myList.Count;
             }
         }
-        public void Add(Product item)
+        public void Add(Product item, int addedQuantity)
         {
+            if( addedQuantity == 0)
+            {
+                throw new ArgumentException("Please enter a higher quantity", nameof(addedQuantity));
+            }
             if (myList.Contains(item))
             {
-                item.Quantity++;
+                item.Quantity =+ addedQuantity;
             }
             else
             {
                 myList.Add(item);
-                item.Quantity++;
+                item.Quantity = addedQuantity;
             }          
             
         }
@@ -41,22 +44,21 @@ namespace Inventory
         public void StockAlert(Action<int, Product> stock)
         {
             stockLevel = stock;
-            result = true;
         }
 
-        public bool Remove(Product item)
-        {           
-            if (myList.Contains(item))
+        public bool Remove(Product item, int quantityToRemove)
+        {
+            if (myList.Contains(item) && item.Quantity >= quantityToRemove)
             {
-                if(item.Quantity == 0)
+                if(item.Quantity == quantityToRemove)
                 {
                     myList.Remove(item);
                 }
                 else
                 {
-                    item.Quantity--;
+                    item.Quantity -= quantityToRemove;
                 }
-                CheckStockLevel();
+                CheckStockLevel(item);
                 return true;
             }
             return false;
@@ -64,20 +66,18 @@ namespace Inventory
         }
 
 
-        private void CheckStockLevel()
+        private void CheckStockLevel(Product item)
         {
 
             int[] limits = new int[] { 2, 5, 10 };
             foreach(int limit in limits)
             {
-                foreach(Product item in myList)
-                {
-                    if (item.Quantity < limit && limit == item.Quantity + 1)
+                    if (item.Quantity < limit && limit != item.lastLimit)
                     {
                         stockLevel(item.Quantity, item);
+                        item.lastLimit = limit;
                         break;
                     }
-                }
                 
             }
         }
