@@ -20,24 +20,21 @@ namespace Inventory
             {
                 Name = "swordfish"
             };
-            Product newProduct = new Product() { Name = "swordfish" };
-            newProduct.Quantity = 2;
+            bool test = false;
             myStock.Add(myproduct);
             myStock.Add(myproduct2);
             myStock.Add(myproduct2);
             myStock.Add(myproduct);
             myStock.Add(myproduct2);
             myStock.Add(myproduct2);
-            myStock.StockAlert((quantity, product) => { newProduct.Quantity = quantity; newProduct = product; });
+            myStock.StockAlert((quantity, product) => test = true);
             myStock.Remove(myproduct2);
             myStock.Remove(myproduct2);
             myStock.Remove(myproduct2);
             myStock.Remove(myproduct2);
             myStock.Remove(myproduct2);
             myStock.Remove(myproduct);
-            Assert.True(myStock.result);
-            Assert.Equal(1, newProduct.Quantity);
-            Assert.Equal("jellyFish", newProduct.Name);
+            Assert.True(test);
         }
     }
 }

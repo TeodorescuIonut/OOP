@@ -13,7 +13,12 @@ namespace Inventory
         {
             myList = new List<Product>();
         }
-        public int Count { get; set; }
+        public int Count {
+            get
+            {
+                return myList.Count;
+            }
+        }
         public void Add(Product item)
         {
             if (myList.Contains(item))
@@ -24,7 +29,6 @@ namespace Inventory
             {
                 myList.Add(item);
                 item.Quantity++;
-                Count++;
             }          
             
         }
@@ -47,7 +51,6 @@ namespace Inventory
                 if(item.Quantity == 0)
                 {
                     myList.Remove(item);
-                    Count--;
                 }
                 else
                 {
