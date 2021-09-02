@@ -8,16 +8,25 @@ namespace Inventory
     {
         private List<Product> myList;
         Action<int, Product> stockLevel;
+        public bool result = false;
         public Stock()
         {
             myList = new List<Product>();
-
         }
         public int Count { get; set; }
         public void Add(Product item)
         {
-            myList.Add(item);
-            Count++;
+            if (myList.Contains(item))
+            {
+                item.Quantity++;
+            }
+            else
+            {
+                myList.Add(item);
+                item.Quantity++;
+                Count++;
+            }          
+            
         }
 
 
@@ -25,13 +34,25 @@ namespace Inventory
         {
             return myList.Contains(item);
         }
+        public void StockAlert(Action<int, Product> stock)
+        {
+            stockLevel = stock;
+            result = true;
+        }
 
         public bool Remove(Product item)
         {           
             if (myList.Contains(item))
             {
-                myList.Remove(item);
-                Count--;
+                if(item.Quantity == 0)
+                {
+                    myList.Remove(item);
+                    Count--;
+                }
+                else
+                {
+                    item.Quantity--;
+                }
                 CheckStockLevel();
                 return true;
             }
@@ -39,22 +60,24 @@ namespace Inventory
 
         }
 
-        public void CheckStockLevel()
+
+        private void CheckStockLevel()
         {
 
             int[] limits = new int[] { 2, 5, 10 };
             foreach(int limit in limits)
             {
-                if(myList.Count < limit && limit == Count + 1)
+                foreach(Product item in myList)
                 {
-                    stockLevel(Count, myList[Count - 1]);
-                    break;
+                    if (item.Quantity < limit && limit == item.Quantity + 1)
+                    {
+                        stockLevel(item.Quantity, item);
+                        break;
+                    }
                 }
+                
             }
         }
-        public void StockLevel(Action<int, Product> stock)
-        {
-            stockLevel = stock;
-        }
+
     }
 }
