@@ -22,7 +22,7 @@ namespace Inventory
             };
             bool test = false;
             myStock.Add(myproduct, 2);
-            myStock.Add(myproduct2, 9);
+            myStock.Add(myproduct2, 11);
             myStock.StockAlert((quantity, product) => test = true);
             myStock.Remove(myproduct2, 2);
             myStock.Remove(myproduct2, 2);

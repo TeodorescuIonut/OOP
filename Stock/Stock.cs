@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Inventory
 {
@@ -58,7 +59,7 @@ namespace Inventory
                 {
                     item.Quantity -= quantityToRemove;
                 }
-                CheckStockLevel(item);
+                CheckStockLevel(item, quantityToRemove);
                 return true;
             }
             return false;
@@ -66,18 +67,15 @@ namespace Inventory
         }
 
 
-        private void CheckStockLevel(Product item)
+        private void CheckStockLevel(Product item, int removedQuantity)
         {
 
-            int[] limits = new int[] { 2, 5, 10 };
-            foreach(int limit in limits)
+            int[] limits ={ 2, 5, 10 };
+            var query = limits.FirstOrDefault(limit => limit < item.Quantity + removedQuantity && limit > item.Quantity);
+            if (query != 0)
             {
-                    if (item.Quantity < limit && limit != item.lastLimit)
-                    {
-                        stockLevel(item.Quantity, item);
-                        item.lastLimit = limit;
-                        break;
-                    }
+
+                stockLevel(item.Quantity, item);
                 
             }
         }
