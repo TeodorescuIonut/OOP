@@ -23,7 +23,7 @@ namespace StringTest
             Assert.Equal(char.Parse("e"), firstNonRepeatedChar);
         }
 
-        private static ValueTuple<int, int> GetNoOfVowelsAndConsonants(this string word)
+        private static (int vocalsNo, int consNo) GetNoOfVowelsAndConsonants(this string word)
         {
             const string vowels = "aeiou";
             return word.Aggregate((v: 0, c: 0), (total, c) =>
