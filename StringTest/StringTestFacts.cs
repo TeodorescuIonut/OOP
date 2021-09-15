@@ -19,8 +19,8 @@ namespace StringTest
         public static void ReturnFirstNonRepeatingCharacter()
         {
             const string word = "aabbbbeitu";
-            var firstNonRepeatedChar = word.GroupBy(x => x).First(x => x.Count() == 1).Key;
-            Assert.Equal(char.Parse("e"), firstNonRepeatedChar);
+            var firstNonRepeatedChar = GetFirstNonRepeatingCharacter(word);
+            Assert.Equal('e', firstNonRepeatedChar);
         }
 
         private static (int vocalsNo, int consNo) GetNoOfVowelsAndConsonants(this string word)
@@ -35,6 +35,11 @@ namespace StringTest
 
                 return (total.v, total.c);
             });
+        }
+
+        private static char GetFirstNonRepeatingCharacter(this string word)
+        {
+            return word.GroupBy(x => x).First(x => x.Count() == 1).Key;
         }
     }
 }
