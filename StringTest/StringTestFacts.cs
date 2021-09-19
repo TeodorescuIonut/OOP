@@ -23,6 +23,19 @@ namespace StringTest
             Assert.Equal('e', firstNonRepeatedChar);
         }
 
+        [Fact]
+        public static void ReturnFromStringAnInteger()
+        {
+            const string numberAsString = "1234";
+            var numbersAsInt = GetIntegerFromString(numberAsString);
+            Assert.Equal(1234, numbersAsInt);
+        }
+
+        private static int GetIntegerFromString(string word)
+        {
+            return word.Select(x => x - '0').Aggregate((result, x) => result * 10 + x);
+        }
+
         private static (int vocalsNo, int consNo) GetNoOfVowelsAndConsonants(this string word)
         {
             const string vowels = "aeiou";
