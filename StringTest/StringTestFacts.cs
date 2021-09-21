@@ -26,9 +26,9 @@ namespace StringTest
         [Fact]
         public static void ReturnFromStringAnInteger()
         {
-            const string numberAsString = "-1234";
+            const string numberAsString = "-6534a";
             var numbersAsInt = GetIntegerFromString(numberAsString);
-            Assert.Equal(-1234, numbersAsInt);
+            Assert.Equal(-6534, numbersAsInt);
         }
 
         [Fact]
@@ -40,16 +40,21 @@ namespace StringTest
 
         private static int GetIntegerFromString(string word)
         {
-            if (word.StartsWith('-') && word[1..].All(x => char.IsDigit(x)))
-            {
-                return word[1..].Select(x => x - '0').Aggregate((result, x) => result * 10 + x) * -1;
-            }
-            else if (word.All(x => char.IsDigit(x)))
-            {
-                return word.Select(x => x - '0').Aggregate((result, x) => result * 10 + x);
-            }
+                return word.Select(x =>
+                    {
+                        if (word.StartsWith('-'))
+                        {
+                            word = word[1..];
+                            return 0;
+                        }
 
-            throw new ArgumentException("Please enter a valid number", nameof(word));
+                        if (char.IsDigit(x))
+                        {
+                            return x - '0';
+                        }
+
+                        throw new ArgumentException("the character is not a valid integer", nameof(x));
+                    }).Aggregate((result, x) => result <= 0 ? result * 10 - x : result * 10 + x);
         }
 
         private static (int vocalsNo, int consNo) GetNoOfVowelsAndConsonants(this string word)
