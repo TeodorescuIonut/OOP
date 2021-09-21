@@ -32,10 +32,16 @@ namespace StringTest
         }
 
         [Fact]
-        public static void ReturnFromStringCharWithMoreOCurrance()
+        public static void ReturnFromStringCharWithMoreOccurrences()
         {
             const string word = "abstwqeeeertwesl";
-            var character = word.GroupBy(x => x).Where(x => x.Key > 1);
+            var character = GetCharWithMostOccurrencesInAString(word);
+            Assert.Equal('e', character);
+        }
+
+        private static char GetCharWithMostOccurrencesInAString(string word)
+        {
+            return word.GroupBy(x => x).OrderByDescending(x => x.Count()).First().Key;
         }
 
         private static int GetIntegerFromString(string word)
