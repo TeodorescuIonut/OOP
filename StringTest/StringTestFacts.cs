@@ -40,21 +40,16 @@ namespace StringTest
 
         private static int GetIntegerFromString(string word)
         {
-                return word.Select(x =>
-                    {
-                        if (word.StartsWith('-'))
-                        {
-                            word = word[1..];
-                            return 0;
-                        }
+            if (word.StartsWith('-'))
+            {
+                word = word[1..];
+            }
 
-                        if (char.IsDigit(x))
-                        {
-                            return x - '0';
-                        }
-
-                        throw new ArgumentException("the character is not a valid integer", nameof(x));
-                    }).Aggregate((result, x) => result <= 0 ? result * 10 - x : result * 10 + x);
+            return word.Select(x =>
+            char.IsDigit(x) ?
+            x - '0' :
+            throw new ArgumentException("the character is not a valid integer", nameof(x)))
+                .Aggregate((result, x) => result <= 0 ? result * 10 - x : result * 10 + x);
         }
 
         private static (int vocalsNo, int consNo) GetNoOfVowelsAndConsonants(this string word)
