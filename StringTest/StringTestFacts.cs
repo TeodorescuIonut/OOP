@@ -34,14 +34,14 @@ namespace StringTest
         [Fact]
         public static void ReturnFromStringCharWithMoreOccurrences()
         {
-            const string word = "abstwqeeeertwesl";
+            const string word = "aaaaaaabstwqeeeertwesl";
             var character = GetCharWithMostOccurrencesInAString(word);
-            Assert.Equal('e', character);
+            Assert.Equal('a', character);
         }
 
         private static char GetCharWithMostOccurrencesInAString(string word)
         {
-            return word.GroupBy(x => x).OrderByDescending(x => x.Count()).First().Key;
+            return word.GroupBy(x => x).Aggregate((max, i) => max.Count() > i.Count() ? max : i).Key;
         }
 
         private static int GetIntegerFromString(string word)
