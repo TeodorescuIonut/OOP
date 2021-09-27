@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -39,9 +40,28 @@ namespace StringTest
             Assert.Equal('a', character);
         }
 
+        [Fact]
+        public static void ReturnPalindromeSubstrings()
+        {
+            const string word = "aabaac";
+            var palindromCombinations = GetSubstringsThatArePalindrome(word);
+            Assert.Equal("aba", palindromCombinations[8]);
+        }
+
         private static char GetCharWithMostOccurrencesInAString(string word)
         {
             return word.GroupBy(x => x).Aggregate((max, i) => max.Count() > i.Count() ? max : i).Key;
+        }
+
+        private static string[] GetSubstringsThatArePalindrome(string word)
+        {
+            return Enumerable
+    .Range(1, word.Length)
+    .SelectMany(size => Enumerable
+       .Range(0, word.Length - size + 1)
+       .Select(i => word.Substring(i, size)))
+    .Where(item => item.SequenceEqual(item.Reverse()))
+    .ToArray();
         }
 
         private static int GetIntegerFromString(string word)
