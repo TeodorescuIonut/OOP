@@ -48,6 +48,25 @@ namespace StringTest
             Assert.Equal("aba", palindromCombinations[8]);
         }
 
+        [Fact]
+        public static void REturnSumOfIntegerValues()
+        {
+            int[] numbers = { 1, 2, 3, 4, 5 };
+            const int k = 8;
+            var subArrays = GetSubArraysCombinations(numbers, k);
+            Assert.Equal(2, subArrays[1][0]);
+            Assert.Equal(3, subArrays[4][1]);
+        }
+
+        private static int[][] GetSubArraysCombinations(int[] numArray, int targetSum)
+        {
+            return Enumerable
+    .Range(1, (1 << numArray.Length) - 1)
+    .Select(index => numArray
+       .Where((v, i) => (index & (1 << i)) != 0 && v + i <= targetSum)
+       .ToArray()).Where(x => x.Sum() <= targetSum).ToArray();
+        }
+
         private static char GetCharWithMostOccurrencesInAString(string word)
         {
             return word.GroupBy(x => x).Aggregate((max, i) => max.Count() > i.Count() ? max : i).Key;
