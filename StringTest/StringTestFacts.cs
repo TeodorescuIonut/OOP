@@ -51,20 +51,21 @@ namespace StringTest
         [Fact]
         public static void REturnSumOfIntegerValues()
         {
-            int[] numbers = { 1, 2, 3, 4, 5 };
-            const int k = 8;
+            int[] numbers = { 1, 2, 3, 4 };
+            const int k = 3;
             var subArrays = GetSubArraysCombinations(numbers, k);
-            Assert.Equal(2, subArrays[1][0]);
-            Assert.Equal(3, subArrays[4][1]);
+            Assert.Equal(2, subArrays[2][0]);
+            Assert.Equal(3, subArrays[3][0]);
         }
 
         private static int[][] GetSubArraysCombinations(int[] numArray, int targetSum)
         {
-            return Enumerable
-    .Range(1, (1 << numArray.Length) - 1)
-    .Select(index => numArray
-       .Where((v, i) => (index & (1 << i)) != 0 && v + i <= targetSum)
-       .ToArray()).Where(x => x.Sum() <= targetSum).ToArray();
+            return numArray.SelectMany((x, index) => numArray.Skip(index).Select((i, j) =>
+            {
+                int[] newArr = new int[j + 1];
+                Array.Copy(numArray, index, newArr, 0, j + 1);
+                return newArr;
+            })).Where(x => x.Sum() <= targetSum).ToArray();
         }
 
         private static char GetCharWithMostOccurrencesInAString(string word)
