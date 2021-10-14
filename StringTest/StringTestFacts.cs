@@ -61,46 +61,20 @@ namespace StringTest
         [Fact]
         public static void REturnAllSumCombinationss()
         {
-            const int numberOfElem = 6;
-            const int k = 3;
+            const int numberOfElem = 3;
+            const int k = 2;
             var subArrays = GetSumCombinations(numberOfElem, k);
-            Assert.Equal("+1-2-3-4+5+6 = 3", subArrays[0]);
+            Assert.Equal("+1-2+3=2", subArrays[0]);
         }
 
-        private static List<string> GetSumCombinations(int elemNo, int targetSum)
+        private static string[] GetSumCombinations(int elemNo, int targetSum)
         {
             string[] elements = new[] { "" };
-            for (int i = 0; i < elemNo; i++)
-            {
-                int size = elements.Length * 2;
-                Array.Resize(ref elements, size);
-                Array.Copy(elements, 0, elements, elements.Length / 2, elements.Length - elements.Length / 2);
-                elements = elements.Select((x, index) => index < elements.Length / 2 ? x + "+" + (i + 1) : x + "-" + (i + 1)).ToArray();
-            }
-
-            List<string> results = new List<string>();
-            foreach (var str in elements)
-            {
-                int sum = 0;
-                for (int i = 0; i < str.Length; i++)
-                {
-                    if (str[i] == '-')
-                    {
-                        sum -= str[i + 1] - '0';
-                    }
-                    else if (str[i] == '+')
-                    {
-                        sum += str[i + 1] - '0';
-                    }
-                }
-
-                if (sum == targetSum)
-                {
-                    results.Add(str + " = " + targetSum);
-                }
-            }
-
-            return results;
+            int[] testElem = new[] { 1, 2, 3 };
+            elements = Enumerable.Range(0, elemNo).Aggregate(elements, (result, next) => result.SelectMany(str =>
+            new[] { str + '+', str + '-' }).ToArray());
+            return elements.Select(str => str.Select((c, i) => c == '+' ? i + 1 : -(i + 1))).Where(arr => arr.Sum() == targetSum).Select(item
+                => item.Aggregate("", (e, next) => next < 0 ? e + next : e + '+' + next) + '=' + targetSum).ToArray();
         }
 
         private static int[][] GetSubArraysCombinations(int[] numArray, int targetSum)
