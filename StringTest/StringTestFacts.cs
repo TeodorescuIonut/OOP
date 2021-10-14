@@ -64,17 +64,17 @@ namespace StringTest
             const int numberOfElem = 3;
             const int k = 2;
             var subArrays = GetSumCombinations(numberOfElem, k);
-            Assert.Equal("+1-2+3=2", subArrays[0]);
+            Assert.Equal("+1-2+3=2", subArrays);
         }
 
-        private static string[] GetSumCombinations(int elemNo, int targetSum)
+        private static string GetSumCombinations(int elemNo, int targetSum)
         {
             string[] elements = new[] { "" };
             int[] testElem = new[] { 1, 2, 3 };
             elements = Enumerable.Range(0, elemNo).Aggregate(elements, (result, next) => result.SelectMany(str =>
             new[] { str + '+', str + '-' }).ToArray());
-            return elements.Select(str => str.Select((c, i) => c == '+' ? i + 1 : -(i + 1))).Where(arr => arr.Sum() == targetSum).Select(item
-                => item.Aggregate("", (e, next) => next < 0 ? e + next : e + '+' + next) + '=' + targetSum).ToArray();
+            var test = elements.Select(str => str.Select((c, i) => c == '+' ? i + 1 : -(i + 1))).Where(arr => arr.Sum() == targetSum).ToArray();
+            return string.Concat(test.Select(c => c.ToString()));
         }
 
         private static int[][] GetSubArraysCombinations(int[] numArray, int targetSum)
