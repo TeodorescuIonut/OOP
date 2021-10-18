@@ -70,15 +70,15 @@ namespace StringTest
         [Fact]
         public static void ReturnPythagoreanTriplets()
         {
-            int[] numbers = { 1, 3, 2, 4, 5, 6, 7, 8, 10 };
+            int[] numbers = { 1, 3, 2, 4, 5, 8, 10 };
             var tripletsResult = GetPythagoreanTriplets(numbers);
-            Assert.Equal((3, 4, 5), tripletsResult[0]);
+            Assert.Equal((3, 4, 5), tripletsResult[1]);
         }
 
-        private static ValueTuple<int, int, int>[] GetPythagoreanTriplets(int[] numbers)
+        private static (int a, int b, int c)[] GetPythagoreanTriplets(int[] numbers)
         {
-            return numbers.SelectMany(c => Enumerable.Range(1, c).SelectMany(b =>
-            Enumerable.Range(1, b).Where(a => a * a + b * b == c * c).Select(a => new ValueTuple<int, int, int>(a, b, c)))).ToArray();
+            return numbers.SelectMany(c => numbers.SelectMany(b =>
+            numbers.Where(a => a * a + b * b == c * c).Select(a => (a, b, c)))).ToArray();
         }
 
         private static string[] GetSumCombinations(int elemNo, int targetSum)
