@@ -64,17 +64,31 @@ namespace StringTest
             const int numberOfElem = 3;
             const int k = 2;
             var subArrays = GetSumCombinations(numberOfElem, k);
-            Assert.Equal("+1-2+3=2", subArrays);
+            Assert.Equal("+1-2+3=2", subArrays[0]);
         }
 
-        private static string GetSumCombinations(int elemNo, int targetSum)
+        [Fact]
+        public static void ReturnPythagoreanTriplets()
+        {
+            int[] numbers = { 1, 3, 2, 4, 5, 6, 7, 8, 10 };
+            var tripletsResult = GetPythagoreanTriplets(numbers);
+            Assert.Equal((3, 4, 5), tripletsResult[0]);
+        }
+
+        private static ValueTuple<int, int, int>[] GetPythagoreanTriplets(int[] numbers)
+        {
+            return numbers.SelectMany(c => Enumerable.Range(1, c).SelectMany(b =>
+            Enumerable.Range(1, b).Where(a => a * a + b * b == c * c).Select(a => new ValueTuple<int, int, int>(a, b, c)))).ToArray();
+        }
+
+        private static string[] GetSumCombinations(int elemNo, int targetSum)
         {
             string[] elements = new[] { "" };
             int[] testElem = new[] { 1, 2, 3 };
             elements = Enumerable.Range(0, elemNo).Aggregate(elements, (result, next) => result.SelectMany(str =>
             new[] { str + '+', str + '-' }).ToArray());
-            var test = elements.Select(str => str.Select((c, i) => c == '+' ? i + 1 : -(i + 1))).Where(arr => arr.Sum() == targetSum).ToArray();
-            return string.Concat(test.Select(c => c.ToString()));
+            var solutionsArr = elements.Select(str => str.Select((c, i) => c == '+' ? i + 1 : -(i + 1))).Where(arr => arr.Sum() == targetSum);
+            return solutionsArr.Select(item => item.Aggregate("", (e, next) => next < 0 ? e + next : e + '+' + next) + '=' + targetSum).ToArray();
         }
 
         private static int[][] GetSubArraysCombinations(int[] numArray, int targetSum)
