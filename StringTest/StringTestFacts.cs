@@ -75,6 +75,44 @@ namespace StringTest
             Assert.Equal((3, 4, 5), tripletsResult[1]);
         }
 
+        [Fact]
+        public static void ReturnFilteredProducts()
+        {
+            var products = new List<Product>
+        {
+            new Product()
+            {
+                Name = "Tadpole", Features = new List<Feature>
+            {
+                new Feature() { Id = 2 },
+                new Feature() { Id = 3 },
+                new Feature() { Id = 4 }
+            }
+            },
+            new Product()
+            {
+                Name = "Pinwheel", Features = new List<Feature>
+            {
+                new Feature() { Id = 1 },
+                new Feature() { Id = 5 },
+                new Feature() { Id = 6 }
+            }
+            }
+        };
+            List<Feature> one = new List<Feature>
+            {
+                 new Feature() { Id = 1 },
+                 new Feature() { Id = 5 },
+                 new Feature() { Id = 6 }
+            };
+
+            var firstQuery = products.Where((f, i) => one.Any(c => f.Features[i].Id == c.Id)).ToList();
+            var secondQuery = products.Where((f, i) => one.All(c => f.Features[i].Id == c.Id)).ToList();
+            var thirdQuery = products.Where((f, i) => one.All(c => f.Features[i].Id != c.Id)).ToList();
+            Assert.Equal("Pinwheel", firstQuery[0].Name);
+            Assert.Equal("Tadpole", thirdQuery[0].Name);
+        }
+
         private static (int a, int b, int c)[] GetPythagoreanTriplets(int[] numbers)
         {
             return numbers.SelectMany(c => numbers.SelectMany(b =>
