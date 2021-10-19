@@ -76,7 +76,7 @@ namespace StringTest
         }
 
         [Fact]
-        public static void ReturnFilteredProducts()
+        public static void ReturnProductsThatHaveAtLeastOneFeature()
         {
             var products = new List<Product>
         {
@@ -99,18 +99,100 @@ namespace StringTest
             }
             }
         };
-            List<Feature> one = new List<Feature>
+            List<Feature> features = new List<Feature>
             {
                  new Feature() { Id = 1 },
                  new Feature() { Id = 5 },
                  new Feature() { Id = 6 }
             };
 
-            var firstQuery = products.Where((f, i) => one.Any(c => f.Features[i].Id == c.Id)).ToList();
-            var secondQuery = products.Where((f, i) => one.All(c => f.Features[i].Id == c.Id)).ToList();
-            var thirdQuery = products.Where((f, i) => one.All(c => f.Features[i].Id != c.Id)).ToList();
+            var firstQuery = GetProductsThatHaveAtLeastOneFeature(products, features);
             Assert.Equal("Pinwheel", firstQuery[0].Name);
+        }
+
+        [Fact]
+        public static void ReturnProductsThatHaveAllFeatures()
+        {
+            var products = new List<Product>
+        {
+            new Product()
+            {
+                Name = "Tadpole", Features = new List<Feature>
+            {
+                new Feature() { Id = 2 },
+                new Feature() { Id = 3 },
+                new Feature() { Id = 4 }
+            }
+            },
+            new Product()
+            {
+                Name = "Pinwheel", Features = new List<Feature>
+            {
+                new Feature() { Id = 1 },
+                new Feature() { Id = 5 },
+                new Feature() { Id = 6 }
+            }
+            }
+        };
+            List<Feature> features = new List<Feature>
+            {
+                 new Feature() { Id = 1 },
+                 new Feature() { Id = 5 },
+                 new Feature() { Id = 6 }
+            };
+
+            var secondQuery = GetProductsThatHaveAllFeatures(products, features);
+            Assert.Equal("Pinwheel", secondQuery[0].Name);
+        }
+
+        [Fact]
+        public static void ReturnProductsThatDontHaveAnyFeatures()
+        {
+            var products = new List<Product>
+        {
+            new Product()
+            {
+                Name = "Tadpole", Features = new List<Feature>
+            {
+                new Feature() { Id = 2 },
+                new Feature() { Id = 3 },
+                new Feature() { Id = 4 }
+            }
+            },
+            new Product()
+            {
+                Name = "Pinwheel", Features = new List<Feature>
+            {
+                new Feature() { Id = 1 },
+                new Feature() { Id = 5 },
+                new Feature() { Id = 6 }
+            }
+            }
+        };
+            List<Feature> features = new List<Feature>
+            {
+                 new Feature() { Id = 1 },
+                 new Feature() { Id = 5 },
+                 new Feature() { Id = 6 }
+            };
+
+            var thirdQuery = GetProductsThatDontHaveAnyFeatures(products, features);
             Assert.Equal("Tadpole", thirdQuery[0].Name);
+        }
+
+        private static List<Product> GetProductsThatHaveAtLeastOneFeature(List<Product> products, List<Feature> features)
+        {
+            return products.Where((f, i) => f.Features.Any(c => features[i].Id == c.Id)).ToList();
+        }
+
+        private static List<Product> GetProductsThatHaveAllFeatures(List<Product> products, List<Feature> features)
+        {
+            return products.Where((f, i) => f.Features.Any(c => features[i].Id == c.Id)).ToList();
+        }
+
+        private static List<Product> GetProductsThatDontHaveAnyFeatures(List<Product> products, List<Feature> features)
+        {
+            return products.Where((f, i) => f.Features.All(c => features[i].Id != c.Id)).ToList();
         }
 
         private static (int a, int b, int c)[] GetPythagoreanTriplets(int[] numbers)
