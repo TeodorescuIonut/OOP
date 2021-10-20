@@ -108,11 +108,7 @@ namespace StringTest
 
             var firstQuery = GetProductsThatHaveAtLeastOneFeature(products, features);
 
-            Assert.Collection(
-                firstQuery[0].Features,
-                item => Assert.Equal(1, item.Id),
-                item => Assert.Equal(5, item.Id),
-                item => Assert.Equal(6, item.Id));
+            Assert.Equal(products[0], firstQuery[0]);
         }
 
         [Fact]
@@ -147,11 +143,7 @@ namespace StringTest
             };
 
             var secondQuery = GetProductsThatHaveAllFeatures(products, features);
-            Assert.Collection(
-                secondQuery[0].Features,
-                item => Assert.Equal(1, item.Id),
-                item => Assert.Equal(5, item.Id),
-                item => Assert.Equal(6, item.Id));
+            Assert.Equal(products[0], secondQuery[0]);
         }
 
         [Fact]
@@ -186,11 +178,7 @@ namespace StringTest
             };
 
             var thirdQuery = GetProductsThatDontHaveAnyFeatures(products, features);
-            Assert.Collection(
-                thirdQuery[0].Features,
-                item => Assert.Equal(2, item.Id),
-                item => Assert.Equal(3, item.Id),
-                item => Assert.Equal(4, item.Id));
+            Assert.Equal(products[0], thirdQuery[0]);
         }
 
         private static List<Product> GetProductsThatHaveAtLeastOneFeature(List<Product> products, List<Feature> features)
