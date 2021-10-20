@@ -107,7 +107,12 @@ namespace StringTest
             };
 
             var firstQuery = GetProductsThatHaveAtLeastOneFeature(products, features);
-            Assert.Equal("Pinwheel", firstQuery[0].Name);
+
+            Assert.Collection(
+                firstQuery[0].Features,
+                item => Assert.Equal(1, item.Id),
+                item => Assert.Equal(5, item.Id),
+                item => Assert.Equal(6, item.Id));
         }
 
         [Fact]
@@ -142,7 +147,11 @@ namespace StringTest
             };
 
             var secondQuery = GetProductsThatHaveAllFeatures(products, features);
-            Assert.Equal("Pinwheel", secondQuery[0].Name);
+            Assert.Collection(
+                secondQuery[0].Features,
+                item => Assert.Equal(1, item.Id),
+                item => Assert.Equal(5, item.Id),
+                item => Assert.Equal(6, item.Id));
         }
 
         [Fact]
@@ -177,7 +186,11 @@ namespace StringTest
             };
 
             var thirdQuery = GetProductsThatDontHaveAnyFeatures(products, features);
-            Assert.Equal("Tadpole", thirdQuery[0].Name);
+            Assert.Collection(
+                thirdQuery[0].Features,
+                item => Assert.Equal(2, item.Id),
+                item => Assert.Equal(3, item.Id),
+                item => Assert.Equal(4, item.Id));
         }
 
         private static List<Product> GetProductsThatHaveAtLeastOneFeature(List<Product> products, List<Feature> features)
