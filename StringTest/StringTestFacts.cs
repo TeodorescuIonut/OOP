@@ -105,10 +105,12 @@ namespace StringTest
                  new Feature() { Id = 5 },
                  new Feature() { Id = 6 }
             };
-
             var firstQuery = GetProductsThatHaveAtLeastOneFeature(products, features);
-
-            Assert.Equal(products[0], firstQuery[0]);
+            Assert.Equal<Product>(
+                new List<Product>
+            {
+                products[1]
+            }, firstQuery);
         }
 
         [Fact]
@@ -143,7 +145,11 @@ namespace StringTest
             };
 
             var secondQuery = GetProductsThatHaveAllFeatures(products, features);
-            Assert.Equal(products[0], secondQuery[0]);
+            Assert.Equal<Product>(
+                new List<Product>
+            {
+                            products[1]
+            }, secondQuery);
         }
 
         [Fact]
@@ -178,7 +184,11 @@ namespace StringTest
             };
 
             var thirdQuery = GetProductsThatDontHaveAnyFeatures(products, features);
-            Assert.Equal(products[0], thirdQuery[0]);
+            Assert.Equal<Product>(
+                new List<Product>
+            {
+            products[0]
+            }, thirdQuery);
         }
 
         private static List<Product> GetProductsThatHaveAtLeastOneFeature(List<Product> products, List<Feature> features)
