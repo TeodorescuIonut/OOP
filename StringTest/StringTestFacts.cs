@@ -191,6 +191,85 @@ namespace StringTest
             }, thirdQuery);
         }
 
+        [Fact]
+        public static void ReturnTotalQuanitityForProducts()
+        {
+            List<Products> firstProducts = new List<Products>
+            {
+                new Products()
+                {
+                    Name = "Apples",
+                    Quantity = 5
+                },
+
+                new Products()
+                {
+                    Name = "Oranges",
+                    Quantity = 5
+                },
+
+                new Products()
+                {
+                    Name = "Pears",
+                    Quantity = 5
+                }
+            };
+
+            List<Products> secondProducts = new List<Products>
+            {
+                new Products()
+                {
+                    Name = "Apples",
+                    Quantity = 5
+                },
+
+                new Products()
+                {
+                    Name = "Oranges",
+                    Quantity = 12
+                },
+
+                new Products()
+                {
+                    Name = "Pears",
+                    Quantity = 8
+                }
+            };
+
+            var combinedProducts = GetTotalQuantityOfEachProduct(firstProducts, secondProducts);
+            Assert.Equal<Products>(
+                new[]
+            {
+                new Products()
+                {
+                    Name = "Apples",
+                    Quantity = 10
+                },
+
+                new Products()
+                {
+                    Name = "Oranges",
+                    Quantity = 17
+                },
+
+                new Products()
+                {
+                    Name = "Pears",
+                    Quantity = 13
+                }
+            }, combinedProducts);
+        }
+
+        private static List<Products> GetTotalQuantityOfEachProduct(List<Products> firstProducts, List<Products> secondProducts)
+        {
+            return firstProducts.Concat(secondProducts).GroupBy(o => new { o.Name })
+                .Select(o => new Products()
+                {
+                    Name = o.Key.Name,
+                    Quantity = o.Sum(q => q.Quantity)
+                }).ToList();
+        }
+
         private static List<Product> GetProductsThatHaveAtLeastOneFeature(List<Product> products, List<Feature> features)
         {
             return products.Where((f, i) => f.Features.Any(c => features[i].Id == c.Id)).ToList();
@@ -276,6 +355,12 @@ namespace StringTest
         private static char GetFirstNonRepeatingCharacter(this string word)
         {
             return word.GroupBy(x => x).First(x => x.Count() == 1).Key;
+        }
+
+        struct Products
+        {
+            public string Name;
+            public int Quantity;
         }
     }
 }
