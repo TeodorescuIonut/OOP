@@ -260,6 +260,58 @@ namespace StringTest
             }, combinedProducts);
         }
 
+        [Fact]
+        public static void ReturnHighestScore()
+        {
+            List<TestResults> scoreResults = new List<TestResults>()
+            {
+                new TestResults()
+                {
+                    Id = "one",
+                    FamilyId = "firstFamily",
+                    Score = 10
+                },
+                new TestResults()
+                {
+                    Id = "two",
+                    FamilyId = "secondFamily",
+                    Score = 10
+                },
+                new TestResults()
+                {
+                    Id = "one",
+                    FamilyId = "firstFamily",
+                    Score = 15
+                },
+                new TestResults()
+                {
+                    Id = "five",
+                    FamilyId = "fifthFamily",
+                    Score = 10
+                },
+                new TestResults()
+                {
+                    Id = "five",
+                    FamilyId = "fifthFamily",
+                    Score = 34
+                }
+            };
+
+            var finalResults = GetHighestScore(scoreResults);
+            Assert.Equal(
+                scoreResults[2].Score, finalResults[0].Score);
+        }
+
+        private static List<TestResults> GetHighestScore(List<TestResults> scoreResults)
+        {
+            return scoreResults.GroupBy(i => i.Id).Select((x, i) => new TestResults()
+            {
+                Id = x.Key,
+                FamilyId = scoreResults[i].FamilyId,
+                Score = x.Max(x => x.Score)
+            }).ToList();
+        }
+
         private static List<Products> GetTotalQuantityOfEachProduct(List<Products> firstProducts, List<Products> secondProducts)
         {
             return firstProducts.Concat(secondProducts).GroupBy(o => new { o.Name })
