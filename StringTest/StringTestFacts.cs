@@ -302,6 +302,23 @@ namespace StringTest
                 scoreResults[2].Score, finalResults[0].Score);
         }
 
+        [Fact]
+        public static void ReturnTopWordsUsedInAText()
+        {
+            const string text = "I felt happy because I saw the others were happy and because I knew I should feel happy, but I wasn’t really happy.";
+            var topWords = GetTopWordOccurrencesInAText(text);
+            Assert.Equal("I", topWords[0]);
+        }
+
+        private static List<string> GetTopWordOccurrencesInAText(string text)
+        {
+            var wordsList = text.Split(new[] { '.', '?', '!', ' ', ';', ':', ',' }, StringSplitOptions.RemoveEmptyEntries);
+            return wordsList.GroupBy(w => w)
+                          .Where(w => w.Count() > 1)
+                          .OrderByDescending(w => w.Count())
+                          .Select(w => w.Key).ToList();
+        }
+
         private static List<TestResults> GetHighestScore(List<TestResults> scoreResults)
         {
             return scoreResults.GroupBy(i => i.Id).Select((x, i) => new TestResults()
