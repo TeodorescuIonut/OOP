@@ -327,7 +327,7 @@ namespace StringTest
 
         private static List<TestResults> GetHighestScore(List<TestResults> scoreResults)
         {
-            return scoreResults.GroupBy(s => s.FamilyId).Select(s => s.OrderByDescending(x => x.Score).First()).ToList();
+            return scoreResults.GroupBy(s => s.FamilyId).Select(s => s.Aggregate((max, x) => x.Score > max.Score ? x : max)).ToList();
         }
 
         private static List<Products> GetTotalQuantityOfEachProduct(List<Products> firstProducts, List<Products> secondProducts)
