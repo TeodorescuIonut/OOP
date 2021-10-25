@@ -298,35 +298,36 @@ namespace StringTest
             };
 
             var finalResults = GetHighestScore(scoreResults);
-            Assert.Equal(
-                scoreResults[2].Score, finalResults[0].Score);
+            Assert.Equal<TestResults>(
+                new[]
+            {
+                scoreResults[2],
+                scoreResults[1],
+                scoreResults[4]
+            }, finalResults);
         }
 
         [Fact]
         public static void ReturnTopWordsUsedInAText()
         {
             const string text = "I felt happy because I saw the others were happy and because I knew I should feel happy, but I wasn’t really happy.";
-            var topWords = GetTopWordOccurrencesInAText(text);
+            const int noOfElem = 2;
+            var topWords = GetTopWordOccurrencesInAText(text, noOfElem);
             Assert.Equal("I", topWords[0]);
         }
 
-        private static List<string> GetTopWordOccurrencesInAText(string text)
+        private static List<string> GetTopWordOccurrencesInAText(string text, int number)
         {
-            var wordsList = text.Split(new[] { '.', '?', '!', ' ', ';', ':', ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var wordsList = text.Split(".?! ;:,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             return wordsList.GroupBy(w => w)
                           .Where(w => w.Count() > 1)
                           .OrderByDescending(w => w.Count())
-                          .Select(w => w.Key).ToList();
+                          .Select(w => w.Key).Take(number).ToList();
         }
 
         private static List<TestResults> GetHighestScore(List<TestResults> scoreResults)
         {
-            return scoreResults.GroupBy(i => i.Id).Select((x, i) => new TestResults()
-            {
-                Id = x.Key,
-                FamilyId = scoreResults[i].FamilyId,
-                Score = x.Max(x => x.Score)
-            }).ToList();
+            return scoreResults.GroupBy(s => s.FamilyId).Select(s => s.OrderByDescending(x => x.Score).First()).ToList();
         }
 
         private static List<Products> GetTotalQuantityOfEachProduct(List<Products> firstProducts, List<Products> secondProducts)
