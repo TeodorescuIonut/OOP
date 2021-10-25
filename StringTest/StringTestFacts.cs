@@ -313,16 +313,16 @@ namespace StringTest
             const string text = "I felt happy because I saw the others were happy and because I knew I should feel happy, but I wasn’t really happy.";
             const int noOfElem = 2;
             var topWords = GetTopWordOccurrencesInAText(text, noOfElem);
-            Assert.Equal("I", topWords[0]);
+            Assert.Equal(("I", 5), topWords[0]);
         }
 
-        private static List<string> GetTopWordOccurrencesInAText(string text, int number)
+        private static List<(string key, int)> GetTopWordOccurrencesInAText(string text, int number)
         {
             var wordsList = text.Split(".?! ;:,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             return wordsList.GroupBy(w => w)
                           .Where(w => w.Count() > 1)
                           .OrderByDescending(w => w.Count())
-                          .Select(w => w.Key).Take(number).ToList();
+                          .Select(w => (w.Key, w.Count())).Take(number).ToList();
         }
 
         private static List<TestResults> GetHighestScore(List<TestResults> scoreResults)
