@@ -316,6 +316,43 @@ namespace StringTest
             Assert.Equal(("I", 5), topWords[0]);
         }
 
+        [Fact]
+        public static void ValidateSudokuGrid()
+        {
+            int[,] board = new int[,]
+            {
+                { 3, 1, 6, 5, 7, 8, 4, 9, 2 },
+                { 5, 2, 9, 1, 3, 4, 7, 6, 8 },
+                { 4, 8, 7, 6, 2, 9, 5, 3, 1 },
+                { 2, 6, 3, 4, 1, 5, 9, 8, 7 },
+                { 9, 7, 4, 8, 6, 3, 1, 2, 5 },
+                { 8, 5, 1, 7, 9, 2, 6, 4, 3 },
+                { 1, 3, 8, 9, 4, 7, 2, 5, 6 },
+                { 6, 9, 2, 3, 5, 1, 8, 7, 4 },
+                { 7, 4, 5, 2, 8, 6, 3, 1, 9 }
+            };
+
+            bool result = CheckIfValidSudokuBoard(board);
+            Assert.True(result);
+        }
+
+        private static bool CheckIfValidSudokuBoard(int[,] sudokuBoard)
+        {
+            var lines = Enumerable.Range(0, sudokuBoard.GetUpperBound(0) + 1).Select(x => Enumerable.Range(0, sudokuBoard.GetUpperBound(0) + 1).Select(y => sudokuBoard[x, y]));
+            var columns = Enumerable.Range(0, sudokuBoard.GetUpperBound(0) + 1).Select(x => Enumerable.Range(0, sudokuBoard.GetUpperBound(0) + 1).Select(y => sudokuBoard[y, x]));
+            var squares = Enumerable.Range(0, 3).SelectMany(y => Enumerable.Range(0, 3).Select(x =>
+                 lines.Skip(y * 3).Take(3).SelectMany(row =>
+                     row.Skip(x * 3).Take(3))));
+            return lines.All(IsValidBoard) && columns.All(IsValidBoard) && squares.All(IsValidBoard);
+        }
+
+        private static bool IsValidBoard(IEnumerable<int> board)
+        {
+            return board.Distinct().Count() == board.Count() &&
+                   board.All(x => x > 0 && x <= 9) &&
+                   board.Count() == 9;
+        }
+
         private static (string key, int)[] GetTopWordOccurrencesInAText(string text, int number)
         {
             var wordsList = text.Split(".?! ;:,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
