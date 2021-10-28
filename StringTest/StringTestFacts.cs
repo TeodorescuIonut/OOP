@@ -338,12 +338,16 @@ namespace StringTest
 
         private static bool CheckIfValidSudokuBoard(int[,] sudokuBoard)
         {
-            var lines = Enumerable.Range(0, sudokuBoard.GetUpperBound(0) + 1).Select(x => Enumerable.Range(0, sudokuBoard.GetUpperBound(0) + 1).Select(y => sudokuBoard[x, y]));
-            var columns = Enumerable.Range(0, sudokuBoard.GetUpperBound(0) + 1).Select(x => Enumerable.Range(0, sudokuBoard.GetUpperBound(0) + 1).Select(y => sudokuBoard[y, x]));
+            var upperLimit = sudokuBoard.GetUpperBound(0) + 1;
+            var lines = Enumerable.Range(0, upperLimit)
+                .Select(x => Enumerable.Range(0, upperLimit).Select(y => sudokuBoard[x, y]));
+            var columns = Enumerable.Range(0, upperLimit)
+                .Select(x => Enumerable.Range(0, upperLimit).Select(y => sudokuBoard[y, x]));
             var squares = Enumerable.Range(0, 3).SelectMany(y => Enumerable.Range(0, 3).Select(x =>
                  lines.Skip(y * 3).Take(3).SelectMany(row =>
                      row.Skip(x * 3).Take(3))));
-            return lines.All(IsValidBoard) && columns.All(IsValidBoard) && squares.All(IsValidBoard);
+            var combinedEnum = lines.Concat(columns).Concat(squares);
+            return combinedEnum.All(IsValidBoard);
         }
 
         private static bool IsValidBoard(IEnumerable<int> board)
