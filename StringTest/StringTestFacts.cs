@@ -340,46 +340,42 @@ namespace StringTest
         public static void PostFixNotationResult()
         {
             const string postfix = "1 2 + 10 * 5 + 2 3 + /";
-            int result = GetResultOfPostFixNotation(postfix);
+            var result = GetResultOfPostFixNotation(postfix);
             Assert.Equal(7, result);
         }
 
-        private static int GetResultOfPostFixNotation(string expression)
+        private static double GetResultOfPostFixNotation(string expression)
         {
-            Stack<int> item = new Stack<int>();
-            return expression.Split(' ').Aggregate(0, (x, next) =>
+            IEnumerable<double> mylist = Enumerable.Empty<double>();
+            return expression.Split(' ').Aggregate(0.0, (x, next) =>
             {
-                if (next.All(char.IsDigit))
+                if (double.TryParse(next, out double result))
                 {
-                    item.Push(int.Parse(next));
+                    mylist = mylist.Append(result);
                 }
                 else
                 {
-                    var first = item.Pop();
-                    var second = item.Pop();
-                    if (next.Equals("+"))
-                    {
-                        item.Push(second + first);
-                    }
-
-                    if (next.Equals("*"))
-                    {
-                        item.Push(second * first);
-                    }
-
-                    if (next.Equals("-"))
-                    {
-                        item.Push(second - first);
-                    }
-
-                    if (next.Equals("/"))
-                    {
-                        item.Push(second / first);
-                    }
+                    var lastTwo = mylist.TakeLast(2);
+                    var res = CalculateExpr(lastTwo, next);
+                    mylist = mylist.SkipLast(2).Append(res);
                 }
 
-                return item.Peek();
+                return mylist.Last();
             });
+        }
+
+        private static double CalculateExpr(IEnumerable<double> lastTwo, string sign)
+        {
+            var firstNo = lastTwo.First();
+            var secondNo = lastTwo.Last();
+            return sign switch
+            {
+                "+" => firstNo + secondNo,
+                "-" => firstNo - secondNo,
+                "*" => firstNo * secondNo,
+                "/" => firstNo / secondNo,
+                _ => 0,
+            };
         }
 
         private static bool CheckIfValidSudokuBoard(int[,] sudokuBoard)
