@@ -336,6 +336,52 @@ namespace StringTest
             Assert.True(result);
         }
 
+        [Fact]
+        public static void PostFixNotationResult()
+        {
+            const string postfix = "1 2 + 10 * 5 + 2 3 + /";
+            int result = GetResultOfPostFixNotation(postfix);
+            Assert.Equal(7, result);
+        }
+
+        private static int GetResultOfPostFixNotation(string expression)
+        {
+            Stack<int> item = new Stack<int>();
+            return expression.Split(' ').Aggregate(0, (x, next) =>
+            {
+                if (next.All(char.IsDigit))
+                {
+                    item.Push(int.Parse(next));
+                }
+                else
+                {
+                    var first = item.Pop();
+                    var second = item.Pop();
+                    if (next.Equals("+"))
+                    {
+                        item.Push(second + first);
+                    }
+
+                    if (next.Equals("*"))
+                    {
+                        item.Push(second * first);
+                    }
+
+                    if (next.Equals("-"))
+                    {
+                        item.Push(second - first);
+                    }
+
+                    if (next.Equals("/"))
+                    {
+                        item.Push(second / first);
+                    }
+                }
+
+                return item.Peek();
+            });
+        }
+
         private static bool CheckIfValidSudokuBoard(int[,] sudokuBoard)
         {
             var upperLimit = sudokuBoard.GetUpperBound(0) + 1;
