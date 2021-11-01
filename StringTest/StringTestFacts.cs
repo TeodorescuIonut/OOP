@@ -347,21 +347,9 @@ namespace StringTest
         private static double GetResultOfPostFixNotation(string expression)
         {
             IEnumerable<double> mylist = Enumerable.Empty<double>();
-            return expression.Split(' ').Aggregate(0.0, (x, next) =>
-            {
-                if (double.TryParse(next, out double result))
-                {
-                    mylist = mylist.Append(result);
-                }
-                else
-                {
-                    var lastTwo = mylist.TakeLast(2);
-                    var res = CalculateExpr(lastTwo, next);
-                    mylist = mylist.SkipLast(2).Append(res);
-                }
-
-                return mylist.Last();
-            });
+            return expression.Split(' ').Aggregate(Enumerable.Empty<double>(), (x, next) => double.TryParse(next, out double result) ?
+            x.Append(result) :
+            x.SkipLast(2).Append(CalculateExpr(x.TakeLast(2), next))).First();
         }
 
         private static double CalculateExpr(IEnumerable<double> lastTwo, string sign)
