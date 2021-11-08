@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "6Wb1NBucWre03+pjaJ8cwmab0ib66IGuSjP0pzmLE0Pl7jLetRNz5eG/WQl5Q88UTsnsM9rwQrClhFPfvDDV0A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Ionut\\Documents\\GitHub\\Project Diagramming tool\\DiagrammingTool\\DiagrammingTool.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Ionut\\.nuget\\packages\\microsoft.codeanalysis.fxcopanalyzers\\3.3.2\\microsoft.codeanalysis.fxcopanalyzers.3.3.2.nupkg.sha512",
+    "C:\\Users\\Ionut\\.nuget\\packages\\microsoft.codeanalysis.versioncheckanalyzer\\3.3.2\\microsoft.codeanalysis.versioncheckanalyzer.3.3.2.nupkg.sha512",
+    "C:\\Users\\Ionut\\.nuget\\packages\\microsoft.codequality.analyzers\\3.3.2\\microsoft.codequality.analyzers.3.3.2.nupkg.sha512",
+    "C:\\Users\\Ionut\\.nuget\\packages\\microsoft.netcore.analyzers\\3.3.2\\microsoft.netcore.analyzers.3.3.2.nupkg.sha512",
+    "C:\\Users\\Ionut\\.nuget\\packages\\microsoft.netframework.analyzers\\3.3.2\\microsoft.netframework.analyzers.3.3.2.nupkg.sha512",
+    "C:\\Users\\Ionut\\.nuget\\packages\\roslynator.analyzers\\3.2.2\\roslynator.analyzers.3.2.2.nupkg.sha512",
+    "C:\\Users\\Ionut\\.nuget\\packages\\sonaranalyzer.csharp\\8.30.0.37606\\sonaranalyzer.csharp.8.30.0.37606.nupkg.sha512",
+    "C:\\Users\\Ionut\\.nuget\\packages\\stylecop.analyzers\\1.1.118\\stylecop.analyzers.1.1.118.nupkg.sha512"
+  ],
+  "logs": []
+}
