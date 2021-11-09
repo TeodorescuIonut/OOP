@@ -30,27 +30,48 @@ namespace DiagrammingTool
 
         private static string ValidateFile(string[] text)
         {
-            return text[0].StartsWith("flowchart", StringComparison.InvariantCultureIgnoreCase) ? ProcessText(text) : "this is not a flowChart";
+            SVG svg = new SVG();
+            string result = "";
+            if (text[0].StartsWith("flowchart", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (text[0].Contains("RL"))
+                {
+                    int directionX = 0;
+                    result = text.Skip(1).Reverse().Distinct().Select(text => ProcessText(text, ref directionX))
+                        .Aggregate("", (line, next) => line + "\n" + next);
+                }
+
+                if (text[0].Contains("LR"))
+                {
+                    int directionX = 0;
+                    result = text.Skip(1).Distinct().Select(text => ProcessText(text, ref directionX))
+                        .Aggregate("", (line, next) => next + "\n" + line);
+                }
+
+                return svg.Start + result + svg.End;
+            }
+
+            return "this is not a flowChart";
         }
 
-        private static string ProcessText(string[] text)
+        private static string ProcessText(string text, ref int directionX)
             {
             const string symbols = "[]{}()>->";
-            string title = text[1].TrimStart(' ').TrimEnd(' ');
+            string title = text.TrimStart(' ').TrimEnd(' ');
             const int padding = 20;
             int width = (title.ToCharArray().Length * 15) + padding;
-            if (!text[1].Contains(symbols))
+            if (!text.Contains(symbols))
             {
-                return CreateRectangleNode(title, width);
+                return CreateRectangleNode(title, width, ref directionX);
             }
 
             return "not compatible";
             }
 
-        private static string CreateRectangleNode(string title, int width)
+        private static string CreateRectangleNode(string title, int width, ref int x)
         {
-            SVG svg = new SVG(title, width);
-            return svg.Start + svg.Rectangle + svg.Text + svg.End;
+            Node node = new Node(title, width, ref x);
+            return node.GroupStart + node.Rectangle + node.Text + node.GroupEnd;
         }
     }
 }

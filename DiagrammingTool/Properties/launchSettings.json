@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DiagrammingTool": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\Ionut\\Documents\\GitHub\\Test\\text.txt"
+    }
+  }
+}
