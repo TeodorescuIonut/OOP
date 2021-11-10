@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"><g id = "right"><rect width="95" height="50" style="fill:#ECECFF; stroke-width:1;stroke:#9370DB" x="282" y="126"/><text fill = "#000000" font-family="Source Sans Pro,Helvetica Neue,Courier,sans-serif" font-size="24" id="svg_2"
+            stroke="#000000" stroke-width="0" text-anchor="middle" text-align= "justify" x="329" y="158">right</text></g>
+<g id = "left"><rect width="80" height="50" style="fill:#ECECFF; stroke-width:1;stroke:#9370DB" x="141" y="126"/><text fill = "#000000" font-family="Source Sans Pro,Helvetica Neue,Courier,sans-serif" font-size="24" id="svg_2"
+            stroke="#000000" stroke-width="0" text-anchor="middle" text-align= "justify" x="181" y="158">left</text></g>
+</svg>

@@ -15,10 +15,9 @@ namespace DiagrammingTool
             }
             else
             {
-                string path = "";
                 foreach (var arg in args)
                 {
-                    path = arg;
+                    string path = arg;
 
                     if (File.Exists(path))
                     {
@@ -37,20 +36,27 @@ namespace DiagrammingTool
         private static string ValidateFile(string[] text)
         {
             SVG svg = new SVG();
+            string firstLine = text[0];
             string result = "";
-            if (text[0].StartsWith("flowchart", StringComparison.InvariantCultureIgnoreCase))
+            string direction = "";
+            string[] directionY = { "BT", "TD", "TB" };
+            string[] directionX = { "LR", "RL" };
+            int pos = 0;
+            if (firstLine.StartsWith("flowchart", StringComparison.InvariantCultureIgnoreCase))
             {
-                if (text[0].Contains("RL"))
+                if (firstLine.Split(' ').Any(x => directionX.Any(y => x.Equals(y))))
                 {
-                    int directionX = 0;
-                    result = text.Skip(1).Reverse().Distinct().Select(text => ProcessText(text, ref directionX))
+                    pos = 0;
+                    direction = "y";
+                    result = text.Skip(1).Distinct().Select(text => ProcessText(text, direction, ref pos))
                         .Aggregate("", (line, next) => line + "\n" + next);
                 }
 
-                if (text[0].Contains("LR"))
+                if (firstLine.Split(' ').Any(x => directionY.Any(y => x.Equals(y))))
                 {
-                    int directionX = 0;
-                    result = text.Skip(1).Distinct().Select(text => ProcessText(text, ref directionX))
+                    pos = 0;
+                    direction = "x";
+                    result = text.Skip(1).Distinct().Select(text => ProcessText(text, direction, ref pos))
                         .Aggregate("", (line, next) => next + "\n" + line);
                 }
 
@@ -60,7 +66,7 @@ namespace DiagrammingTool
             return "this is not a flowChart";
         }
 
-        private static string ProcessText(string text, ref int directionX)
+        private static string ProcessText(string text, string direction, ref int pos)
             {
             const string symbols = "[]{}()>->";
             string title = text.TrimStart(' ').TrimEnd(' ');
@@ -68,15 +74,15 @@ namespace DiagrammingTool
             int width = (title.ToCharArray().Length * 15) + padding;
             if (!text.Contains(symbols))
             {
-                return CreateRectangleNode(title, width, ref directionX);
+                return CreateRectangleNode(title, width, direction, ref pos);
             }
 
             return "not compatible";
             }
 
-        private static string CreateRectangleNode(string title, int width, ref int x)
+        private static string CreateRectangleNode(string title, int width, string direction, ref int pos)
         {
-            Node node = new Node(title, width, ref x);
+            Node node = new Node(title, width, direction, ref pos);
             return node.GroupStart + node.Rectangle + node.Text + node.GroupEnd;
         }
     }
