@@ -15,15 +15,21 @@ namespace DiagrammingTool
             }
             else
             {
-                string path = args[0];
-                if (File.Exists(path))
+                string path = "";
+                foreach (var arg in args)
                 {
-                    string[] text = File.ReadAllLines(path);
-                    string dir = Path.GetDirectoryName(path);
-                    string newFile = System.IO.Path.Combine(dir, "text.svg");
-                    string newtext = ValidateFile(text);
-                    System.IO.File.Copy(path, newFile, true);
-                    System.IO.File.WriteAllText(newFile, newtext);
+                    path = arg;
+
+                    if (File.Exists(path))
+                    {
+                        string[] text = File.ReadAllLines(path);
+                        string dir = Path.GetDirectoryName(path);
+                        string fileName = System.IO.Path.GetFileNameWithoutExtension(path);
+                        string newFile = System.IO.Path.Combine(dir, $"{fileName}.svg");
+                        string newtext = ValidateFile(text);
+                        System.IO.File.Copy(path, newFile, true);
+                        System.IO.File.WriteAllText(newFile, newtext);
+                    }
                 }
             }
         }
