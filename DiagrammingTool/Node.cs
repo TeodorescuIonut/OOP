@@ -19,6 +19,7 @@ namespace DiagrammingTool
         {
             int x = 0;
             int y = 0;
+
             if (direction == "x")
             {
                 pos = initPosX + pos;

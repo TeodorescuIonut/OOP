@@ -69,7 +69,8 @@ namespace DiagrammingTool
         private static string ProcessText(string text, string direction, ref int pos)
             {
             const string symbols = "[]{}()>->";
-            string title = text.TrimStart(' ').TrimEnd(' ');
+            string title = LimitTextLength(text);
+
             const int padding = 20;
             int width = (title.ToCharArray().Length * 15) + padding;
             if (!text.Contains(symbols))
@@ -79,6 +80,18 @@ namespace DiagrammingTool
 
             return "not compatible";
             }
+
+        private static string LimitTextLength(string text)
+        {
+            const int maxLength = 30;
+            string title = text.TrimStart(' ').TrimEnd(' ');
+            if (title.Length > maxLength)
+            {
+               return title.Substring(0, maxLength) + "...";
+            }
+
+            return title;
+        }
 
         private static string CreateRectangleNode(string title, int width, string direction, ref int pos)
         {
