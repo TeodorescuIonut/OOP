@@ -41,12 +41,11 @@ namespace DiagrammingTool
             string direction = "";
             string[] directionY = { "BT", "TD", "TB" };
             string[] directionX = { "LR", "RL" };
-            int pos = 0;
+            (int x, int y) pos = (0, 0);
             if (firstLine.StartsWith("flowchart", StringComparison.InvariantCultureIgnoreCase))
             {
                 if (firstLine.Split(' ').Any(x => directionX.Any(y => x.Equals(y))))
                 {
-                    pos = 0;
                     direction = "y";
                     result = text.Skip(1).Distinct().Select(text => ProcessText(text, direction, ref pos))
                         .Aggregate("", (line, next) => line + "\n" + next);
@@ -54,7 +53,6 @@ namespace DiagrammingTool
 
                 if (firstLine.Split(' ').Any(x => directionY.Any(y => x.Equals(y))))
                 {
-                    pos = 0;
                     direction = "x";
                     result = text.Skip(1).Distinct().Select(text => ProcessText(text, direction, ref pos))
                         .Aggregate("", (line, next) => next + "\n" + line);
@@ -66,20 +64,59 @@ namespace DiagrammingTool
             return "this is not a flowChart";
         }
 
-        private static string ProcessText(string text, string direction, ref int pos)
+        private static string ProcessText(string text, string direction, ref (int x, int y) pos)
             {
             const string symbols = "[]{}()>->";
             string title = LimitTextLength(text);
+            const string connection = "-->";
+            string result = "";
+            const int initposX = 50;
+            int currPos = 0;
+            (int x, int y) altpos;
+            if (text.Contains(connection))
+            {
+                var firstNode = text.Split(connection).First();
+                currPos = pos.x + initposX;
+                string firstElem = ProcessText(firstNode, direction, ref pos);
+                altpos = pos;
+                string orientation = (direction == "x") ? "y" : "x";
+                if (orientation == "x")
+                {
+                    altpos.x = pos.x + CalculateTitleWidth(firstNode);
+                }
+                else
+                {
+                    altpos.y = pos.y;
+                    altpos.x = currPos;
+                }
 
-            const int padding = 20;
-            int width = (title.ToCharArray().Length * 15) + padding;
+                result = text.Split(connection).Skip(1).Select(text => CreateNode(LimitTextLength(text), CalculateTitleWidth(text), orientation, ref altpos))
+                        .Aggregate("", (line, next) => line + next);
+
+                return firstElem + result;
+            }
+
+            int width = CalculateTitleWidth(title);
             if (!text.Contains(symbols))
             {
-                return CreateRectangleNode(title, width, direction, ref pos);
+                return CreateNode(title, width, direction, ref pos);
             }
 
             return "not compatible";
             }
+
+        private static string CreateConnection()
+        {
+            Connection arrow = new Connection();
+            return arrow.Arrow;
+        }
+
+        private static int CalculateTitleWidth(string title)
+        {
+            const int padding = 20;
+            const int x = 15;
+            return (title.ToCharArray().Length * x) + padding;
+        }
 
         private static string LimitTextLength(string text)
         {
@@ -93,7 +130,7 @@ namespace DiagrammingTool
             return title;
         }
 
-        private static string CreateRectangleNode(string title, int width, string direction, ref int pos)
+        private static string CreateNode(string title, int width, string direction, ref (int, int) pos)
         {
             Node node = new Node(title, width, direction, ref pos);
             return node.GroupStart + node.Rectangle + node.Text + node.GroupEnd;

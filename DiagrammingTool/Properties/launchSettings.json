@@ -2,7 +2,7 @@
   "profiles": {
     "DiagrammingTool": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\Ionut\\Documents\\GitHub\\Test\\text.txt C:\\Users\\Ionut\\Documents\\GitHub\\OOP\\DiagrammingTool\\test-diagrams\\testOneNode.txt C:\\Users\\Ionut\\Documents\\GitHub\\OOP\\DiagrammingTool\\test-diagrams\\FlowDirection.txt"
+      "commandLineArgs": "C:\\Users\\Ionut\\Documents\\GitHub\\OOP\\DiagrammingTool\\test-diagrams\\NodesConnection.txt"
     }
   }
 }

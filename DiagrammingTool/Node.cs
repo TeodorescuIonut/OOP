@@ -10,33 +10,37 @@ namespace DiagrammingTool
         internal string Rectangle;
         internal string GroupStart;
         internal string GroupEnd = "</g>";
-        private readonly int initPosX = 141;
-        private readonly int initPosY = 126;
+        internal string Arrow;
+        private readonly int initPosX = 50;
+        private readonly int initPosY = 50;
         private readonly int divideByTwo = 2;
-        private readonly int textCenter = 32;
+        private readonly int textCenter = 20;
 
-        public Node(string title, int width, string direction, ref int pos)
+        public Node(string title, int width, string direction, ref (int x, int y) pos)
         {
             int x = 0;
             int y = 0;
 
             if (direction == "x")
             {
-                pos = initPosX + pos;
-                x = pos;
-                y = initPosY;
+                pos.x = initPosX + pos.x;
+                x = pos.x;
+                y = pos.y == 0 ? initPosY : pos.y;
+                pos.y = y;
+                pos.x = pos.x + width;
             }
 
             if (direction == "y")
             {
-                pos = initPosY + pos;
-                y = pos;
-                x = initPosX;
+                y = initPosY + pos.y;
+                x = pos.x == 0 ? initPosX : pos.x;
+                pos.y = y;
+                pos.x = x;
             }
 
-            this.Text = @$"<text fill = ""#000000"" font-family=""Source Sans Pro,Helvetica Neue,Courier,sans-serif"" font-size=""24"" id=""svg_2""
+            this.Text = @$"<text fill = ""#000000"" font-family=""Source Sans Pro,Helvetica Neue,Courier,sans-serif"" font-size=""19"" id=""svg_2""
             stroke=""#000000"" stroke-width=""0"" text-anchor=""middle"" text-align= ""justify"" x=""{x + width / divideByTwo}"" y=""{y + textCenter}"">{title}</text>";
-            this.Rectangle = @$"<rect width=""{width}"" height=""50"" style=""fill:#ECECFF; stroke-width:1;stroke:#9370DB"" x=""{x}"" y=""{y}""/>";
+            this.Rectangle = @$"<rect width=""{width}"" height=""33"" style=""fill:#ECECFF; stroke-width:1;stroke:#9370DB"" x=""{x}"" y=""{y}""/>";
             this.GroupStart = @$"<g id = ""{title}"">";
         }
     }
