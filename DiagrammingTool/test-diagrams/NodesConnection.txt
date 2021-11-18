@@ -1,5 +1,5 @@
 flowchart LR
-start --> stop --> end --> blue --> red --> clear
 sas
-asa--> stopssss --> end
+start --> stop --> end --> blue --> red --> clear
+asa --> stopssss --> end
 saa --> bol

@@ -33,9 +33,26 @@ namespace DiagrammingTool
             }
         }
 
+        private static string[][] GetColumns(string[][] jagArr)
+        {
+            int maxNo = jagArr.OrderByDescending(x => x.Length).First().Length;
+            var selectedArray = new string[maxNo][];
+            for (int i = 0; i < maxNo; i++)
+            {
+                selectedArray[i] = jagArr.Skip(1)
+                .Where(o => o?.Length > i)
+                .Select(o => o[i])
+                .ToArray();
+            }
+
+            return selectedArray;
+        }
+
         private static string ValidateFile(string[] text)
         {
             SVG svg = new SVG();
+            string[][] jagArr = text.Select(l => l.Split(' ', StringSplitOptions.RemoveEmptyEntries)).ToArray();
+            string[][] columns = GetColumns(jagArr);
             string firstLine = text[0];
             string result = "";
             string direction = "";
@@ -67,22 +84,23 @@ namespace DiagrammingTool
         private static string ProcessText(string text, string direction, ref (int x, int y) pos)
             {
             const string symbols = "[]{}()>->";
-            string title = LimitTextLength(text);
             const string connection = "-->";
             string result = "";
             const int initposX = 50;
             int currPos = 0;
+            int widthHighest = CalculateTitleWidth(text.Split(" ").OrderByDescending(x => x.Length).First());
             (int x, int y) altpos;
             if (text.Contains(connection))
             {
                 var firstNode = text.Split(connection).First();
                 currPos = pos.x + initposX;
-                string firstElem = ProcessText(firstNode, direction, ref pos);
+                string firstElem = CreateNode(LimitTextLength(firstNode), CalculateTitleWidth(LimitTextLength(firstNode)), widthHighest,  direction, ref pos);
                 altpos = pos;
                 string orientation = (direction == "x") ? "y" : "x";
                 if (orientation == "x")
                 {
-                    altpos.x = pos.x + CalculateTitleWidth(firstNode);
+                    altpos.x = pos.x + initposX;
+                    widthHighest = 0;
                 }
                 else
                 {
@@ -90,16 +108,17 @@ namespace DiagrammingTool
                     altpos.x = currPos;
                 }
 
-                result = text.Split(connection).Skip(1).Select(text => CreateNode(LimitTextLength(text), CalculateTitleWidth(text), orientation, ref altpos))
+                result = text.Split(connection).Skip(1).Select(text => CreateNode(LimitTextLength(text), CalculateTitleWidth(LimitTextLength(text)), widthHighest, orientation, ref altpos))
                         .Aggregate("", (line, next) => line + next);
 
                 return firstElem + result;
             }
 
+            string title = LimitTextLength(text);
             int width = CalculateTitleWidth(title);
             if (!text.Contains(symbols))
             {
-                return CreateNode(title, width, direction, ref pos);
+                return CreateNode(title, width, widthHighest, direction, ref pos);
             }
 
             return "not compatible";
@@ -130,9 +149,9 @@ namespace DiagrammingTool
             return title;
         }
 
-        private static string CreateNode(string title, int width, string direction, ref (int, int) pos)
+        private static string CreateNode(string title, int width, int highestWidth, string direction, ref (int, int) pos)
         {
-            Node node = new Node(title, width, direction, ref pos);
+            Node node = new Node(title, width, highestWidth, direction, ref pos);
             return node.GroupStart + node.Rectangle + node.Text + node.GroupEnd;
         }
     }

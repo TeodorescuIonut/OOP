@@ -16,26 +16,27 @@ namespace DiagrammingTool
         private readonly int divideByTwo = 2;
         private readonly int textCenter = 20;
 
-        public Node(string title, int width, string direction, ref (int x, int y) pos)
+        public Node(string title, int width, int highestWidth, string direction, ref (int x, int y) pos)
         {
             int x = 0;
+            int dif = 0;
             int y = 0;
+            dif = width == highestWidth ? 0 : (highestWidth - width) / divideByTwo;
 
             if (direction == "x")
             {
                 pos.x = initPosX + pos.x;
-                x = pos.x;
+                x = pos.x + dif;
                 y = pos.y == 0 ? initPosY : pos.y;
                 pos.y = y;
-                pos.x = pos.x + width;
+                pos.x = pos.x + highestWidth;
             }
 
             if (direction == "y")
             {
                 y = initPosY + pos.y;
-                x = pos.x == 0 ? initPosX : pos.x;
+                x = pos.x == 0 ? initPosX : pos.x + dif;
                 pos.y = y;
-                pos.x = x;
             }
 
             this.Text = @$"<text fill = ""#000000"" font-family=""Source Sans Pro,Helvetica Neue,Courier,sans-serif"" font-size=""19"" id=""svg_2""
