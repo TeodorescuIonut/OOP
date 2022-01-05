@@ -1,11 +1,6 @@
 flowchart RL
-    Hello worlddd!
-sdasda
-sadasdasaa
-mokmo
-jfghb
-    Hello worlddd!
-sdasda
-sadasdasaadasdasdasdasdasdasdasdasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-mokmo
-jfghb
+startdsdsdsdsds  --> as --> ds--> tred
+dasda -->
+da
+dad
+

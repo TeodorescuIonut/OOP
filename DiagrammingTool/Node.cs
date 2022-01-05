@@ -1,48 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DiagrammingTool
 {
-    class Node
+    public class Node
     {
-        internal readonly string Text;
-        internal string Rectangle;
-        internal string GroupStart;
-        internal string GroupEnd = "</g>";
-        internal string Arrow;
-        private readonly int initPosX = 50;
-        private readonly int initPosY = 50;
-        private readonly int divideByTwo = 2;
-        private readonly int textCenter = 20;
+        public readonly string Name;
+        public Dictionary<string, Node> ChildNodes = new Dictionary<string, Node>();
+        public List<string> Links = new List<string>();
+        public string Id;
+        internal bool Head;
+        internal bool Tale;
+        internal (int x, int y) Pos = (0, 0);
 
-        public Node(string title, int width, int highestWidth, string direction, ref (int x, int y) pos)
+        public Node(string name)
         {
-            int x = 0;
-            int dif = 0;
-            int y = 0;
-            dif = width == highestWidth ? 0 : (highestWidth - width) / divideByTwo;
+            Name = name;
+            Id = name + new Random().Next(int.MinValue, int.MaxValue);
+        }
 
-            if (direction == "x")
+        public Node AddNode(Node child, string text)
+        {
+            if (child == null)
             {
-                pos.x = initPosX + pos.x;
-                x = pos.x + dif;
-                y = pos.y == 0 ? initPosY : pos.y;
-                pos.y = y;
-                pos.x = pos.x + highestWidth;
+                return child;
             }
 
-            if (direction == "y")
-            {
-                y = initPosY + pos.y;
-                x = pos.x == 0 ? initPosX : pos.x + dif;
-                pos.y = y;
-            }
-
-            this.Text = @$"<text fill = ""#000000"" font-family=""Source Sans Pro,Helvetica Neue,Courier,sans-serif"" font-size=""19"" id=""svg_2""
-            stroke=""#000000"" stroke-width=""0"" text-anchor=""middle"" text-align= ""justify"" x=""{x + width / divideByTwo}"" y=""{y + textCenter}"">{title}</text>";
-            this.Rectangle = @$"<rect width=""{width}"" height=""33"" style=""fill:#ECECFF; stroke-width:1;stroke:#9370DB"" x=""{x}"" y=""{y}""/>";
-            this.GroupStart = @$"<g id = ""{title}"">";
+            ChildNodes.Add(child.Name, child);
+            Links.Add(text);
+            return this;
         }
     }
 }
