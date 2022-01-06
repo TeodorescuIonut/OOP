@@ -217,7 +217,6 @@ namespace DiagrammingTool
             const string pipe = "|";
             const string title = @"\s*(flowchart)\s+?(LR|BT|RL|TD|TB)?\s*";
             const string phrase = @"(?'frNode'(^\s*\w+\s*))((?'connection'(\s*\-{2,}\>))(?'toNode'(\s*\w+\s*)))*$";
-            string pattern = $"({title}{pipe}{phrase})";
             const RegexOptions options = RegexOptions.Multiline;
             var nodes = new List<string>();
             if (Regex.IsMatch(text, title, options))
