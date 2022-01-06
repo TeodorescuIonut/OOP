@@ -43,7 +43,7 @@ namespace DiagrammingTool
             node.Pos.y = y;
             this.Text = @$"<text fill = ""#000000"" font-family=""Source Sans Pro,Helvetica Neue,Courier,sans-serif"" font-size=""19"" id=""{title}""
             stroke=""#000000"" stroke-width=""0"" text-anchor=""middle"" text-align= ""justify"" x=""{x + width / divideByTwo}"" y=""{y + textCenter}"">{title}</text>";
-            this.Rectangle = @$"<rect width=""{width}"" height=""33"" style=""fill:#ECECFF; stroke-width:1;stroke:#9370DB"" x=""{x}"" y=""{y}""/>";
+            this.Rectangle = @$"<rect width=""{width}"" height=""33"" fill=""#ECECFF"" stroke-width =""1"" stroke=""#9370DB"" x=""{x}"" y=""{y}""/>";
             this.GroupStart = @$"<g id = ""{title}"">";
         }
     }

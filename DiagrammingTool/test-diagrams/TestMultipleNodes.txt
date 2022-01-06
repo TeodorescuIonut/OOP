@@ -1,6 +1,6 @@
 flowchart RL
 startdsdsdsdsds  --> as --> ds--> tred
-dasda -->
-da
-dad
+dad --> fard --> farth --> blue
+
+
 

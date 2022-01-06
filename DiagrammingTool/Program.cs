@@ -161,7 +161,7 @@ namespace DiagrammingTool
 
         private static int CheckHighestTitleWidthOnColumn(Node[] columns, int j, int nodeWidth)
         {
-            return j < columns.Length ? CheckMaxWidth(columns) : nodeWidth;
+            return j <= columns.Length ? CheckMaxWidth(columns) : nodeWidth;
         }
 
         private static int CheckMaxWidth(Node[] columns)
