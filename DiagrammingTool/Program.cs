@@ -108,7 +108,7 @@ namespace DiagrammingTool
                 for (int j = 0; j < lines[i].Length; j++)
                 {
                     int nodeWidth = CalculateTitleWidth(lines[i][j].Name);
-                    widthHighest = CheckHighestTitleWidthOnColumn(columns[j], j, nodeWidth);
+                    widthHighest = CheckMaxWidth(columns[j]);
                     var childs = lines[i][j].ChildNodes;
                     if (childs.Count == 0)
                     {
@@ -157,11 +157,6 @@ namespace DiagrammingTool
                     }
                 }
             }
-        }
-
-        private static int CheckHighestTitleWidthOnColumn(Node[] columns, int j, int nodeWidth)
-        {
-            return j <= columns.Length ? CheckMaxWidth(columns) : nodeWidth;
         }
 
         private static int CheckMaxWidth(Node[] columns)
